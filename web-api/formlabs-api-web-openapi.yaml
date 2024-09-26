@@ -1,0 +1,2233 @@
+openapi: 3.0.3
+info:
+  title: Formlabs Developer API
+  version: 0.1.0
+  description: The Formlabs Dashboard Developer API provides resources to integrate
+    Formlabs products into customer’s workflow and existing systems
+  contact:
+    email: api-inquiry@formlabs.com
+paths:
+  /developer/v1/cartridges/:
+    get:
+      operationId: cartridges_list
+      description: ' List of all resin cartridges associated with my account'
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - cartridges
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCartridgeList'
+          description: ''
+  /developer/v1/events/:
+    get:
+      operationId: events_list
+      description: List of all events associated with my account
+      parameters:
+      - in: query
+        name: cartridge
+        schema:
+          type: string
+        description: Filter by resin cartridge serial
+      - in: query
+        name: date__gt
+        schema:
+          type: string
+          format: date-time
+        description: Filter by date greater than date specified (ISO 8601 Format)
+      - in: query
+        name: date__lt
+        schema:
+          type: string
+          format: date-time
+        description: Filter by date less than date specified (ISO 8601 Format)
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: print_run
+        schema:
+          type: string
+        description: Filter by print id
+      - in: query
+        name: printer
+        schema:
+          type: string
+        description: Filter by printer serial
+      - in: query
+        name: tank
+        schema:
+          type: string
+        description: Filter by resin tank serial
+      - in: query
+        name: type
+        schema:
+          type: string
+        description: 'Filter by Event Type `RESIN_LOW` or `PRINT_START` or `PRINT_FINISHED`
+          or `PRINT_ABORTED` or `PRINT_ERROR` or `PRINT_PAUSED` or `PRINT_RESUMED`
+          or `PRINT_RESOLUTION_REQUEST` or `PRINT_RESOLUTION` or `MANY_PRINT_ERRORS`
+          or `PASSWORD_RESET` or `PRINTER_REGISTERED` or `PRINTER_DEREGISTERED` '
+      tags:
+      - events
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserEventReadOnlyList'
+          description: ''
+  /developer/v1/groups/:
+    get:
+      operationId: groups_list
+      description: List of all groups for my account.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWorkgroupList'
+          description: ''
+    post:
+      operationId: groups_create
+      description: Create a group for my account, and make me an administrator.
+      tags:
+      - groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartialWorkGroupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PartialWorkGroupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PartialWorkGroupRequest'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewWorkgroup'
+          description: ''
+  /developer/v1/printers/:
+    get:
+      operationId: printers_list
+      description: List of all printers associated with my account
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - printers
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDeveloperAPIMyPrinterList'
+          description: ''
+  /developer/v1/prints/:
+    get:
+      operationId: prints_list
+      description: List of all prints from my printer. Please replace {printer_pk}
+        field with your printer serial, Ex. SweetMatcha.
+      parameters:
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date-time
+        description: 'Filter by date time (ISO 8601 Format) '
+      - in: query
+        name: date__gt
+        schema:
+          type: string
+          format: date-time
+        description: Filter by date time greater than date time specified (ISO 8601
+          Format)
+      - in: query
+        name: date__lt
+        schema:
+          type: string
+          format: date-time
+        description: Filter by date time less than date time specified (ISO 8601 Format)
+      - in: query
+        name: machine_type_id
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - FORM-1-0
+            - FORM-1-1
+            - FORM-2-0
+            - FORM-2-1
+            - FORM-3-0
+            - FORM-3-1
+            - FORM-3-2
+            - DGJR-1-0
+            - FRML-3-0
+            - FRBL-3-0
+            - FRMB-3-0
+            - DGSR-1-0
+            - FRMB-3-1
+            - PILK-1-0
+            - SIFT-1
+            - UNKNOWN
+            - PILK-1-1
+            - SIFT-1-0
+            - SIFT-1-1
+            - CURL-1-1
+            - CURL-1-0
+            - WSHL-1-0
+            - FS30-1-0
+            - FS30-1-1
+            - FORM-4-0
+        description: Filter by machine type id.
+        explode: true
+        style: form
+      - in: query
+        name: material
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: Filter by name of the print (Substring Match)
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: printer
+        schema:
+          type: string
+        description: Filter by printer serial
+      - in: query
+        name: status
+        schema:
+          type: string
+        description: "Filter by status of the print. Possible values are:        \
+          \   \n          * `QUEUED` - Queued    \n          * `PREPRINT` - Preprint\
+          \    \n          * `PRINTING` - Printing  \n          * `PAUSED` - Paused\
+          \  \n          * `FINISHED` - Finished  \n          * `ABORTING` - Aborting\
+          \  \n          * `ABORTED` - Aborted  \n          * `ERROR` - Error  \n\
+          \          * `WAITING_FOR_RESOLUTION` - Waiting for Resolution  \n     \
+          \     * `PREHEAT` - Preheat  \n          * `PRECOAT` - Precoat  \n     \
+          \     * `POSTCOAT` - Postcoat"
+      tags:
+      - prints
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPrintRunWithFleetControlDataList'
+          description: ''
+  /developer/v1/tanks/:
+    get:
+      operationId: tanks_list
+      description: List of all resin tanks associated with my account
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - tanks
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTankList'
+          description: ''
+  /developer/v1/printers/{printer_serial}/prints/:
+    get:
+      operationId: printers_prints_list
+      description: List of all prints from my printer. Please replace {printer_pk}
+        field with your printer serial, Ex. SweetMatcha.
+      parameters:
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date-time
+        description: 'Filter by date time (ISO 8601 Format) '
+      - in: query
+        name: date__gt
+        schema:
+          type: string
+          format: date-time
+        description: Filter by date time greater than date time specified (ISO 8601
+          Format)
+      - in: query
+        name: date__lt
+        schema:
+          type: string
+          format: date-time
+        description: Filter by date time less than date time specified (ISO 8601 Format)
+      - in: query
+        name: machine_type_id
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - FORM-1-0
+            - FORM-1-1
+            - FORM-2-0
+            - FORM-2-1
+            - FORM-3-0
+            - FORM-3-1
+            - FORM-3-2
+            - DGJR-1-0
+            - FRML-3-0
+            - FRBL-3-0
+            - FRMB-3-0
+            - DGSR-1-0
+            - FRMB-3-1
+            - PILK-1-0
+            - SIFT-1
+            - UNKNOWN
+            - PILK-1-1
+            - SIFT-1-0
+            - SIFT-1-1
+            - CURL-1-1
+            - CURL-1-0
+            - WSHL-1-0
+            - FS30-1-0
+            - FS30-1-1
+            - FORM-4-0
+        description: Filter by machine type id.
+        explode: true
+        style: form
+      - in: query
+        name: material
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: Filter by name of the print (Substring Match)
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: printer
+        schema:
+          type: string
+        description: Filter by printer serial
+      - in: path
+        name: printer_serial
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: status
+        schema:
+          type: string
+        description: "Filter by status of the print. Possible values are:        \
+          \   \n          * `QUEUED` - Queued    \n          * `PREPRINT` - Preprint\
+          \    \n          * `PRINTING` - Printing  \n          * `PAUSED` - Paused\
+          \  \n          * `FINISHED` - Finished  \n          * `ABORTING` - Aborting\
+          \  \n          * `ABORTED` - Aborted  \n          * `ERROR` - Error  \n\
+          \          * `WAITING_FOR_RESOLUTION` - Waiting for Resolution  \n     \
+          \     * `PREHEAT` - Preheat  \n          * `PRECOAT` - Precoat  \n     \
+          \     * `POSTCOAT` - Postcoat"
+      tags:
+      - printers
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPrintRunWithFleetControlDataList'
+          description: ''
+  /developer/v1/printers/{printer_serial}/:
+    get:
+      operationId: printers_retrieve
+      description: Specific printer associated with my account
+      parameters:
+      - in: path
+        name: printer_serial
+        schema:
+          type: string
+        description: A unique value identifying this printer.
+        required: true
+      tags:
+      - printers
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeveloperAPIMyPrinter'
+          description: ''
+  /developer/v1/groups/{group_id}/:
+    patch:
+      operationId: groups_partial_update
+      description: Update a group administered by my account.
+      parameters:
+      - in: path
+        name: group_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this workgroup.
+        required: true
+      tags:
+      - groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPartialWorkGroupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPartialWorkGroupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPartialWorkGroupRequest'
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workgroup'
+          description: ''
+    delete:
+      operationId: groups_destroy
+      description: Delete a group administered by my account.
+      parameters:
+      - in: path
+        name: group_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this workgroup.
+        required: true
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /developer/v1/groups/{group_id}/members/:
+    post:
+      operationId: groups_members_create
+      description: Invite a user into my group.
+      parameters:
+      - in: path
+        name: group_id
+        schema:
+          type: string
+        description: Unique UUID connected to the group
+        required: true
+      tags:
+      - groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupMembershipCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupMembershipCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupMembershipCreateRequest'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkgroupMembership'
+          description: ''
+    put:
+      operationId: groups_members_update
+      description: |-
+        Update a membership in an administered group.
+          **Warning: You cannot revoke the administrator right of yourself if there are no other administrators!**
+      parameters:
+      - in: path
+        name: group_id
+        schema:
+          type: string
+        description: Unique UUID connected to the group
+        required: true
+      tags:
+      - groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupMembershipUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupMembershipUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupMembershipUpdateRequest'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkgroupMembership'
+          description: ''
+    delete:
+      operationId: groups_members_destroy
+      description: Delete a membership in an administered group.
+      parameters:
+      - in: path
+        name: group_id
+        schema:
+          type: string
+        description: Unique UUID connected to the group
+        required: true
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                  example: john.doe@example.com
+                  description: Email address of the member to remove
+              required:
+              - user
+components:
+  schemas:
+    BasicUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+      required:
+      - id
+      - username
+    BlankEnum:
+      enum:
+      - ''
+    BuildPlatformContentsEnum:
+      enum:
+      - BUILD_PLATFORM_CONTENTS_NOT_SUPPORTED
+      - BUILD_PLATFORM_CONTENTS_MISSING
+      - BUILD_PLATFORM_CONTENTS_UNCONFIRMED
+      - BUILD_PLATFORM_CONTENTS_CONFIRMED_CLEAR
+      - BUILD_PLATFORM_CONTENTS_CONFIRMED_DIRTY
+      - BUILD_PLATFORM_CONTENTS_POST_PRINT
+      type: string
+      description: |-
+        * `BUILD_PLATFORM_CONTENTS_NOT_SUPPORTED` - NotSupported
+        * `BUILD_PLATFORM_CONTENTS_MISSING` - Missing
+        * `BUILD_PLATFORM_CONTENTS_UNCONFIRMED` - Unconfirmed
+        * `BUILD_PLATFORM_CONTENTS_CONFIRMED_CLEAR` - ConfirmedClear
+        * `BUILD_PLATFORM_CONTENTS_CONFIRMED_DIRTY` - ConfirmedDirty
+        * `BUILD_PLATFORM_CONTENTS_POST_PRINT` - PostPrint
+    CameraStatusEnum:
+      enum:
+      - UNKNOWN
+      - DISCONNECTED
+      - ENABLED
+      - DISABLED
+      type: string
+      description: |-
+        * `UNKNOWN` - Unknown
+        * `DISCONNECTED` - Disconnected
+        * `ENABLED` - Enabled
+        * `DISABLED` - Disabled
+    Cartridge:
+      type: object
+      properties:
+        serial:
+          type: string
+          maxLength: 255
+        machine_type_id:
+          allOf:
+          - $ref: '#/components/schemas/MachineTypeIdAdbEnum'
+          description: "Available values are: `FORM-1-0` - Form 1  \n`FORM-1-1` -\
+            \ Form 1+  \n`FORM-2-0` - Form 2  \n`FORM-2-1` - Form 2.1  \n`FORM-3-0`\
+            \ - Form 3  \n`FORM-3-1` - Form 3  \n`FORM-3-2` - Form 3+  \n`DGJR-1-0`\
+            \ - Form 3  \n`FRML-3-0` - Form 3L  \n`FRBL-3-0` - Form 3BL  \n`FRMB-3-0`\
+            \ - Form 3B  \n`DGSR-1-0` - Form 3L  \n`FRMB-3-1` - Form 3B+  \n`PILK-1-0`\
+            \ - Fuse 1  \n`SIFT-1` - Sift  \n`UNKNOWN` - Unknown  \n`PILK-1-1` - Fuse\
+            \ 1  \n`SIFT-1-0` - Sift  \n`SIFT-1-1` - Sift  \n`CURL-1-1` - Cure L \
+            \ \n`CURL-1-0` - Cure L  \n`WSHL-1-0` - Wash L  \n`FS30-1-0` - Fuse 1+\
+            \ (30W)  \n`FS30-1-1` - Fuse 1+ (30W)  \n`FORM-4-0` - Form 4"
+        material:
+          type: string
+          nullable: true
+          maxLength: 255
+        initial_volume_ml:
+          type: number
+          format: double
+        volume_dispensed_ml:
+          type: number
+          format: double
+        dispense_count:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        write_count:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        mechanical_version:
+          type: string
+          maxLength: 100
+        manufacture_date:
+          type: string
+          format: date-time
+        manufacturer:
+          type: string
+          maxLength: 100
+        display_name:
+          type: string
+        lot_number:
+          type: string
+          maxLength: 100
+        last_modified:
+          type: string
+          format: date-time
+          readOnly: true
+        is_empty:
+          type: boolean
+          readOnly: true
+        inside_printer:
+          type: string
+          readOnly: true
+        connected_group:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_print_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - created_at
+      - inside_printer
+      - is_empty
+      - last_modified
+      - last_print_date
+      - serial
+    CartridgeReadOnly:
+      type: object
+      properties:
+        serial:
+          type: string
+          readOnly: true
+        material:
+          type: string
+          readOnly: true
+          nullable: true
+        initial_volume_ml:
+          type: number
+          format: double
+          readOnly: true
+        volume_dispensed_ml:
+          type: number
+          format: double
+          readOnly: true
+        display_name:
+          type: string
+        is_empty:
+          type: boolean
+          readOnly: true
+        inside_printer:
+          type: string
+          readOnly: true
+        connected_group:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_print_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        machine_type_id:
+          allOf:
+          - $ref: '#/components/schemas/MachineTypeIdAdbEnum'
+          description: "Available values are: `FORM-1-0` - Form 1  \n`FORM-1-1` -\
+            \ Form 1+  \n`FORM-2-0` - Form 2  \n`FORM-2-1` - Form 2.1  \n`FORM-3-0`\
+            \ - Form 3  \n`FORM-3-1` - Form 3  \n`FORM-3-2` - Form 3+  \n`DGJR-1-0`\
+            \ - Form 3  \n`FRML-3-0` - Form 3L  \n`FRBL-3-0` - Form 3BL  \n`FRMB-3-0`\
+            \ - Form 3B  \n`DGSR-1-0` - Form 3L  \n`FRMB-3-1` - Form 3B+  \n`PILK-1-0`\
+            \ - Fuse 1  \n`SIFT-1` - Sift  \n`UNKNOWN` - Unknown  \n`PILK-1-1` - Fuse\
+            \ 1  \n`SIFT-1-0` - Sift  \n`SIFT-1-1` - Sift  \n`CURL-1-1` - Cure L \
+            \ \n`CURL-1-0` - Cure L  \n`WSHL-1-0` - Wash L  \n`FS30-1-0` - Fuse 1+\
+            \ (30W)  \n`FS30-1-1` - Fuse 1+ (30W)  \n`FORM-4-0` - Form 4"
+          readOnly: true
+      required:
+      - connected_group
+      - created_at
+      - initial_volume_ml
+      - inside_printer
+      - is_empty
+      - last_print_date
+      - machine_type_id
+      - material
+      - serial
+      - volume_dispensed_ml
+    CartridgeSlotEnum:
+      enum:
+      - FRONT
+      - BACK
+      type: string
+      description: |-
+        * `FRONT` - FRONT
+        * `BACK` - BACK
+    DeveloperAPIGroupMembershipCreateRequest:
+      type: object
+      properties:
+        user:
+          type: string
+          minLength: 1
+          description: Email address of the member to invite
+        is_admin:
+          type: boolean
+          description: Change if the member is an administrator
+      required:
+      - user
+    DeveloperAPIGroupMembershipUpdateRequest:
+      type: object
+      properties:
+        user:
+          type: string
+          minLength: 1
+          description: Email address of the member to update
+        is_admin:
+          type: boolean
+          description: Change if the member is an administrator
+      required:
+      - user
+    DeveloperAPIMyPrinter:
+      type: object
+      properties:
+        serial:
+          type: string
+          readOnly: true
+        machine_type_id:
+          allOf:
+          - $ref: '#/components/schemas/DeveloperAPIMyPrinterMachineTypeIdEnum'
+          readOnly: true
+          description: "Available values are: `FORM-1-0` - Form 1  \n`FORM-1-1` -\
+            \ Form 1+  \n`FORM-2-0` - Form 2  \n`FORM-2-1` - Form 2.1  \n`FORM-3-0`\
+            \ - Form 3  \n`FORM-3-1` - Form 3  \n`FORM-3-2` - Form 3+  \n`DGJR-1-0`\
+            \ - Form 3  \n`FRML-3-0` - Form 3L  \n`FRBL-3-0` - Form 3BL  \n`FRMB-3-0`\
+            \ - Form 3B  \n`DGSR-1-0` - Form 3L  \n`FRMB-3-1` - Form 3B+  \n`PILK-1-0`\
+            \ - Fuse 1  \n`SIFT-1` - Sift  \n`UNKNOWN` - Unknown  \n`PILK-1-1` - Fuse\
+            \ 1  \n`SIFT-1-0` - Sift  \n`SIFT-1-1` - Sift  \n`CURL-1-1` - Cure L \
+            \ \n`CURL-1-0` - Cure L  \n`WSHL-1-0` - Wash L  \n`FS30-1-0` - Fuse 1+\
+            \ (30W)  \n`FS30-1-1` - Fuse 1+ (30W)  \n`FORM-4-0` - Form 4"
+        total_print_time_ms:
+          type: integer
+          readOnly: true
+        total_number_of_prints:
+          oneOf:
+          - type: boolean
+          - type: integer
+          readOnly: true
+        printer_status:
+          allOf:
+          - $ref: '#/components/schemas/MyDeepPrinterStatus'
+          readOnly: true
+        cartridge_status:
+          allOf:
+          - $ref: '#/components/schemas/PrinterCartridgeStatus'
+          readOnly: true
+        tank_status:
+          allOf:
+          - $ref: '#/components/schemas/PrinterTankStatus'
+          readOnly: true
+        group:
+          allOf:
+          - $ref: '#/components/schemas/PrinterGroup'
+          readOnly: true
+        previous_print_run:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        firmware_version:
+          type: string
+          readOnly: true
+        location:
+          type: string
+          readOnly: true
+          nullable: true
+          description: This is a user defined physical location of the printer
+      required:
+      - cartridge_status
+      - firmware_version
+      - group
+      - location
+      - machine_type_id
+      - previous_print_run
+      - printer_status
+      - serial
+      - tank_status
+      - total_number_of_prints
+      - total_print_time_ms
+    DeveloperAPIMyPrinterMachineTypeIdEnum:
+      type: string
+      enum:
+      - FORM-1-0
+      - FORM-1-1
+      - FORM-2-0
+      - FORM-2-1
+      - FORM-3-0
+      - FORM-3-1
+      - FORM-3-2
+      - DGJR-1-0
+      - FRML-3-0
+      - FRBL-3-0
+      - FRMB-3-0
+      - DGSR-1-0
+      - FRMB-3-1
+      - PILK-1-0
+      - SIFT-1
+      - UNKNOWN
+      - PILK-1-1
+      - SIFT-1-0
+      - SIFT-1-1
+      - CURL-1-1
+      - CURL-1-0
+      - WSHL-1-0
+      - FS30-1-0
+      - FS30-1-1
+      - FORM-4-0
+    FormCell:
+      type: object
+      properties:
+        serial:
+          type: string
+          maxLength: 255
+        firmware_version:
+          type: string
+          maxLength: 255
+        status:
+          type: string
+          maxLength: 255
+        rotation:
+          type: string
+          maxLength: 255
+      required:
+      - firmware_version
+      - rotation
+      - serial
+      - status
+    GroupInvitation:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        is_admin:
+          type: boolean
+      required:
+      - email
+    HarvestStatusEnum:
+      enum:
+      - FORM_CELL_HARVEST_UNKNOWN
+      - FORM_CELL_HARVEST_STARTED
+      - FORM_CELL_HARVEST_FINISHED
+      - FORM_CELL_HARVEST_FAILED
+      - FORM_CELL_HARVEST_ABORTED
+      type: string
+      description: |-
+        * `FORM_CELL_HARVEST_UNKNOWN` - Unknown
+        * `FORM_CELL_HARVEST_STARTED` - Started
+        * `FORM_CELL_HARVEST_FINISHED` - Finished
+        * `FORM_CELL_HARVEST_FAILED` - Print Failed
+        * `FORM_CELL_HARVEST_ABORTED` - Aborted
+    MachineTypeIdAdbEnum:
+      enum:
+      - FORM-1-0
+      - FORM-1-1
+      - FORM-2-0
+      - FORM-2-1
+      - FORM-3-0
+      - FORM-3-1
+      - FORM-3-2
+      - DGJR-1-0
+      - FRML-3-0
+      - FRBL-3-0
+      - FRMB-3-0
+      - DGSR-1-0
+      - FRMB-3-1
+      - PILK-1-0
+      - SIFT-1
+      - UNKNOWN
+      - PILK-1-1
+      - SIFT-1-0
+      - SIFT-1-1
+      - CURL-1-1
+      - CURL-1-0
+      - WSHL-1-0
+      - FS30-1-0
+      - FS30-1-1
+      - FORM-4-0
+      type: string
+    MyDeepPrinterStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          readOnly: true
+        last_pinged_at:
+          type: string
+          format: date-time
+          nullable: true
+        hopper_level:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        material_credit:
+          type: number
+          format: double
+          nullable: true
+        hopper_material:
+          type: string
+          maxLength: 255
+        last_modified:
+          type: string
+          format: date-time
+          readOnly: true
+        current_temperature:
+          type: number
+          format: double
+          nullable: true
+        current_print_run:
+          allOf:
+          - $ref: '#/components/schemas/MyPrintRunReadOnly'
+          readOnly: true
+        form_cell:
+          allOf:
+          - $ref: '#/components/schemas/FormCell'
+          readOnly: true
+        last_printer_cooldown_started:
+          type: string
+          format: date-time
+          nullable: true
+        outer_boundary_offset_corrections:
+          nullable: true
+        build_platform_contents:
+          $ref: '#/components/schemas/BuildPlatformContentsEnum'
+        tank_mixer_state:
+          $ref: '#/components/schemas/TankMixerStateEnum'
+        ready_to_print:
+          $ref: '#/components/schemas/ReadyToPrintEnum'
+        printer_capabilities:
+          type: array
+          items:
+            type: string
+            maxLength: 100
+        printernet_capabilities:
+          type: array
+          items:
+            type: string
+            maxLength: 100
+          nullable: true
+        camera_status:
+          $ref: '#/components/schemas/CameraStatusEnum'
+      required:
+      - current_print_run
+      - form_cell
+      - last_modified
+      - status
+    MyPrintRunReadOnly:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        printer:
+          type: string
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        using_open_mode:
+          type: boolean
+          readOnly: true
+          nullable: true
+        z_height_offset_mm:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+        print_started_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        print_finished_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        layer_count:
+          type: integer
+          readOnly: true
+        volume_ml:
+          type: number
+          format: double
+          readOnly: true
+        material:
+          type: string
+          readOnly: true
+          nullable: true
+        layer_thickness_mm:
+          type: number
+          format: double
+          readOnly: true
+        currently_printing_layer:
+          type: integer
+          readOnly: true
+        estimated_duration_ms:
+          type: integer
+          readOnly: true
+        elapsed_duration_ms:
+          type: integer
+          readOnly: true
+        estimated_time_remaining_ms:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        print_run_success:
+          allOf:
+          - $ref: '#/components/schemas/PrintRunSuccess'
+          readOnly: true
+        feedback:
+          allOf:
+          - $ref: '#/components/schemas/PrintRunFeedback'
+          readOnly: true
+        firmware_version:
+          type: string
+          readOnly: true
+          nullable: true
+        cartridge:
+          type: string
+          readOnly: true
+          nullable: true
+        front_cartridge:
+          type: string
+          readOnly: true
+          nullable: true
+        back_cartridge:
+          type: string
+          readOnly: true
+          nullable: true
+        tank:
+          type: string
+          readOnly: true
+          nullable: true
+        cylinder:
+          type: string
+          readOnly: true
+          nullable: true
+        note:
+          allOf:
+          - $ref: '#/components/schemas/PrintRunNote'
+          readOnly: true
+        print_thumbnail:
+          allOf:
+          - $ref: '#/components/schemas/PrintThumbnailSerializerOnlyThumbnail'
+          readOnly: true
+        post_print_photo_url:
+          type: string
+          nullable: true
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/BasicUser'
+          readOnly: true
+        user_custom_label:
+          type: string
+          readOnly: true
+        group:
+          allOf:
+          - $ref: '#/components/schemas/PrinterGroup'
+          readOnly: true
+        adaptive_thickness:
+          type: boolean
+          readOnly: true
+        probably_finished:
+          type: boolean
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+          nullable: true
+        print_job:
+          type: string
+          readOnly: true
+          nullable: true
+        material_name:
+          type: string
+          readOnly: true
+        print_settings_name:
+          type: string
+          readOnly: true
+        print_settings_code:
+          type: string
+          readOnly: true
+        form_auto_serial:
+          type: string
+          readOnly: true
+          nullable: true
+        form_auto_fw_version:
+          type: string
+          readOnly: true
+          nullable: true
+        harvest_status:
+          readOnly: true
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/HarvestStatusEnum'
+          - $ref: '#/components/schemas/NullEnum'
+      required:
+      - adaptive_thickness
+      - back_cartridge
+      - cartridge
+      - created_at
+      - currently_printing_layer
+      - cylinder
+      - elapsed_duration_ms
+      - estimated_duration_ms
+      - estimated_time_remaining_ms
+      - feedback
+      - firmware_version
+      - form_auto_fw_version
+      - form_auto_serial
+      - front_cartridge
+      - group
+      - guid
+      - harvest_status
+      - layer_count
+      - layer_thickness_mm
+      - material
+      - material_name
+      - message
+      - name
+      - note
+      - post_print_photo_url
+      - print_finished_at
+      - print_job
+      - print_run_success
+      - print_settings_code
+      - print_settings_name
+      - print_started_at
+      - print_thumbnail
+      - printer
+      - probably_finished
+      - status
+      - tank
+      - user
+      - user_custom_label
+      - using_open_mode
+      - volume_ml
+      - z_height_offset_mm
+    NewWorkgroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 40
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        has_fleet_control:
+          type: boolean
+        has_fleet_control_updated_by:
+          type: integer
+          nullable: true
+      required:
+      - created_at
+      - id
+      - name
+    NullEnum:
+      enum:
+      - null
+    PaginatedCartridgeList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cartridge'
+    PaginatedDeveloperAPIMyPrinterList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeveloperAPIMyPrinter'
+    PaginatedPrintRunWithFleetControlDataList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrintRunWithFleetControlData'
+    PaginatedTankList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tank'
+    PaginatedUserEventReadOnlyList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserEventReadOnly'
+    PaginatedWorkgroupList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workgroup'
+    PartialWorkGroupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+      required:
+      - name
+    PatchedPartialWorkGroupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+          minLength: 1
+        remote_print_enabled_override:
+          type: string
+          nullable: true
+          minLength: 1
+    PrintPart:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        guid:
+          type: string
+          format: uuid
+          readOnly: true
+        display_name:
+          type: string
+          maxLength: 255
+        end_layer:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        name:
+          type: string
+          maxLength: 255
+        raw_mesh_hash:
+          type: string
+          nullable: true
+          maxLength: 255
+        start_layer:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        volume_ml:
+          type: number
+          format: double
+        prepared_scene:
+          type: string
+      required:
+      - guid
+      - id
+      - prepared_scene
+    PrintRunFeedback:
+      type: object
+      properties:
+        print_run:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        issue_category:
+          type: string
+          maxLength: 50
+        issue_subcategory:
+          type: string
+          maxLength: 50
+        issue_description:
+          type: string
+        form_file_exists:
+          type: boolean
+          readOnly: true
+      required:
+      - created_at
+      - form_file_exists
+      - print_run
+    PrintRunNote:
+      type: object
+      properties:
+        print_run:
+          type: string
+        note:
+          type: string
+        author:
+          $ref: '#/components/schemas/BasicUser'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - note
+      - print_run
+      - updated_at
+    PrintRunSuccess:
+      type: object
+      properties:
+        print_run:
+          type: string
+        print_run_success:
+          $ref: '#/components/schemas/PrintRunSuccessEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - created_at
+      - print_run
+    PrintRunSuccessEnum:
+      enum:
+      - UNKNOWN
+      - SUCCESS
+      - FAILURE
+      type: string
+      description: |-
+        * `UNKNOWN` - Unknown
+        * `SUCCESS` - Success
+        * `FAILURE` - Failure
+    PrintRunWithFleetControlData:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        printer:
+          type: string
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        using_open_mode:
+          type: boolean
+          readOnly: true
+          nullable: true
+        z_height_offset_mm:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+        print_started_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        print_finished_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        layer_count:
+          type: integer
+          readOnly: true
+        volume_ml:
+          type: number
+          format: double
+          readOnly: true
+        material:
+          type: string
+          readOnly: true
+          nullable: true
+        layer_thickness_mm:
+          type: number
+          format: double
+          readOnly: true
+        currently_printing_layer:
+          type: integer
+          readOnly: true
+        estimated_duration_ms:
+          type: integer
+          readOnly: true
+        elapsed_duration_ms:
+          type: integer
+          readOnly: true
+        estimated_time_remaining_ms:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        print_run_success:
+          allOf:
+          - $ref: '#/components/schemas/PrintRunSuccess'
+          readOnly: true
+        feedback:
+          allOf:
+          - $ref: '#/components/schemas/PrintRunFeedback'
+          readOnly: true
+        firmware_version:
+          type: string
+          readOnly: true
+          nullable: true
+        cartridge:
+          type: string
+          readOnly: true
+          nullable: true
+        front_cartridge:
+          type: string
+          readOnly: true
+          nullable: true
+        back_cartridge:
+          type: string
+          readOnly: true
+          nullable: true
+        tank:
+          type: string
+          readOnly: true
+          nullable: true
+        cylinder:
+          type: string
+          readOnly: true
+          nullable: true
+        note:
+          allOf:
+          - $ref: '#/components/schemas/PrintRunNote'
+          readOnly: true
+        print_thumbnail:
+          allOf:
+          - $ref: '#/components/schemas/PrintThumbnailSerializerOnlyThumbnail'
+          readOnly: true
+        post_print_photo_url:
+          type: string
+          nullable: true
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/BasicUser'
+          readOnly: true
+        user_custom_label:
+          type: string
+          readOnly: true
+        group:
+          allOf:
+          - $ref: '#/components/schemas/PrinterGroup'
+          readOnly: true
+        adaptive_thickness:
+          type: boolean
+          readOnly: true
+        probably_finished:
+          type: boolean
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+          nullable: true
+        print_job:
+          type: string
+          readOnly: true
+          nullable: true
+        material_name:
+          type: string
+          readOnly: true
+        print_settings_name:
+          type: string
+          readOnly: true
+        print_settings_code:
+          type: string
+          readOnly: true
+        cloud_queue_item:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+        form_auto_serial:
+          type: string
+          readOnly: true
+          nullable: true
+        form_auto_fw_version:
+          type: string
+          readOnly: true
+          nullable: true
+        harvest_status:
+          readOnly: true
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/HarvestStatusEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrintPart'
+          readOnly: true
+      required:
+      - adaptive_thickness
+      - back_cartridge
+      - cartridge
+      - cloud_queue_item
+      - created_at
+      - currently_printing_layer
+      - cylinder
+      - elapsed_duration_ms
+      - estimated_duration_ms
+      - estimated_time_remaining_ms
+      - feedback
+      - firmware_version
+      - form_auto_fw_version
+      - form_auto_serial
+      - front_cartridge
+      - group
+      - guid
+      - harvest_status
+      - layer_count
+      - layer_thickness_mm
+      - material
+      - material_name
+      - message
+      - name
+      - note
+      - parts
+      - post_print_photo_url
+      - print_finished_at
+      - print_job
+      - print_run_success
+      - print_settings_code
+      - print_settings_name
+      - print_started_at
+      - print_thumbnail
+      - printer
+      - probably_finished
+      - status
+      - tank
+      - user
+      - user_custom_label
+      - using_open_mode
+      - volume_ml
+      - z_height_offset_mm
+    PrintThumbnailSerializerOnlyThumbnail:
+      type: object
+      properties:
+        thumbnail:
+          type: string
+          format: uri
+      required:
+      - thumbnail
+    PrinterCartridgeStatus:
+      type: object
+      properties:
+        cartridge:
+          allOf:
+          - $ref: '#/components/schemas/CartridgeReadOnly'
+          readOnly: true
+        last_modified:
+          type: string
+          format: date-time
+          readOnly: true
+        cartridge_slot:
+          oneOf:
+          - $ref: '#/components/schemas/CartridgeSlotEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+      required:
+      - cartridge
+      - last_modified
+    PrinterGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 40
+      required:
+      - id
+      - name
+    PrinterTankStatus:
+      type: object
+      properties:
+        tank:
+          allOf:
+          - $ref: '#/components/schemas/TankReadOnly'
+          readOnly: true
+        last_modified:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - last_modified
+      - tank
+    ReadyToPrintEnum:
+      enum:
+      - READY_TO_PRINT_NOT_SUPPORTED
+      - READY_TO_PRINT_READY
+      - READY_TO_PRINT_NEEDS_CONFIRMATION
+      - READY_TO_PRINT_NOT_READY
+      type: string
+      description: |-
+        * `READY_TO_PRINT_NOT_SUPPORTED` - NotSupported
+        * `READY_TO_PRINT_READY` - Ready
+        * `READY_TO_PRINT_NEEDS_CONFIRMATION` - NeedsConfirmation
+        * `READY_TO_PRINT_NOT_READY` - NotReady
+    StatusEnum:
+      enum:
+      - QUEUED
+      - PREPRINT
+      - PRINTING
+      - PAUSED
+      - FINISHED
+      - ABORTING
+      - ABORTED
+      - ERROR
+      - WAITING_FOR_RESOLUTION
+      - PREHEAT
+      - PRECOAT
+      - POSTCOAT
+      type: string
+      description: |-
+        * `QUEUED` - Queued
+        * `PREPRINT` - Preprint
+        * `PRINTING` - Printing
+        * `PAUSED` - Paused
+        * `FINISHED` - Finished
+        * `ABORTING` - Aborting
+        * `ABORTED` - Aborted
+        * `ERROR` - Error
+        * `WAITING_FOR_RESOLUTION` - Waiting for Resolution
+        * `PREHEAT` - Preheat
+        * `PRECOAT` - Precoat
+        * `POSTCOAT` - Postcoat
+    Tank:
+      type: object
+      properties:
+        serial:
+          type: string
+          maxLength: 255
+        material:
+          type: string
+          nullable: true
+          maxLength: 255
+        layers_printed:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        print_time_ms:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        heatmap:
+          type: string
+        heatmap_gif:
+          type: string
+          nullable: true
+          readOnly: true
+        mechanical_version:
+          type: string
+          nullable: true
+          maxLength: 100
+        manufacture_date:
+          type: string
+          format: date-time
+        manufacturer:
+          type: string
+          maxLength: 100
+        display_name:
+          type: string
+        lot_number:
+          type: string
+          maxLength: 100
+        layer_count:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        last_modified:
+          type: string
+          format: date-time
+          readOnly: true
+        inside_printer:
+          type: string
+          readOnly: true
+        write_count:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        tank_type:
+          type: string
+          nullable: true
+          maxLength: 100
+        connected_group:
+          type: string
+          format: uuid
+          nullable: true
+        first_fill_date:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_print_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - created_at
+      - heatmap_gif
+      - inside_printer
+      - last_modified
+      - last_print_date
+      - serial
+    TankMixerStateEnum:
+      enum:
+      - TANK_MIXER_STATE_NOT_SUPPORTED
+      - TANK_MIXER_STATE_PRESENT
+      - TANK_MIXER_STATE_UNCONFIRMED
+      - TANK_MIXER_STATE_MISSING
+      type: string
+      description: |-
+        * `TANK_MIXER_STATE_NOT_SUPPORTED` - Notsupported
+        * `TANK_MIXER_STATE_PRESENT` - Present
+        * `TANK_MIXER_STATE_UNCONFIRMED` - Unconfirmed
+        * `TANK_MIXER_STATE_MISSING` - Missing
+    TankReadOnly:
+      type: object
+      properties:
+        serial:
+          type: string
+          readOnly: true
+        material:
+          type: string
+          readOnly: true
+          nullable: true
+        print_time_ms:
+          type: integer
+          readOnly: true
+          nullable: true
+        layers_printed:
+          type: integer
+          readOnly: true
+          nullable: true
+        first_fill_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        heatmap:
+          type: string
+        heatmap_gif:
+          type: string
+          nullable: true
+          readOnly: true
+        display_name:
+          type: string
+        layer_count:
+          type: integer
+          readOnly: true
+        inside_printer:
+          type: string
+          readOnly: true
+        tank_type:
+          type: string
+          readOnly: true
+          nullable: true
+        connected_group:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_print_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - connected_group
+      - created_at
+      - first_fill_date
+      - heatmap_gif
+      - inside_printer
+      - last_print_date
+      - layer_count
+      - layers_printed
+      - material
+      - print_time_ms
+      - serial
+      - tank_type
+    TypeEnum:
+      enum:
+      - RESIN_LOW
+      - PRINT_START
+      - PRINT_FINISHED
+      - PRINT_ABORTED
+      - PRINT_ERROR
+      - PRINT_PAUSED
+      - PRINT_RESUMED
+      - PRINT_RESOLUTION_REQUEST
+      - PRINT_RESOLUTION
+      - MANY_PRINT_ERRORS
+      - PRINTER_REGISTERED
+      - PRINTER_DEREGISTERED
+      - PRINTING_REPORT
+      - GROUP_INVITATION
+      - AUTO_ADD_USER_TO_GROUP
+      - USER_REMOVED_FROM_GROUP
+      - YEAR_IN_REVIEW_EMAIL
+      - REMOTE_JOB_EXPIRED
+      - PRINT_NOTIFICATION
+      - FUSE_EMAIL_VOTING
+      type: string
+      description: |-
+        * `RESIN_LOW` - Resin Low
+        * `PRINT_START` - Print Started
+        * `PRINT_FINISHED` - Print finished
+        * `PRINT_ABORTED` - Print aborted
+        * `PRINT_ERROR` - Print error
+        * `PRINT_PAUSED` - Print Paused
+        * `PRINT_RESUMED` - Print Resumed
+        * `PRINT_RESOLUTION_REQUEST` - Print Resolution Request
+        * `PRINT_RESOLUTION` - Print Resolution
+        * `MANY_PRINT_ERRORS` - Print Resolution
+        * `PRINTER_REGISTERED` - Printer Registered
+        * `PRINTER_DEREGISTERED` - Printer Deregistered
+        * `PRINTING_REPORT` - Printing Report
+        * `GROUP_INVITATION` - Group Invitation
+        * `AUTO_ADD_USER_TO_GROUP` - Auto-add User to Group
+        * `USER_REMOVED_FROM_GROUP` - Removed User from Group
+        * `YEAR_IN_REVIEW_EMAIL` - Year In Review Email
+        * `REMOTE_JOB_EXPIRED` - Remote Job Expired
+        * `PRINT_NOTIFICATION` - Print Notification
+        * `FUSE_EMAIL_VOTING` - Fuse Email Voting
+    UpdateModeEnum:
+      enum:
+      - DISABLED
+      - NORMAL
+      - UNATTENDED
+      type: string
+      description: |-
+        * `DISABLED` - Disabled
+        * `NORMAL` - Normal
+        * `UNATTENDED` - Unattended
+    UserEventReadOnly:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        printer:
+          type: string
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        print_run:
+          allOf:
+          - $ref: '#/components/schemas/MyPrintRunReadOnly'
+          readOnly: true
+        tank:
+          type: string
+          readOnly: true
+          nullable: true
+        cartridge:
+          type: string
+          readOnly: true
+          nullable: true
+        type:
+          allOf:
+          - $ref: '#/components/schemas/TypeEnum'
+          readOnly: true
+        type_label:
+          type: string
+          readOnly: true
+        action:
+          type: string
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+        was_read:
+          type: boolean
+          readOnly: true
+        group:
+          $ref: '#/components/schemas/PrinterGroup'
+      required:
+      - action
+      - cartridge
+      - created_at
+      - group
+      - id
+      - message
+      - print_run
+      - printer
+      - tank
+      - type
+      - type_label
+      - was_read
+    Workgroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 40
+        remote_print_enabled_override:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        memberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkgroupMembership'
+          readOnly: true
+        printers:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        invitations:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupInvitation'
+          readOnly: true
+        has_fleet_control:
+          type: boolean
+        has_fleet_control_updated_by:
+          type: integer
+          nullable: true
+        settings:
+          allOf:
+          - $ref: '#/components/schemas/WorkgroupSettings'
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - invitations
+      - memberships
+      - name
+      - printers
+      - settings
+    WorkgroupMembership:
+      type: object
+      properties:
+        is_admin:
+          type: boolean
+        user:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        user_id:
+          type: string
+          readOnly: true
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+      required:
+      - email
+      - first_name
+      - last_name
+      - user
+      - user_id
+      - username
+    WorkgroupSettings:
+      type: object
+      properties:
+        group:
+          type: string
+          format: uuid
+          readOnly: true
+        update_mode:
+          oneOf:
+          - $ref: '#/components/schemas/UpdateModeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+      required:
+      - group
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+servers:
+- url: https://api.formlabs.com
+  description: Official Formlabs API

@@ -1,0 +1,8 @@
+.DS_Store
+
+# Executable linked or downloaded into repo
+PreFormServer
+PreFormServer.app
+
+# Our example virtual environment name
+myenv
