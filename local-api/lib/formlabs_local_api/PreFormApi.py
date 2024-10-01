@@ -82,6 +82,6 @@ def _find_preform_server(pathToPreformServer=None):
 
         pathToPreformServer = os.path.join(library_path, filename)
     if not os.path.isfile(pathToPreformServer):
-        raise FileNotFoundError("PreFormServer executable not found at " + pathToPreformServer)
+        raise FileNotFoundError("PreFormServer executable not found at " + str(pathToPreformServer))
 
     return pathToPreformServer

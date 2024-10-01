@@ -2,6 +2,20 @@
 
 Python code related to using Formlabs' local and web APIs.
 
+## Available Libraries
+
+1. Formlabs Local Python Library (Minimal)
+    - A small library that depends on the Python HTTP client library [`requests`](https://pypi.org/project/requests/) with a helper class for starting the PreFormServer executable.
+    - The [`requests`](https://pypi.org/project/requests/) library should be used to make API requests.
+    - Request formatting and parsing is not included in the library and should be done in client code.
+2. Formlabs Local Python Library
+    - A library automatically generated from the OpenAPI YAML specification of the Formlabs Local API.
+    - Library provides types and handles request formatting.
+    - **Warning**: API version updates may change the libraries types and require changes to your code. For this reason, we don't recommend this library for long term integrations that want minimal to no code changes between PreFormServer versions.
+3. Formlabs Web Python Library
+    - A library automatically generated from the OpenAPI YAML specification of the Formlabs Web API.
+    - Library provides types and handles request formatting.
+
 ## Python library installation:
 
 First, have at least Python 3.7 installed and available on your path.
@@ -17,6 +31,9 @@ source myenv/bin/activate
 # Ensure you have pip installed
 python3 -m ensurepip --default-pip
 
+# Install Formlabs Local Python library (Minimal)
+python3 -m pip install -e local-api/minimal-lib
+
 # Install Formlabs Local Python library
 python3 -m pip install -e local-api/lib
 
@@ -24,7 +41,7 @@ python3 -m pip install -e local-api/lib
 python3 -m pip install -e web-api/lib
 ```
 
-Now test the installation by running an example. The example expects that a PreFormServer executable has been downloaded, extracted, and placed in the folder where you are going to run the demo ([`/python`](/python)).
+Now test the installation by running an example. The example expects that a PreFormServer executable has been downloaded, extracted, and placed in the folder where you are going to run the demo.
 
 ```
 # Activate virtual environment, if you haven't already
@@ -37,7 +54,7 @@ python3 examples/hello-server.py
 deactivate
 ```
 
-## Generating the Python Library
+## Generating the Python Libraries
 
 All these examples work on the OpenAPI 3.0 descriptions of the Formlabs Local and Web HTTP REST APIs
 

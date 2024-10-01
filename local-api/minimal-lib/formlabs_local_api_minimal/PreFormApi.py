@@ -2,7 +2,6 @@
 Handwritten convenience wrapper around the generated Python library code
 """
 from contextlib import contextmanager
-import formlabs_local_api as formlabs
 import subprocess
 import os
 import sys
@@ -14,10 +13,6 @@ class PreFormApi:
 
     def __init__(self, preform_port=44388):
         self.preform_port = preform_port
-        self.client = formlabs.ApiClient(
-            formlabs.Configuration(host=f"http://localhost:{preform_port}")
-        )
-        self.api = formlabs.UnifiedApi(self.client)
 
     @staticmethod
     def start_preform_sync(pathToPreformServer=None, preform_port=44388):
