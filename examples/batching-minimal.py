@@ -135,7 +135,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
                 print(f"Auto orienting {new_model_id}")
                 auto_orient_params = {"models": [new_model_id]}
                 if args.dental_mode:
-                    auto_orient_params["model"] = "DENTAL"
+                    auto_orient_params["mode"] = "DENTAL"
                     auto_orient_params["tilt"] = 0
                 auto_orient_response = requests.request(
                     "POST",
