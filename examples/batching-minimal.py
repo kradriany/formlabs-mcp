@@ -164,10 +164,11 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
             if layout_response.status_code != 200:
                 print("Not all models can fit, removing model")
                 model_data = models_in_current_batch.pop()
-                requests.request(
+                delete_response = requests.request(
                     "DELETE",
                     f"http://localhost:44388/scene/models/{str(model_data["model_id"])}/",
                 )
+                delete_response.raise_for_status()
                 files_to_batch.append(model_data["file_name"])
                 save_batch_form()
                 print("Clearing scene")
