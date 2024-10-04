@@ -36,7 +36,7 @@ YOU AGREE THAT FORMLABS MAY MONITOR YOUR USE OF THE FORMLABS APIS TO ENSURE QUAL
 
 **Updates**
 
-You acknowledge that Formlabs may update or modify the Formlabs APIs and Formlabs Offering from time to time and at our sole discretion (in each instance, an "**Update**"). Updates may adversely affect how your Application communicates with the Formlabs APIs. You are required to make any changes to your Application that are required as a result of such Update at your sole cost and expense. To the extent that you are provided with a Formlabs Offering in binary form, you agree to promptly install all Updates to such Formlabs Offering in your Application. Any Update that is considered a critical patch, in Formlabs’ sole discretion, must be installed within \[x\] days. Your continued use of the Formlabs APIs following an Update constitutes binding acceptance of the Update.
+You acknowledge that Formlabs may update or modify the Formlabs APIs and Formlabs Offering from time to time and at our sole discretion (in each instance, an "**Update**"). Updates may adversely affect how your Application communicates with the Formlabs APIs. You are required to make any changes to your Application that are required as a result of such Update at your sole cost and expense. To the extent that you are provided with a Formlabs Offering in binary form, you agree to promptly install all Updates to such Formlabs Offering in your Application. Any Update that is considered a critical patch, in Formlabs’ sole discretion, must be installed within 30 days. Your continued use of the Formlabs APIs following an Update constitutes binding acceptance of the Update.
 
 **End-User License Agreement**
 
