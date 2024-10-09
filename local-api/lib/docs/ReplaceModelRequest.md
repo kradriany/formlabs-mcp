@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file** | **str** | Full path to the file to load | [optional] 
-**repair_behavior** | [**RepairBehaviorModel**](RepairBehaviorModel.md) |  | [optional] [default to RepairBehaviorModel.IGNORE]
+**repair_behavior** | [**RepairBehaviorModel**](RepairBehaviorModel.md) |  | [optional] [default to RepairBehaviorModel.ERROR]
 
 ## Example
 

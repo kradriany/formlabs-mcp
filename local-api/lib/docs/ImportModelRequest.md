@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file** | **str** | Full path to the file to load | 
-**repair_behavior** | [**RepairBehaviorModel**](RepairBehaviorModel.md) |  | [optional] [default to RepairBehaviorModel.IGNORE]
+**repair_behavior** | [**RepairBehaviorModel**](RepairBehaviorModel.md) |  | [optional] [default to RepairBehaviorModel.ERROR]
 **name** | **str** | The name of the model used within job preparation. | [optional] 
 **position** | [**ScenePositionModel**](ScenePositionModel.md) |  | [optional] 
 **orientation** | [**OrientationModel**](OrientationModel.md) |  | [optional] 
