@@ -154,7 +154,7 @@ tags:
   - name: Print Settings
     description: "Operations related to getting available print settings."
   - name: API Info
-    description: "Get information abou the API itself"
+    description: "Get information about the API itself"
 components:
   schemas:
     ErrorModel:
@@ -1644,6 +1644,7 @@ paths:
       description: "Discover new devices on the network"
       tags:
         - "Devices"
+        - "Remote Access"
       requestBody:
         required: true
         content:
