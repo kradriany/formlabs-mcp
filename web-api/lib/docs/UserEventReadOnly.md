@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **print_run** | [**MyPrintRunReadOnly**](MyPrintRunReadOnly.md) |  | [readonly] 
 **tank** | **str** |  | [readonly] 
 **cartridge** | **str** |  | [readonly] 
-**type** | [**TypeEnum**](TypeEnum.md) |  | [readonly] 
+**type** | **str** |  | [readonly] 
 **type_label** | **str** |  | [readonly] 
 **action** | **str** |  | [readonly] 
 **message** | **str** |  | [readonly] 

@@ -16,7 +16,7 @@ List of all resin tanks associated with my account
 
 ### Example
 
-* Bearer (JWT) Authentication (bearerAuth):
+* Bearer Authentication (bearerAuth):
 
 ```python
 import formlabs_web_api
@@ -35,7 +35,7 @@ configuration = formlabs_web_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure Bearer authorization (JWT): bearerAuth
+# Configure Bearer authorization: bearerAuth
 configuration = formlabs_web_api.Configuration(
     access_token = os.environ["BEARER_TOKEN"]
 )

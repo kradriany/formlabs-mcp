@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "formlabs_web_api"
 version = "0.8.0"
-description = "Formlabs Developer API"
-authors = ["OpenAPI Generator Community <api-inquiry@formlabs.com>"]
+description = "Formlabs Web API"
+authors = ["Formlabs Support <team@openapitools.org>"]
 license = "NoLicense"
 readme = "README.md"
 repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
-keywords = ["OpenAPI", "OpenAPI-Generator", "Formlabs Developer API"]
+keywords = ["OpenAPI", "OpenAPI-Generator", "Formlabs Web API"]
 include = ["formlabs_web_api/py.typed"]
 
 [tool.poetry.dependencies]

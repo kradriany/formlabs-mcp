@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **printers** | **List[str]** |  | [readonly] 
 **invitations** | [**List[GroupInvitation]**](GroupInvitation.md) |  | [readonly] 
 **has_fleet_control** | **bool** |  | [optional] 
-**has_fleet_control_updated_by** | **int** |  | [optional] 
+**has_fleet_control_updated_by** | **int** | The user who is the Fleet Control administrator of the Printer Group | [optional] 
 **settings** | [**WorkgroupSettings**](WorkgroupSettings.md) |  | [readonly] 
 
 ## Example

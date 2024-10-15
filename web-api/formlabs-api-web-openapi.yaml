@@ -1,11 +1,78 @@
 openapi: 3.0.3
 info:
-  title: Formlabs Developer API
-  version: 0.1.0
-  description: The Formlabs Dashboard Developer API provides resources to integrate
-    Formlabs products into customer’s workflow and existing systems
+  title: Formlabs Web API
+  version: 0.8.0
+  x-logo:
+    url: https://formlabs-dashboard-api-resources.s3.amazonaws.com/Formlabs-Logo-rgb-black.svg
+    altText: Formlabs Logo
+  description: "\n# Introduction\n\nThe Formlabs Web API provides access to Formlabs’\
+    \ remote control and remote monitoring features for Internet-connected Formlabs\
+    \ products registered to your Dashboard account.\n\nSome example use cases of\
+    \ the Dashboard Developer API:\n1.  Create automated custom reports on Printer\
+    \ usage, material usage, and job history to gain more insights into print production\n\
+    2.  More efficiently manage Printers by integrating Printer status data into existing\
+    \ systems (ERP/MES/custom)\n# Terms and Conditions\n-   Formlabs reserves the\
+    \ right to revoke or invalidate your API key at any time without warning.\n- \
+    \  As a beta, conditions of access to the API may change in the future, access\
+    \ may be bundled into other future software products, etc.\n(we will make an effort\
+    \ to provide as much warning as possible)\n-   As a beta, the API may change at\
+    \ any time without warning in such a way that it may fail to support existing\
+    \ workflows\n(though we will make an effort to provide advanced notice where possible)\n\
+    -   You agree not to exceed the Dashboard Developer API rate limit as detailed\
+    \ in the \"Rate Limit\" section below.\n-   You will be given access to certain\
+    \ non-public information, software, and specifications that are confidential and\
+    \ proprietary to Formlabs.\nYou will not share these outside your organization.\n\
+    -   By participating in this Beta you may be sharing information with Formlabs.\
+    \ Any information shared is governed by our Privacy Policy\n[https://formlabs.com/support/privacy-policy/](https://formlabs.com/support/privacy-policy/)\n\
+    -   The Dashboard Developer API works with Formlabs Printers that are connected\
+    \ to the internet and registered to Dashboard.\nPrinters registered to Dashboard\
+    \ share data with Formlabs (detailed in the Data Collection section of the Privacy\
+    \ Policy:\n[https://formlabs.com/support/privacy-policy/#Data-Collection](https://formlabs.com/support/privacy-policy/#Data-Collection)).\n\
+    For more information about how to set up Printers and register them to Dashboard,\
+    \ see this link:\n[https://support.formlabs.com/s/article/Dashboard-Overview-and-Setup](https://support.formlabs.com/s/article/Dashboard-Overview-and-Setup)\n\
+    \n# Technical Overview\nThe Formlabs Dashboard Developer API is a REST HTTP API\
+    \ using JSON as the response data format. \n\nFormlabs Dashboard Developer API\
+    \ is HTTP-based. Send a HTTP GET request to an endpoint to retrieve data from\
+    \ that endpoint.\nThe integrating system should be able to make HTTP requests\
+    \ and process responses in JSON format. \n\nFormlabs Dashboard Developer API uses\
+    \ the standard [OAuth Authentication Flow](https://tools.ietf.org/html/rfc6749#section-4.4),\n\
+    and all API endpoints require authentication.\nThe access token created is valid\
+    \ for a day, so make sure to refresh the token regularly to maintain seamless\
+    \ integration with the Dashboard Developer API and ensure uninterrupted workflow.\n\
+    \n## Versioning\n\nThe Dashboard Developer API uses resource-based versioning,\
+    \ meaning API endpoints are versioned independently, rather than globally across\
+    \ all endpoints.\n\nFormlabs may change the version of an endpoint to first keep\
+    \ in sync with product updates (could be an addition or a removal of data), in\
+    \ addition to any changes based on customer feedback to allow easier integrations.\n\
+    \nVersioning can occur in the following situations:\n\n-   The format of the response\
+    \ data is required to change\n-   The format of the response type is required\
+    \ to change\n\nAny outstanding version changes or upgrades occurred on endpoints\
+    \ will be highlighted and documented.\n\n## Rate Limit\n\nThe rate of requests\
+    \ to the Dashboard Developer API is limited to prevent the abuse of the system.\n\
+    Requests from the same IP address are limited to **100 requests/second**.\nRequests\
+    \ from the same authenticated user are limited to **1500 requests/hour**.\nAfter\
+    \ a rate limit is exceeded, requests will return a HTTP status code of 429\nwith\
+    \ a “Retry-after” header outlining when the next request can be made.\n\n## Account\
+    \ Setup & Printer Registration\n\nThe Dashboard Developer API is only available\
+    \ to Formlabs.com account-holding users that are registered and have active Formlabs\
+    \ 3D Printer(s) associated with their accounts. If you do not have a Formlabs.com\
+    \ account, or you have an account but don’t have your Printers connected to it,\
+    \ please follow the instructions below:\n\n1.  Sign up for a Formlabs.com account\
+    \ at [https://formlabs.com/dashboard/#register](https://formlabs.com/dashboard/#register)\n\
+    2.  Register the Formlabs 3D Printers at [https://formlabs.com/dashboard/#setup](https://formlabs.com/dashboard/#setup).\
+    \ This involves connecting a Formlabs 3D Printer to the Internet and then visiting\
+    \ the Dashboard Registration screen on the Printer to get a registration code.\
+    \ Type this registration code on the Dashboard Printer registration page to complete\
+    \ the registration.\n3.  Now the Dashboard should show your Printer’s live status,\
+    \ show a history of prints, etc.\n4.  Visit the [Developer Tools page at](https://dashboard.formlabs.com/#developer),\
+    \ and create your **Application credentials**\n6.  Once you have your **Client\
+    \ ID** and the **Client Secret**, go to the [Authentication](#tag/Authentication)\
+    \ section for instructions on how to get an API access token and start using the\
+    \ Dashboard Developer API.\n"
+  termsOfService: https://formlabs-dashboard-api-resources.s3.amazonaws.com/formlabs-api-license-agreement.html
   contact:
-    email: api-inquiry@formlabs.com
+    name: Formlabs Support
+    url: https://support.formlabs.com/
 paths:
   /developer/v1/cartridges/:
     get:
@@ -25,7 +92,7 @@ paths:
         schema:
           type: integer
       tags:
-      - cartridges
+      - Cartridges
       security:
       - bearerAuth: []
       responses:
@@ -88,12 +155,9 @@ paths:
         name: type
         schema:
           type: string
-        description: 'Filter by Event Type `RESIN_LOW` or `PRINT_START` or `PRINT_FINISHED`
-          or `PRINT_ABORTED` or `PRINT_ERROR` or `PRINT_PAUSED` or `PRINT_RESUMED`
-          or `PRINT_RESOLUTION_REQUEST` or `PRINT_RESOLUTION` or `MANY_PRINT_ERRORS`
-          or `PASSWORD_RESET` or `PRINTER_REGISTERED` or `PRINTER_DEREGISTERED` '
+        description: Filter by Event Type
       tags:
-      - events
+      - Events
       security:
       - bearerAuth: []
       responses:
@@ -107,21 +171,8 @@ paths:
     get:
       operationId: groups_list
       description: List of all groups for my account.
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: per_page
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
       tags:
-      - groups
+      - Printer Groups
       security:
       - bearerAuth: []
       responses:
@@ -135,7 +186,7 @@ paths:
       operationId: groups_create
       description: Create a group for my account, and make me an administrator.
       tags:
-      - groups
+      - Printer Groups
       requestBody:
         content:
           application/json:
@@ -157,25 +208,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/NewWorkgroup'
           description: ''
+  /developer/v1/groups/bulk-add-printers/:
+    post:
+      operationId: groups_bulk_add_printers_create
+      description: "Move Printer(s) to a Printer Group.  \n**Notes:** Request sender\
+        \ needs to be admin of target group and all of the Printers’ groups."
+      tags:
+      - Printer Groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupsBulkAddPrintersRequest'
+            examples:
+              PayloadExample:
+                value:
+                  target_group: 61e94a6e-8012-42fa-8fa7-642d2587bef0
+                  printers:
+                  - SweetMatcha
+                  - CornyCaffeine
+                summary: payload example
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupsBulkAddPrintersRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeveloperAPIGroupsBulkAddPrintersRequest'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: No response body
   /developer/v1/printers/:
     get:
       operationId: printers_list
-      description: List of all printers associated with my account
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: per_page
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
+      description: List of all Printers associated with my account
       tags:
-      - printers
+      - Printers
       security:
       - bearerAuth: []
       responses:
@@ -188,8 +258,7 @@ paths:
   /developer/v1/prints/:
     get:
       operationId: prints_list
-      description: List of all prints from my printer. Please replace {printer_pk}
-        field with your printer serial, Ex. SweetMatcha.
+      description: List of all prints associated with my account
       parameters:
       - in: query
         name: date
@@ -216,32 +285,6 @@ paths:
           type: array
           items:
             type: string
-            enum:
-            - FORM-1-0
-            - FORM-1-1
-            - FORM-2-0
-            - FORM-2-1
-            - FORM-3-0
-            - FORM-3-1
-            - FORM-3-2
-            - DGJR-1-0
-            - FRML-3-0
-            - FRBL-3-0
-            - FRMB-3-0
-            - DGSR-1-0
-            - FRMB-3-1
-            - PILK-1-0
-            - SIFT-1
-            - UNKNOWN
-            - PILK-1-1
-            - SIFT-1-0
-            - SIFT-1-1
-            - CURL-1-1
-            - CURL-1-0
-            - WSHL-1-0
-            - FS30-1-0
-            - FS30-1-1
-            - FORM-4-0
         description: Filter by machine type id.
         explode: true
         style: form
@@ -284,7 +327,7 @@ paths:
           \     * `PREHEAT` - Preheat  \n          * `PRECOAT` - Precoat  \n     \
           \     * `POSTCOAT` - Postcoat"
       tags:
-      - prints
+      - Prints
       security:
       - bearerAuth: []
       responses:
@@ -312,7 +355,7 @@ paths:
         schema:
           type: integer
       tags:
-      - tanks
+      - Tanks
       security:
       - bearerAuth: []
       responses:
@@ -325,8 +368,7 @@ paths:
   /developer/v1/printers/{printer_serial}/prints/:
     get:
       operationId: printers_prints_list
-      description: List of all prints from my printer. Please replace {printer_pk}
-        field with your printer serial, Ex. SweetMatcha.
+      description: List of all prints associated with my account
       parameters:
       - in: query
         name: date
@@ -353,32 +395,6 @@ paths:
           type: array
           items:
             type: string
-            enum:
-            - FORM-1-0
-            - FORM-1-1
-            - FORM-2-0
-            - FORM-2-1
-            - FORM-3-0
-            - FORM-3-1
-            - FORM-3-2
-            - DGJR-1-0
-            - FRML-3-0
-            - FRBL-3-0
-            - FRMB-3-0
-            - DGSR-1-0
-            - FRMB-3-1
-            - PILK-1-0
-            - SIFT-1
-            - UNKNOWN
-            - PILK-1-1
-            - SIFT-1-0
-            - SIFT-1-1
-            - CURL-1-1
-            - CURL-1-0
-            - WSHL-1-0
-            - FS30-1-0
-            - FS30-1-1
-            - FORM-4-0
         description: Filter by machine type id.
         explode: true
         style: form
@@ -426,7 +442,7 @@ paths:
           \     * `PREHEAT` - Preheat  \n          * `PRECOAT` - Precoat  \n     \
           \     * `POSTCOAT` - Postcoat"
       tags:
-      - printers
+      - Prints
       security:
       - bearerAuth: []
       responses:
@@ -439,7 +455,7 @@ paths:
   /developer/v1/printers/{printer_serial}/:
     get:
       operationId: printers_retrieve
-      description: Specific printer associated with my account
+      description: Specific Printer associated with my account
       parameters:
       - in: path
         name: printer_serial
@@ -448,7 +464,7 @@ paths:
         description: A unique value identifying this printer.
         required: true
       tags:
-      - printers
+      - Printers
       security:
       - bearerAuth: []
       responses:
@@ -471,7 +487,7 @@ paths:
         description: A UUID string identifying this workgroup.
         required: true
       tags:
-      - groups
+      - Printer Groups
       requestBody:
         content:
           application/json:
@@ -504,7 +520,7 @@ paths:
         description: A UUID string identifying this workgroup.
         required: true
       tags:
-      - groups
+      - Printer Groups
       security:
       - bearerAuth: []
       responses:
@@ -519,10 +535,11 @@ paths:
         name: group_id
         schema:
           type: string
-        description: Unique UUID connected to the group
+          format: uuid
+        description: A UUID string identifying this Printer Group
         required: true
       tags:
-      - groups
+      - Printer Groups
       requestBody:
         content:
           application/json:
@@ -554,10 +571,11 @@ paths:
         name: group_id
         schema:
           type: string
-        description: Unique UUID connected to the group
+          format: uuid
+        description: A UUID string identifying this Printer Group
         required: true
       tags:
-      - groups
+      - Printer Groups
       requestBody:
         content:
           application/json:
@@ -587,10 +605,11 @@ paths:
         name: group_id
         schema:
           type: string
-        description: Unique UUID connected to the group
+          format: uuid
+        description: A UUID string identifying this Printer Group
         required: true
       tags:
-      - groups
+      - Printer Groups
       security:
       - bearerAuth: []
       responses:
@@ -608,6 +627,180 @@ paths:
                   description: Email address of the member to remove
               required:
               - user
+  /developer/v1/groups/{group_id}/queue/:
+    get:
+      operationId: groups_queue_list
+      description: "\nList of all items in the queue of a group.\nA Printer Group\
+        \ can only have a queue if the group has Fleet Control turned on.\nFor non-Fleet\
+        \ Control groups, the queue is always empty and the call returns empty. \n\
+        \        "
+      parameters:
+      - in: path
+        name: group_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Printer Group
+        required: true
+      tags:
+      - Printer Groups
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeveloperAPIMyCloudQueueItems'
+          description: ''
+  /developer/v1/o/token/:
+    post:
+      tags:
+      - Authentication
+      operationId: Request an access token
+      description: "\nTo log in to the Dashboard Developer API, you need to request\
+        \ an access token.\nThis token is used to authenticate your requests to the\
+        \ API.\nYou can request an access token by providing your client ID and client\
+        \ secret.\n            "
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  description: The type of grant being used. Currently only `client_credentials`
+                    is supported
+                  example: client_credentials
+                client_id:
+                  type: string
+                  description: Your Client ID.
+                client_secret:
+                  type: string
+                  description: Your Client Secret.
+              required:
+              - grant_type
+              - client_id
+              - client_secret
+            examples:
+              Requesting a token:
+                summary: Requesting an access token
+                value:
+                  grant_type: client_secret
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                  expires_in:
+                    type: integer
+                  scope:
+                    type: string
+              examples:
+                Access Token response:
+                  summary: Access Token response
+                  value:
+                    access_token: your_access_token
+                    token_type: Bearer
+                    expires_in: 86400
+                    scope: developer-api
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
+              examples:
+                response_example:
+                  summary: Example response
+                  value:
+                    error: invalid_grant
+                    error_description: Invalid credentials given.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                response_example:
+                  summary: Example response
+                  value:
+                    error: invalid_client
+  /developer/v1/o/revoke_token/:
+    post:
+      tags:
+      - Authentication
+      operationId: Revoke an access token
+      description: "\nYou can log out from your current authenticated session by revoking\
+        \ the access token.\nWhen successfully revoked, the API does not return any\
+        \ response.\nAs aforementioned, once you send a request to revoke the specified\
+        \ access token,\nthis token can no longer be used to make requests to the\
+        \ Dashboard Developer API.\nPlease retrieve a new access token to start using\
+        \ the API again.\n            "
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Your access token.
+                client_id:
+                  type: string
+                  description: Your client ID.
+                client_secret:
+                  type: string
+                  description: Your client secret.
+              required:
+              - token
+              - client_id
+              - client_secret
+            examples:
+              Revoking a token:
+                summary: Revoking an access token
+                value:
+                  token: your_access_token
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                response_example:
+                  summary: Example response
+                  value:
+                    error: invalid_client
 components:
   schemas:
     BasicUser:
@@ -673,18 +866,10 @@ components:
         serial:
           type: string
           maxLength: 255
+        consumable_type:
+          type: string
         machine_type_id:
-          allOf:
-          - $ref: '#/components/schemas/MachineTypeIdAdbEnum'
-          description: "Available values are: `FORM-1-0` - Form 1  \n`FORM-1-1` -\
-            \ Form 1+  \n`FORM-2-0` - Form 2  \n`FORM-2-1` - Form 2.1  \n`FORM-3-0`\
-            \ - Form 3  \n`FORM-3-1` - Form 3  \n`FORM-3-2` - Form 3+  \n`DGJR-1-0`\
-            \ - Form 3  \n`FRML-3-0` - Form 3L  \n`FRBL-3-0` - Form 3BL  \n`FRMB-3-0`\
-            \ - Form 3B  \n`DGSR-1-0` - Form 3L  \n`FRMB-3-1` - Form 3B+  \n`PILK-1-0`\
-            \ - Fuse 1  \n`SIFT-1` - Sift  \n`UNKNOWN` - Unknown  \n`PILK-1-1` - Fuse\
-            \ 1  \n`SIFT-1-0` - Sift  \n`SIFT-1-1` - Sift  \n`CURL-1-1` - Cure L \
-            \ \n`CURL-1-0` - Cure L  \n`WSHL-1-0` - Wash L  \n`FS30-1-0` - Fuse 1+\
-            \ (30W)  \n`FS30-1-1` - Fuse 1+ (30W)  \n`FORM-4-0` - Form 4"
+          type: string
         material:
           type: string
           nullable: true
@@ -791,17 +976,7 @@ components:
           readOnly: true
           nullable: true
         machine_type_id:
-          allOf:
-          - $ref: '#/components/schemas/MachineTypeIdAdbEnum'
-          description: "Available values are: `FORM-1-0` - Form 1  \n`FORM-1-1` -\
-            \ Form 1+  \n`FORM-2-0` - Form 2  \n`FORM-2-1` - Form 2.1  \n`FORM-3-0`\
-            \ - Form 3  \n`FORM-3-1` - Form 3  \n`FORM-3-2` - Form 3+  \n`DGJR-1-0`\
-            \ - Form 3  \n`FRML-3-0` - Form 3L  \n`FRBL-3-0` - Form 3BL  \n`FRMB-3-0`\
-            \ - Form 3B  \n`DGSR-1-0` - Form 3L  \n`FRMB-3-1` - Form 3B+  \n`PILK-1-0`\
-            \ - Fuse 1  \n`SIFT-1` - Sift  \n`UNKNOWN` - Unknown  \n`PILK-1-1` - Fuse\
-            \ 1  \n`SIFT-1-0` - Sift  \n`SIFT-1-1` - Sift  \n`CURL-1-1` - Cure L \
-            \ \n`CURL-1-0` - Cure L  \n`WSHL-1-0` - Wash L  \n`FS30-1-0` - Fuse 1+\
-            \ (30W)  \n`FS30-1-1` - Fuse 1+ (30W)  \n`FORM-4-0` - Form 4"
+          type: string
           readOnly: true
       required:
       - connected_group
@@ -846,32 +1021,61 @@ components:
           description: Change if the member is an administrator
       required:
       - user
+    DeveloperAPIGroupsBulkAddPrintersRequest:
+      type: object
+      properties:
+        target_group:
+          type: string
+          format: uuid
+        printers:
+          type: array
+          items: {}
+      required:
+      - printers
+      - target_group
+    DeveloperAPIMyCloudQueueItems:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        volume_ml:
+          type: number
+          format: double
+        material_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        username:
+          type: string
+        allowed_machine_type_ids:
+          type: array
+          items:
+            type: string
+      required:
+      - created_at
+      - id
+      - material_name
+      - name
+      - username
+      - volume_ml
     DeveloperAPIMyPrinter:
       type: object
       properties:
         serial:
           type: string
           readOnly: true
+        alias:
+          type: string
+          readOnly: true
+          nullable: true
         machine_type_id:
-          allOf:
-          - $ref: '#/components/schemas/DeveloperAPIMyPrinterMachineTypeIdEnum'
-          readOnly: true
-          description: "Available values are: `FORM-1-0` - Form 1  \n`FORM-1-1` -\
-            \ Form 1+  \n`FORM-2-0` - Form 2  \n`FORM-2-1` - Form 2.1  \n`FORM-3-0`\
-            \ - Form 3  \n`FORM-3-1` - Form 3  \n`FORM-3-2` - Form 3+  \n`DGJR-1-0`\
-            \ - Form 3  \n`FRML-3-0` - Form 3L  \n`FRBL-3-0` - Form 3BL  \n`FRMB-3-0`\
-            \ - Form 3B  \n`DGSR-1-0` - Form 3L  \n`FRMB-3-1` - Form 3B+  \n`PILK-1-0`\
-            \ - Fuse 1  \n`SIFT-1` - Sift  \n`UNKNOWN` - Unknown  \n`PILK-1-1` - Fuse\
-            \ 1  \n`SIFT-1-0` - Sift  \n`SIFT-1-1` - Sift  \n`CURL-1-1` - Cure L \
-            \ \n`CURL-1-0` - Cure L  \n`WSHL-1-0` - Wash L  \n`FS30-1-0` - Fuse 1+\
-            \ (30W)  \n`FS30-1-1` - Fuse 1+ (30W)  \n`FORM-4-0` - Form 4"
-        total_print_time_ms:
-          type: integer
-          readOnly: true
-        total_number_of_prints:
-          oneOf:
-          - type: boolean
-          - type: integer
+          type: string
           readOnly: true
         printer_status:
           allOf:
@@ -881,6 +1085,8 @@ components:
           allOf:
           - $ref: '#/components/schemas/PrinterCartridgeStatus'
           readOnly: true
+          description: The status of the printer's cartridges. If the printer has
+            multiple cartridges, this will be a list of statuses.
         tank_status:
           allOf:
           - $ref: '#/components/schemas/PrinterTankStatus'
@@ -902,6 +1108,7 @@ components:
           nullable: true
           description: This is a user defined physical location of the printer
       required:
+      - alias
       - cartridge_status
       - firmware_version
       - group
@@ -911,36 +1118,6 @@ components:
       - printer_status
       - serial
       - tank_status
-      - total_number_of_prints
-      - total_print_time_ms
-    DeveloperAPIMyPrinterMachineTypeIdEnum:
-      type: string
-      enum:
-      - FORM-1-0
-      - FORM-1-1
-      - FORM-2-0
-      - FORM-2-1
-      - FORM-3-0
-      - FORM-3-1
-      - FORM-3-2
-      - DGJR-1-0
-      - FRML-3-0
-      - FRBL-3-0
-      - FRMB-3-0
-      - DGSR-1-0
-      - FRMB-3-1
-      - PILK-1-0
-      - SIFT-1
-      - UNKNOWN
-      - PILK-1-1
-      - SIFT-1-0
-      - SIFT-1-1
-      - CURL-1-1
-      - CURL-1-0
-      - WSHL-1-0
-      - FS30-1-0
-      - FS30-1-1
-      - FORM-4-0
     FormCell:
       type: object
       properties:
@@ -986,34 +1163,6 @@ components:
         * `FORM_CELL_HARVEST_FINISHED` - Finished
         * `FORM_CELL_HARVEST_FAILED` - Print Failed
         * `FORM_CELL_HARVEST_ABORTED` - Aborted
-    MachineTypeIdAdbEnum:
-      enum:
-      - FORM-1-0
-      - FORM-1-1
-      - FORM-2-0
-      - FORM-2-1
-      - FORM-3-0
-      - FORM-3-1
-      - FORM-3-2
-      - DGJR-1-0
-      - FRML-3-0
-      - FRBL-3-0
-      - FRMB-3-0
-      - DGSR-1-0
-      - FRMB-3-1
-      - PILK-1-0
-      - SIFT-1
-      - UNKNOWN
-      - PILK-1-1
-      - SIFT-1-0
-      - SIFT-1-1
-      - CURL-1-1
-      - CURL-1-0
-      - WSHL-1-0
-      - FS30-1-0
-      - FS30-1-1
-      - FORM-4-0
-      type: string
     MyDeepPrinterStatus:
       type: object
       properties:
@@ -1151,10 +1300,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/PrintRunSuccess'
           readOnly: true
-        feedback:
-          allOf:
-          - $ref: '#/components/schemas/PrintRunFeedback'
-          readOnly: true
         firmware_version:
           type: string
           readOnly: true
@@ -1249,7 +1394,6 @@ components:
       - elapsed_duration_ms
       - estimated_duration_ms
       - estimated_time_remaining_ms
-      - feedback
       - firmware_version
       - form_auto_fw_version
       - form_auto_serial
@@ -1300,6 +1444,8 @@ components:
         has_fleet_control_updated_by:
           type: integer
           nullable: true
+          description: The user who is the Fleet Control administrator of the Printer
+            Group
       required:
       - created_at
       - id
@@ -1328,25 +1474,9 @@ components:
           items:
             $ref: '#/components/schemas/Cartridge'
     PaginatedDeveloperAPIMyPrinterList:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeveloperAPIMyPrinter'
+      type: array
+      items:
+        $ref: '#/components/schemas/DeveloperAPIMyPrinter'
     PaginatedPrintRunWithFleetControlDataList:
       type: object
       properties:
@@ -1408,25 +1538,9 @@ components:
           items:
             $ref: '#/components/schemas/UserEventReadOnly'
     PaginatedWorkgroupList:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Workgroup'
+      type: array
+      items:
+        $ref: '#/components/schemas/Workgroup'
     PartialWorkGroupRequest:
       type: object
       properties:
@@ -1483,31 +1597,6 @@ components:
       - guid
       - id
       - prepared_scene
-    PrintRunFeedback:
-      type: object
-      properties:
-        print_run:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-          nullable: true
-        issue_category:
-          type: string
-          maxLength: 50
-        issue_subcategory:
-          type: string
-          maxLength: 50
-        issue_description:
-          type: string
-        form_file_exists:
-          type: boolean
-          readOnly: true
-      required:
-      - created_at
-      - form_file_exists
-      - print_run
     PrintRunNote:
       type: object
       properties:
@@ -1619,10 +1708,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/PrintRunSuccess'
           readOnly: true
-        feedback:
-          allOf:
-          - $ref: '#/components/schemas/PrintRunFeedback'
-          readOnly: true
         firmware_version:
           type: string
           readOnly: true
@@ -1728,7 +1813,6 @@ components:
       - elapsed_duration_ms
       - estimated_duration_ms
       - estimated_time_remaining_ms
-      - feedback
       - firmware_version
       - form_auto_fw_version
       - form_auto_serial
@@ -2021,60 +2105,6 @@ components:
       - print_time_ms
       - serial
       - tank_type
-    TypeEnum:
-      enum:
-      - RESIN_LOW
-      - PRINT_START
-      - PRINT_FINISHED
-      - PRINT_ABORTED
-      - PRINT_ERROR
-      - PRINT_PAUSED
-      - PRINT_RESUMED
-      - PRINT_RESOLUTION_REQUEST
-      - PRINT_RESOLUTION
-      - MANY_PRINT_ERRORS
-      - PRINTER_REGISTERED
-      - PRINTER_DEREGISTERED
-      - PRINTING_REPORT
-      - GROUP_INVITATION
-      - AUTO_ADD_USER_TO_GROUP
-      - USER_REMOVED_FROM_GROUP
-      - YEAR_IN_REVIEW_EMAIL
-      - REMOTE_JOB_EXPIRED
-      - PRINT_NOTIFICATION
-      - FUSE_EMAIL_VOTING
-      type: string
-      description: |-
-        * `RESIN_LOW` - Resin Low
-        * `PRINT_START` - Print Started
-        * `PRINT_FINISHED` - Print finished
-        * `PRINT_ABORTED` - Print aborted
-        * `PRINT_ERROR` - Print error
-        * `PRINT_PAUSED` - Print Paused
-        * `PRINT_RESUMED` - Print Resumed
-        * `PRINT_RESOLUTION_REQUEST` - Print Resolution Request
-        * `PRINT_RESOLUTION` - Print Resolution
-        * `MANY_PRINT_ERRORS` - Print Resolution
-        * `PRINTER_REGISTERED` - Printer Registered
-        * `PRINTER_DEREGISTERED` - Printer Deregistered
-        * `PRINTING_REPORT` - Printing Report
-        * `GROUP_INVITATION` - Group Invitation
-        * `AUTO_ADD_USER_TO_GROUP` - Auto-add User to Group
-        * `USER_REMOVED_FROM_GROUP` - Removed User from Group
-        * `YEAR_IN_REVIEW_EMAIL` - Year In Review Email
-        * `REMOTE_JOB_EXPIRED` - Remote Job Expired
-        * `PRINT_NOTIFICATION` - Print Notification
-        * `FUSE_EMAIL_VOTING` - Fuse Email Voting
-    UpdateModeEnum:
-      enum:
-      - DISABLED
-      - NORMAL
-      - UNATTENDED
-      type: string
-      description: |-
-        * `DISABLED` - Disabled
-        * `NORMAL` - Normal
-        * `UNATTENDED` - Unattended
     UserEventReadOnly:
       type: object
       properties:
@@ -2102,8 +2132,7 @@ components:
           readOnly: true
           nullable: true
         type:
-          allOf:
-          - $ref: '#/components/schemas/TypeEnum'
+          type: string
           readOnly: true
         type_label:
           type: string
@@ -2168,6 +2197,8 @@ components:
         has_fleet_control_updated_by:
           type: integer
           nullable: true
+          description: The user who is the Fleet Control administrator of the Printer
+            Group
         settings:
           allOf:
           - $ref: '#/components/schemas/WorkgroupSettings'
@@ -2191,12 +2222,6 @@ components:
         email:
           type: string
           readOnly: true
-        username:
-          type: string
-          readOnly: true
-        user_id:
-          type: string
-          readOnly: true
         first_name:
           type: string
           readOnly: true
@@ -2208,8 +2233,6 @@ components:
       - first_name
       - last_name
       - user
-      - user_id
-      - username
     WorkgroupSettings:
       type: object
       properties:
@@ -2218,16 +2241,51 @@ components:
           format: uuid
           readOnly: true
         update_mode:
-          oneOf:
-          - $ref: '#/components/schemas/UpdateModeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+          type: string
       required:
       - group
   securitySchemes:
     bearerAuth:
       type: http
+      name: Authorization
       scheme: bearer
-      bearerFormat: JWT
+      in: header
 servers:
 - url: https://api.formlabs.com
-  description: Official Formlabs API
+  description: Formlabs Web API Server
+tags:
+- name: Authentication
+  description: "\n## Prerequisites\nMake sure that you have the following prior to\
+    \ proceeding on with this section:\n- You have Formlabs Printer(s) connected to\
+    \ your Formlabs.com account\n- You have your **Client ID** and **Client Secret**\
+    \ Application credentials\n  <br/>*To get your **Client ID** and **Client Secret**,\
+    \ visit the [Developer Tools page](https://dashboard.formlabs.com/#developer)\
+    \ and create your Application credentials.*\n\n## Getting an Access Token\n\n\
+    To authenticate with the Dashboard Developer API, you need to get an access token.\
+    \ The access token is used to authenticate your requests to the API.\nSee the\
+    \ [Request an access token](#tag/Authentication/operation/Request%20an%20access%20token)\
+    \ endpoint for more information.\n\nExample:\n\n```bash\ncurl --request POST \\\
+    \n--url https://api.formlabs.com/developer/v1/o/token/ \\\n--header 'content-type:\
+    \ application/x-www-form-urlencoded' \\\n--data 'grant_type=client_credentials&client_id=<client_id>&client_secret=<client_secret>'\n\
+    ```\n## Using the Access Token\n\nOnce you have the access token, you can use\
+    \ it to authenticate your requests to the Dashboard Developer API.\nTo authenticate\
+    \ your requests, you need to include the access token in the Authorization header\
+    \ of your request.\nThe access token should be prefixed with the word “bearer”\
+    \ followed by a space.\n\nExample:\n\n```bash\ncurl --request GET \\\n--url https://api.formlabs.com/developer/v1/printers/\
+    \ \\\n--header 'content-type: application/x-www-form-urlencoded' \\\n--header\
+    \ 'Authorization: bearer <access_token>'\n```\n\n## Revoking an Access Token\n\
+    \nIf you need to revoke an access token, you can do so by using the [Revoke an\
+    \ access token](#tag/Authentication/operation/Revoke%20an%20access%20token) endpoint.\n\
+    \         "
+- name: Printers
+  description: This section contains endpoints for managing Printers.
+- name: Prints
+  description: This section contains endpoints for listing and searching Prints.
+- name: Tanks
+  description: This section contains endpoints for listing Tanks.
+- name: Cartridges
+  description: This section contains endpoints for listing Cartridges.
+- name: Events
+  description: This section contains endpoints for listing Events.
+- name: Printer Groups
+  description: This section contains endpoints for managing Printer Groups.

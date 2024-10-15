@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **group** | **str** |  | [readonly] 
-**update_mode** | [**WorkgroupSettingsUpdateMode**](WorkgroupSettingsUpdateMode.md) |  | [optional] 
+**update_mode** | **str** |  | [optional] 
 
 ## Example
 

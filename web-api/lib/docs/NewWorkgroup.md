@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **name** | **str** |  | 
 **created_at** | **datetime** |  | [readonly] 
 **has_fleet_control** | **bool** |  | [optional] 
-**has_fleet_control_updated_by** | **int** |  | [optional] 
+**has_fleet_control_updated_by** | **int** | The user who is the Fleet Control administrator of the Printer Group | [optional] 
 
 ## Example
 

@@ -6,11 +6,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **serial** | **str** |  | [readonly] 
-**machine_type_id** | [**DeveloperAPIMyPrinterMachineTypeIdEnum**](DeveloperAPIMyPrinterMachineTypeIdEnum.md) | Available values are: &#x60;FORM-1-0&#x60; - Form 1   &#x60;FORM-1-1&#x60; - Form 1+   &#x60;FORM-2-0&#x60; - Form 2   &#x60;FORM-2-1&#x60; - Form 2.1   &#x60;FORM-3-0&#x60; - Form 3   &#x60;FORM-3-1&#x60; - Form 3   &#x60;FORM-3-2&#x60; - Form 3+   &#x60;DGJR-1-0&#x60; - Form 3   &#x60;FRML-3-0&#x60; - Form 3L   &#x60;FRBL-3-0&#x60; - Form 3BL   &#x60;FRMB-3-0&#x60; - Form 3B   &#x60;DGSR-1-0&#x60; - Form 3L   &#x60;FRMB-3-1&#x60; - Form 3B+   &#x60;PILK-1-0&#x60; - Fuse 1   &#x60;SIFT-1&#x60; - Sift   &#x60;UNKNOWN&#x60; - Unknown   &#x60;PILK-1-1&#x60; - Fuse 1   &#x60;SIFT-1-0&#x60; - Sift   &#x60;SIFT-1-1&#x60; - Sift   &#x60;CURL-1-1&#x60; - Cure L   &#x60;CURL-1-0&#x60; - Cure L   &#x60;WSHL-1-0&#x60; - Wash L   &#x60;FS30-1-0&#x60; - Fuse 1+ (30W)   &#x60;FS30-1-1&#x60; - Fuse 1+ (30W)   &#x60;FORM-4-0&#x60; - Form 4 | [readonly] 
-**total_print_time_ms** | **int** |  | [readonly] 
-**total_number_of_prints** | [**DeveloperAPIMyPrinterTotalNumberOfPrints**](DeveloperAPIMyPrinterTotalNumberOfPrints.md) |  | 
+**alias** | **str** |  | [readonly] 
+**machine_type_id** | **str** |  | [readonly] 
 **printer_status** | [**MyDeepPrinterStatus**](MyDeepPrinterStatus.md) |  | [readonly] 
-**cartridge_status** | [**PrinterCartridgeStatus**](PrinterCartridgeStatus.md) |  | [readonly] 
+**cartridge_status** | [**PrinterCartridgeStatus**](PrinterCartridgeStatus.md) | The status of the printer&#39;s cartridges. If the printer has multiple cartridges, this will be a list of statuses. | [readonly] 
 **tank_status** | [**PrinterTankStatus**](PrinterTankStatus.md) |  | [readonly] 
 **group** | [**PrinterGroup**](PrinterGroup.md) |  | [readonly] 
 **previous_print_run** | **Dict[str, object]** |  | [readonly] 

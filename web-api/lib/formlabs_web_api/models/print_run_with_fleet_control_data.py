@@ -1,12 +1,11 @@
 # coding: utf-8
 
 """
-    Formlabs Developer API
+    Formlabs Web API
 
-    The Formlabs Dashboard Developer API provides resources to integrate Formlabs products into customer’s workflow and existing systems
+     # Introduction  The Formlabs Web API provides access to Formlabs’ remote control and remote monitoring features for Internet-connected Formlabs products registered to your Dashboard account.  Some example use cases of the Dashboard Developer API: 1.  Create automated custom reports on Printer usage, material usage, and job history to gain more insights into print production 2.  More efficiently manage Printers by integrating Printer status data into existing systems (ERP/MES/custom) # Terms and Conditions -   Formlabs reserves the right to revoke or invalidate your API key at any time without warning. -   As a beta, conditions of access to the API may change in the future, access may be bundled into other future software products, etc. (we will make an effort to provide as much warning as possible) -   As a beta, the API may change at any time without warning in such a way that it may fail to support existing workflows (though we will make an effort to provide advanced notice where possible) -   You agree not to exceed the Dashboard Developer API rate limit as detailed in the \"Rate Limit\" section below. -   You will be given access to certain non-public information, software, and specifications that are confidential and proprietary to Formlabs. You will not share these outside your organization. -   By participating in this Beta you may be sharing information with Formlabs. Any information shared is governed by our Privacy Policy [https://formlabs.com/support/privacy-policy/](https://formlabs.com/support/privacy-policy/) -   The Dashboard Developer API works with Formlabs Printers that are connected to the internet and registered to Dashboard. Printers registered to Dashboard share data with Formlabs (detailed in the Data Collection section of the Privacy Policy: [https://formlabs.com/support/privacy-policy/#Data-Collection](https://formlabs.com/support/privacy-policy/#Data-Collection)). For more information about how to set up Printers and register them to Dashboard, see this link: [https://support.formlabs.com/s/article/Dashboard-Overview-and-Setup](https://support.formlabs.com/s/article/Dashboard-Overview-and-Setup)  # Technical Overview The Formlabs Dashboard Developer API is a REST HTTP API using JSON as the response data format.   Formlabs Dashboard Developer API is HTTP-based. Send a HTTP GET request to an endpoint to retrieve data from that endpoint. The integrating system should be able to make HTTP requests and process responses in JSON format.   Formlabs Dashboard Developer API uses the standard [OAuth Authentication Flow](https://tools.ietf.org/html/rfc6749#section-4.4), and all API endpoints require authentication. The access token created is valid for a day, so make sure to refresh the token regularly to maintain seamless integration with the Dashboard Developer API and ensure uninterrupted workflow.  ## Versioning  The Dashboard Developer API uses resource-based versioning, meaning API endpoints are versioned independently, rather than globally across all endpoints.  Formlabs may change the version of an endpoint to first keep in sync with product updates (could be an addition or a removal of data), in addition to any changes based on customer feedback to allow easier integrations.  Versioning can occur in the following situations:  -   The format of the response data is required to change -   The format of the response type is required to change  Any outstanding version changes or upgrades occurred on endpoints will be highlighted and documented.  ## Rate Limit  The rate of requests to the Dashboard Developer API is limited to prevent the abuse of the system. Requests from the same IP address are limited to **100 requests/second**. Requests from the same authenticated user are limited to **1500 requests/hour**. After a rate limit is exceeded, requests will return a HTTP status code of 429 with a “Retry-after” header outlining when the next request can be made.  ## Account Setup & Printer Registration  The Dashboard Developer API is only available to Formlabs.com account-holding users that are registered and have active Formlabs 3D Printer(s) associated with their accounts. If you do not have a Formlabs.com account, or you have an account but don’t have your Printers connected to it, please follow the instructions below:  1.  Sign up for a Formlabs.com account at [https://formlabs.com/dashboard/#register](https://formlabs.com/dashboard/#register) 2.  Register the Formlabs 3D Printers at [https://formlabs.com/dashboard/#setup](https://formlabs.com/dashboard/#setup). This involves connecting a Formlabs 3D Printer to the Internet and then visiting the Dashboard Registration screen on the Printer to get a registration code. Type this registration code on the Dashboard Printer registration page to complete the registration. 3.  Now the Dashboard should show your Printer’s live status, show a history of prints, etc. 4.  Visit the [Developer Tools page at](https://dashboard.formlabs.com/#developer), and create your **Application credentials** 6.  Once you have your **Client ID** and the **Client Secret**, go to the [Authentication](#tag/Authentication) section for instructions on how to get an API access token and start using the Dashboard Developer API. 
 
-    The version of the OpenAPI document: 0.1.0
-    Contact: api-inquiry@formlabs.com
+    The version of the OpenAPI document: 0.8.0
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
     Do not edit the class manually.
@@ -24,7 +23,6 @@ from typing import Any, ClassVar, Dict, List, Optional, Union
 from formlabs_web_api.models.basic_user import BasicUser
 from formlabs_web_api.models.harvest_status_enum import HarvestStatusEnum
 from formlabs_web_api.models.print_part import PrintPart
-from formlabs_web_api.models.print_run_feedback import PrintRunFeedback
 from formlabs_web_api.models.print_run_note import PrintRunNote
 from formlabs_web_api.models.print_run_success import PrintRunSuccess
 from formlabs_web_api.models.print_thumbnail_serializer_only_thumbnail import PrintThumbnailSerializerOnlyThumbnail
@@ -55,7 +53,6 @@ class PrintRunWithFleetControlData(BaseModel):
     estimated_time_remaining_ms: StrictInt
     created_at: datetime
     print_run_success: PrintRunSuccess
-    feedback: PrintRunFeedback
     firmware_version: Optional[StrictStr]
     cartridge: Optional[StrictStr]
     front_cartridge: Optional[StrictStr]
@@ -80,7 +77,7 @@ class PrintRunWithFleetControlData(BaseModel):
     form_auto_fw_version: Optional[StrictStr]
     harvest_status: Optional[HarvestStatusEnum]
     parts: List[PrintPart]
-    __properties: ClassVar[List[str]] = ["guid", "name", "printer", "status", "using_open_mode", "z_height_offset_mm", "print_started_at", "print_finished_at", "layer_count", "volume_ml", "material", "layer_thickness_mm", "currently_printing_layer", "estimated_duration_ms", "elapsed_duration_ms", "estimated_time_remaining_ms", "created_at", "print_run_success", "feedback", "firmware_version", "cartridge", "front_cartridge", "back_cartridge", "tank", "cylinder", "note", "print_thumbnail", "post_print_photo_url", "user", "user_custom_label", "group", "adaptive_thickness", "probably_finished", "message", "print_job", "material_name", "print_settings_name", "print_settings_code", "cloud_queue_item", "form_auto_serial", "form_auto_fw_version", "harvest_status", "parts"]
+    __properties: ClassVar[List[str]] = ["guid", "name", "printer", "status", "using_open_mode", "z_height_offset_mm", "print_started_at", "print_finished_at", "layer_count", "volume_ml", "material", "layer_thickness_mm", "currently_printing_layer", "estimated_duration_ms", "elapsed_duration_ms", "estimated_time_remaining_ms", "created_at", "print_run_success", "firmware_version", "cartridge", "front_cartridge", "back_cartridge", "tank", "cylinder", "note", "print_thumbnail", "post_print_photo_url", "user", "user_custom_label", "group", "adaptive_thickness", "probably_finished", "message", "print_job", "material_name", "print_settings_name", "print_settings_code", "cloud_queue_item", "form_auto_serial", "form_auto_fw_version", "harvest_status", "parts"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -151,7 +148,6 @@ class PrintRunWithFleetControlData(BaseModel):
         * OpenAPI `readOnly` fields are excluded.
         * OpenAPI `readOnly` fields are excluded.
         * OpenAPI `readOnly` fields are excluded.
-        * OpenAPI `readOnly` fields are excluded.
         """
         excluded_fields: Set[str] = set([
             "printer",
@@ -170,7 +166,6 @@ class PrintRunWithFleetControlData(BaseModel):
             "estimated_time_remaining_ms",
             "created_at",
             "print_run_success",
-            "feedback",
             "firmware_version",
             "cartridge",
             "front_cartridge",
@@ -204,9 +199,6 @@ class PrintRunWithFleetControlData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of print_run_success
         if self.print_run_success:
             _dict['print_run_success'] = self.print_run_success.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of feedback
-        if self.feedback:
-            _dict['feedback'] = self.feedback.to_dict()
         # override the default output from pydantic by calling `to_dict()` of note
         if self.note:
             _dict['note'] = self.note.to_dict()
@@ -346,7 +338,6 @@ class PrintRunWithFleetControlData(BaseModel):
             "estimated_time_remaining_ms": obj.get("estimated_time_remaining_ms"),
             "created_at": obj.get("created_at"),
             "print_run_success": PrintRunSuccess.from_dict(obj["print_run_success"]) if obj.get("print_run_success") is not None else None,
-            "feedback": PrintRunFeedback.from_dict(obj["feedback"]) if obj.get("feedback") is not None else None,
             "firmware_version": obj.get("firmware_version"),
             "cartridge": obj.get("cartridge"),
             "front_cartridge": obj.get("front_cartridge"),

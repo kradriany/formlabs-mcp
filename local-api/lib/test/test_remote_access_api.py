@@ -33,6 +33,13 @@ class TestRemoteAccessApi(unittest.TestCase):
         """
         pass
 
+    def test_discover_devices(self) -> None:
+        """Test case for discover_devices
+
+        Discover Devices
+        """
+        pass
+
     def test_get_device(self) -> None:
         """Test case for get_device
 

@@ -8,8 +8,6 @@ Name | Type | Description | Notes
 **is_admin** | **bool** |  | [optional] 
 **user** | **str** |  | [readonly] 
 **email** | **str** |  | [readonly] 
-**username** | **str** |  | [readonly] 
-**user_id** | **str** |  | [readonly] 
 **first_name** | **str** |  | [readonly] 
 **last_name** | **str** |  | [readonly] 
 

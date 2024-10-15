@@ -23,7 +23,6 @@ Name | Type | Description | Notes
 **estimated_time_remaining_ms** | **int** |  | [readonly] 
 **created_at** | **datetime** |  | [readonly] 
 **print_run_success** | [**PrintRunSuccess**](PrintRunSuccess.md) |  | [readonly] 
-**feedback** | [**PrintRunFeedback**](PrintRunFeedback.md) |  | [readonly] 
 **firmware_version** | **str** |  | [readonly] 
 **cartridge** | **str** |  | [readonly] 
 **front_cartridge** | **str** |  | [readonly] 

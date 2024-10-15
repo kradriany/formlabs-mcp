@@ -235,6 +235,7 @@ Class | Method | HTTP request | Description
 *PrintSettingsApi* | [**list_materials**](docs/PrintSettingsApi.md#list_materials) | **GET** /list-materials/ | List Materials
 *PrintingApi* | [**call_print**](docs/PrintingApi.md#call_print) | **POST** /scene/print/ | Print
 *RemoteAccessApi* | [**call_print**](docs/RemoteAccessApi.md#call_print) | **POST** /scene/print/ | Print
+*RemoteAccessApi* | [**discover_devices**](docs/RemoteAccessApi.md#discover_devices) | **POST** /discover-devices/ | Discover Devices
 *RemoteAccessApi* | [**get_device**](docs/RemoteAccessApi.md#get_device) | **GET** /devices/{id}/ | Get Device
 *RemoteAccessApi* | [**get_devices**](docs/RemoteAccessApi.md#get_devices) | **GET** /devices/ | Get Devices
 *RemoteAccessApi* | [**login**](docs/RemoteAccessApi.md#login) | **POST** /login/ | Login

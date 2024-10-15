@@ -6,7 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **serial** | **str** |  | 
-**machine_type_id** | [**MachineTypeIdAdbEnum**](MachineTypeIdAdbEnum.md) | Available values are: &#x60;FORM-1-0&#x60; - Form 1   &#x60;FORM-1-1&#x60; - Form 1+   &#x60;FORM-2-0&#x60; - Form 2   &#x60;FORM-2-1&#x60; - Form 2.1   &#x60;FORM-3-0&#x60; - Form 3   &#x60;FORM-3-1&#x60; - Form 3   &#x60;FORM-3-2&#x60; - Form 3+   &#x60;DGJR-1-0&#x60; - Form 3   &#x60;FRML-3-0&#x60; - Form 3L   &#x60;FRBL-3-0&#x60; - Form 3BL   &#x60;FRMB-3-0&#x60; - Form 3B   &#x60;DGSR-1-0&#x60; - Form 3L   &#x60;FRMB-3-1&#x60; - Form 3B+   &#x60;PILK-1-0&#x60; - Fuse 1   &#x60;SIFT-1&#x60; - Sift   &#x60;UNKNOWN&#x60; - Unknown   &#x60;PILK-1-1&#x60; - Fuse 1   &#x60;SIFT-1-0&#x60; - Sift   &#x60;SIFT-1-1&#x60; - Sift   &#x60;CURL-1-1&#x60; - Cure L   &#x60;CURL-1-0&#x60; - Cure L   &#x60;WSHL-1-0&#x60; - Wash L   &#x60;FS30-1-0&#x60; - Fuse 1+ (30W)   &#x60;FS30-1-1&#x60; - Fuse 1+ (30W)   &#x60;FORM-4-0&#x60; - Form 4 | [optional] 
+**consumable_type** | **str** |  | [optional] 
+**machine_type_id** | **str** |  | [optional] 
 **material** | **str** |  | [optional] 
 **initial_volume_ml** | **float** |  | [optional] 
 **volume_dispensed_ml** | **float** |  | [optional] 

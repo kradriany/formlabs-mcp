@@ -16,7 +16,7 @@ List of all events associated with my account
 
 ### Example
 
-* Bearer (JWT) Authentication (bearerAuth):
+* Bearer Authentication (bearerAuth):
 
 ```python
 import formlabs_web_api
@@ -35,7 +35,7 @@ configuration = formlabs_web_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure Bearer authorization (JWT): bearerAuth
+# Configure Bearer authorization: bearerAuth
 configuration = formlabs_web_api.Configuration(
     access_token = os.environ["BEARER_TOKEN"]
 )
@@ -52,7 +52,7 @@ with formlabs_web_api.ApiClient(configuration) as api_client:
     print_run = 'print_run_example' # str | Filter by print id (optional)
     printer = 'printer_example' # str | Filter by printer serial (optional)
     tank = 'tank_example' # str | Filter by resin tank serial (optional)
-    type = 'type_example' # str | Filter by Event Type `RESIN_LOW` or `PRINT_START` or `PRINT_FINISHED` or `PRINT_ABORTED` or `PRINT_ERROR` or `PRINT_PAUSED` or `PRINT_RESUMED` or `PRINT_RESOLUTION_REQUEST` or `PRINT_RESOLUTION` or `MANY_PRINT_ERRORS` or `PASSWORD_RESET` or `PRINTER_REGISTERED` or `PRINTER_DEREGISTERED`  (optional)
+    type = 'type_example' # str | Filter by Event Type (optional)
 
     try:
         api_response = api_instance.events_list(cartridge=cartridge, date__gt=date__gt, date__lt=date__lt, page=page, per_page=per_page, print_run=print_run, printer=printer, tank=tank, type=type)
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
  **print_run** | **str**| Filter by print id | [optional] 
  **printer** | **str**| Filter by printer serial | [optional] 
  **tank** | **str**| Filter by resin tank serial | [optional] 
- **type** | **str**| Filter by Event Type &#x60;RESIN_LOW&#x60; or &#x60;PRINT_START&#x60; or &#x60;PRINT_FINISHED&#x60; or &#x60;PRINT_ABORTED&#x60; or &#x60;PRINT_ERROR&#x60; or &#x60;PRINT_PAUSED&#x60; or &#x60;PRINT_RESUMED&#x60; or &#x60;PRINT_RESOLUTION_REQUEST&#x60; or &#x60;PRINT_RESOLUTION&#x60; or &#x60;MANY_PRINT_ERRORS&#x60; or &#x60;PASSWORD_RESET&#x60; or &#x60;PRINTER_REGISTERED&#x60; or &#x60;PRINTER_DEREGISTERED&#x60;  | [optional] 
+ **type** | **str**| Filter by Event Type | [optional] 
 
 ### Return type
 
