@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost:44388*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**call_print**](RemoteAccessApi.md#call_print) | **POST** /scene/print/ | Print
-[**discover_devices**](RemoteAccessApi.md#discover_devices) | **POST** /discover-devices/ | Discover Devices
-[**get_device**](RemoteAccessApi.md#get_device) | **GET** /devices/{id}/ | Get Device
-[**get_devices**](RemoteAccessApi.md#get_devices) | **GET** /devices/ | Get Devices
+[**call_print_0**](RemoteAccessApi.md#call_print_0) | **POST** /scene/print/ | Print
+[**discover_devices_0**](RemoteAccessApi.md#discover_devices_0) | **POST** /discover-devices/ | Discover Devices
+[**get_device_0**](RemoteAccessApi.md#get_device_0) | **GET** /devices/{id}/ | Get Device
+[**get_devices_0**](RemoteAccessApi.md#get_devices_0) | **GET** /devices/ | Get Devices
 [**login**](RemoteAccessApi.md#login) | **POST** /login/ | Login
 
 
-# **call_print**
-> Print200Response call_print(print_request)
+# **call_print_0**
+> Print200Response call_print_0(print_request)
 
 Print
 
@@ -43,11 +43,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
     try:
         # Print
-        api_response = api_instance.call_print(print_request)
-        print("The response of RemoteAccessApi->call_print:\n")
+        api_response = api_instance.call_print_0(print_request)
+        print("The response of RemoteAccessApi->call_print_0:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->call_print: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->call_print_0: %s\n" % e)
 ```
 
 
@@ -81,8 +81,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **discover_devices**
-> DiscoverDevices200Response discover_devices(discover_devices_request)
+# **discover_devices_0**
+> DiscoverDevices200Response discover_devices_0(discover_devices_request)
 
 Discover Devices
 
@@ -113,11 +113,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
     try:
         # Discover Devices
-        api_response = api_instance.discover_devices(discover_devices_request)
-        print("The response of RemoteAccessApi->discover_devices:\n")
+        api_response = api_instance.discover_devices_0(discover_devices_request)
+        print("The response of RemoteAccessApi->discover_devices_0:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->discover_devices: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->discover_devices_0: %s\n" % e)
 ```
 
 
@@ -151,8 +151,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_device**
-> DeviceStatusModel get_device(id)
+# **get_device_0**
+> DeviceStatusModel get_device_0(id)
 
 Get Device
 
@@ -182,11 +182,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
     try:
         # Get Device
-        api_response = api_instance.get_device(id)
-        print("The response of RemoteAccessApi->get_device:\n")
+        api_response = api_instance.get_device_0(id)
+        print("The response of RemoteAccessApi->get_device_0:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->get_device: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->get_device_0: %s\n" % e)
 ```
 
 
@@ -220,8 +220,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_devices**
-> GetDevices200Response get_devices()
+# **get_devices_0**
+> GetDevices200Response get_devices_0()
 
 Get Devices
 
@@ -250,11 +250,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
     try:
         # Get Devices
-        api_response = api_instance.get_devices()
-        print("The response of RemoteAccessApi->get_devices:\n")
+        api_response = api_instance.get_devices_0()
+        print("The response of RemoteAccessApi->get_devices_0:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->get_devices: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->get_devices_0: %s\n" % e)
 ```
 
 

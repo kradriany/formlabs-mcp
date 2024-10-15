@@ -18,7 +18,7 @@ Python code related to using Formlabs' local and web APIs.
 
 ## Python library installation:
 
-First, have at least Python 3.7 installed and available on your path.
+First, have Python 3.8 or higher installed and available on your path.
 We recommend installing the Python package in a [Python virtual environment](https://docs.python.org/3/library/venv.html) during testing.
 
 ```
