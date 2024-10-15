@@ -69,7 +69,7 @@ CSV_RESULT_FILENAME = os.path.join(directory_path, "summary.csv")
 
 pathToPreformServer = None
 if sys.platform == 'win32':
-    pathToPreformServer = pathlib.Path().resolve() / "PreFormServer.exe"
+    pathToPreformServer = pathlib.Path().resolve() / "PreFormServer/PreFormServer.exe"
 elif sys.platform == 'darwin':
     pathToPreformServer = pathlib.Path().resolve() / "PreFormServer.app/Contents/MacOS/PreFormServer"
 else:

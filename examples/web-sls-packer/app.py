@@ -16,7 +16,7 @@ UPLOAD_FOLDER = '/tmp'
 
 pathToPreformServer = None
 if sys.platform == 'win32':
-    pathToPreformServer = pathlib.Path().resolve().parents[1] / "PreFormServer.exe"
+    pathToPreformServer = pathlib.Path().resolve().parents[1] / "PreFormServer/PreFormServer.exe"
 elif sys.platform == 'darwin':
     pathToPreformServer = pathlib.Path().resolve().parents[1] / "PreFormServer.app/Contents/MacOS/PreFormServer"
 else:
