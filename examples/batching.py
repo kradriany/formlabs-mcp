@@ -19,13 +19,18 @@ import csv
 import sys
 import formlabs_local_api as formlabs
 from formlabs_local_api import (
-    SceneAutoSupportPostRequest,
-    SceneAutoOrientPostRequest,
-    SceneAutoLayoutPostRequest,
+    AutoSupportRequest,
+    AutoOrientRequest,
+    AutoLayoutRequest,
     SceneTypeModel,
     SceneTypeModelLayerThicknessMm,
     ModelsSelectionModel,
-    LoadFormPostRequest,
+    LoadFormFileRequest,
+    LoginRequest,
+    UsernameAndPassword,
+    PrintRequest,
+    Default,
+    DentalMode,
 )
 
 
@@ -37,7 +42,7 @@ def list_files_in_directory(directory_path):
     ]
 
 def create_scene(preform):
-    return preform.api.scene_post(SceneTypeModel(
+    return preform.api.create_scene(SceneTypeModel(
         machine_type="FORM-4-0",
         material_code="FLGPGR05",
         layer_thickness_mm=SceneTypeModelLayerThicknessMm("0.1"),
@@ -73,7 +78,7 @@ else:
 
 with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformServer) as preform:
     if args.username and args.password:
-        preform.api.login_post(formlabs.models.LoginPostRequest(formlabs.models.UsernameAndPassword(username=args.username, password=args.password)))
+        preform.api.login(LoginRequest(UsernameAndPassword(username=args.username, password=args.password)))
 
     with open(CSV_RESULT_FILENAME, 'w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
@@ -83,7 +88,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
             global current_batch, models_in_current_batch
             form_file_name = f"batch_{current_batch}.form"
             save_path = os.path.join(directory_path, form_file_name)
-            preform.api.scene_save_form_post(LoadFormPostRequest(file=save_path))
+            preform.api.save_form_file(LoadFormFileRequest(file=save_path))
             print(f"Saving batch {current_batch} to {save_path}")
             for i, model in enumerate(models_in_current_batch):
                 print(f"{i+1}. {model['file_name']}")
@@ -92,33 +97,33 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
             models_in_current_batch = []
             if args.upload_to:
                 print(f"Uploading batch to {args.upload_to}")
-                preform.api.scene_print_post(formlabs.models.ScenePrintPostRequest(printer=args.upload_to, job_name=form_file_name))
+                preform.api.call_print(PrintRequest(printer=args.upload_to, job_name=form_file_name))
 
         create_scene(preform)
         while len(files_to_batch) > 0:
             next_file = files_to_batch.pop()
             print(f"Importing {next_file}")
-            new_model = preform.api.scene_import_model_post({"file": os.path.join(directory_path, next_file)})
+            new_model = preform.api.import_model({"file": os.path.join(directory_path, next_file)})
             new_model_id = new_model.id
             models_in_current_batch.append({"model_id": new_model_id, "file_name": next_file})
             if args.auto_orient:
                 print(f"Auto orienting {new_model_id}")
                 if args.dental_mode:
-                    preform.api.scene_auto_orient_post(SceneAutoOrientPostRequest(models=ModelsSelectionModel([new_model_id]), mode="DENTAL", tilt=0))
+                    preform.api.auto_orient(AutoOrientRequest(DentalMode(models=ModelsSelectionModel([new_model_id]), mode="DENTAL", tilt=0)))
                 else:
-                    preform.api.scene_auto_orient_post(SceneAutoOrientPostRequest(models=ModelsSelectionModel([new_model_id])))
+                    preform.api.auto_orient(AutoOrientRequest(Default(models=ModelsSelectionModel([new_model_id]))))
             if args.auto_support:
                 print(f"Auto supporting {new_model_id}")
-                preform.api.auto_support_post(SceneAutoSupportPostRequest(models=ModelsSelectionModel([new_model_id])))
+                preform.api.auto_support(AutoSupportRequest(models=ModelsSelectionModel([new_model_id])))
             print(f"Auto layouting all")
             try:
-                preform.api.scene_auto_layout_post_with_http_info(
-                    SceneAutoLayoutPostRequest(models=ModelsSelectionModel("ALL"))
+                preform.api.auto_layout_with_http_info(
+                    AutoLayoutRequest(models=ModelsSelectionModel("ALL"))
                 )
             except formlabs.exceptions.ApiException as e:
                 print("Not all models can fit, removing model")
                 model_data = models_in_current_batch.pop()
-                preform.api.scene_models_id_delete(str(model_data["model_id"]))
+                preform.api.delete_model(str(model_data["model_id"]))
                 files_to_batch.append(model_data["file_name"])
                 save_batch_form()
                 print("Clearing scene")

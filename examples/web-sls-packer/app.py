@@ -5,7 +5,8 @@ import os
 import json
 import pathlib
 from pathlib import Path
-import formlabs_local_api as formlabs
+import formlabs_local_api_minimal as formlabs
+import requests
 import subprocess
 import sys
 
@@ -33,22 +34,57 @@ class PreFormApi:
 
     def load_form(self, form_file_path):
         print(f"Loading form: {form_file_path}")
-        self.api.load_form_post(formlabs.LoadFormPostRequest(file=form_file_path))
+        load_form_response = requests.request(
+            "POST",
+            "http://localhost:44388/load-form/",
+            json={
+                "file": form_file_path,
+            },
+        )
+        load_form_response.raise_for_status()
 
     def import_model(self, model_path):
-        self.api.scene_import_model_post({"file": model_path})
+        import_model_response = requests.request(
+            "POST",
+            "http://localhost:44388/scene/import-model/",
+            json={
+                "file": model_path,
+            },
+        )
+        import_model_response.raise_for_status()
 
     def auto_pack(self):
-        self.api.scene_auto_pack_post(formlabs.SceneAutoPackPostRequest())
+        auto_pack_response = requests.request(
+            "POST",
+            "http://localhost:44388/scene/auto-pack/",
+            json={},
+        )
+        auto_pack_response.raise_for_status()
 
     def save_screenshot(self, screenshot_path):
-        self.api.scene_save_screenshot_post(formlabs.SceneSaveScreenshotPostRequest(file=screenshot_path))
+        save_screenshot_response = requests.request(
+            "POST",
+            "http://localhost:44388/scene/save-screenshot/",
+            json={
+                "file": screenshot_path,
+            },
+        )
+        save_screenshot_response.raise_for_status()
 
     def get_scene(self):
-        return self.api.scene_get()
+        response = requests.request("GET", "http://localhost:44388/scene/")
+        response.raise_for_status()
+        return response.json()
 
     def save_form(self, form_file_path):
-        self.api.scene_save_form_post(formlabs.LoadFormPostRequest(file=form_file_path))
+        save_form_response = requests.request(
+            "POST",
+            "http://localhost:44388/scene/save-form/",
+            json={
+                "file": form_file_path,
+            },
+        )
+        save_form_response.raise_for_status()
 
 api = PreFormApi()
 
@@ -69,7 +105,7 @@ def merge(job_id, uploaded_file_paths):
     except:
         print("ERROR running auto pack")
         raise Exception("Failed to auto pack")
-    scene_data = api.get_scene().to_dict()
+    scene_data = api.get_scene()
     for model in scene_data['models']:
         if not model["in_bounds"]:
             print("ERROR: model out of build volume.")
@@ -152,7 +188,7 @@ def create_new_from_form():
     file.save(os.path.join(job_folder, filename))
     # Use API to get metadata and screenshot from scene
     api.load_form(os.path.abspath(os.path.join(job_folder, filename)))
-    scene_metadata = api.get_scene().to_dict()
+    scene_metadata = api.get_scene()
     metadata = {
         'id': id,
         'owner': {'name': owner_name, 'email': owner_email},
@@ -206,7 +242,6 @@ def import_parts(job_id):
     return jsonify({'success': 'Parts added successfully to the job'})
 
 if __name__ == '__main__':
-    with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformServer) as preform:
-        api.api = preform.api
+    with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformServer):
         subprocess.Popen(["open", "http://localhost:8323"])
         app.run(port=8323, debug=False)
