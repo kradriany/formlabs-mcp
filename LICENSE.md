@@ -51,20 +51,30 @@ Formlabs APIs.
 >
 > You shall not (i) use Formlabs APIs in a way that infringes,
 > misappropriates, or violates any person's rights, including
-> intellectual property rights; (ii) reverse assemble, reverse compile,
-> decompile, translate, or otherwise attempt to discover the source code
-> or underlying components of models, algorithms, and systems of
-> Formlabs APIs or Formlabs Offering; (iii) use Formlabs APIs to develop
-> products or services that compete with those of Formlabs, including
-> the Formlabs Offering; (iv) sell or otherwise distribute any Formlabs
-> Offering on a stand-alone basis; (v) buy, sell, or transfer Formlabs
-> APIs without Formlabs' prior consent; (vi) use the Formlabs APIs for
-> any purpose or in any manner involving the transmission of protected
-> health information to Formlabs; (vii) interfere with or disrupt the
-> Formlabs APIs or the servers or networks providing the Formlabs APIs;
-> or (viii) perform any action with the intent of introducing to
-> Formlabs products and services any viruses, worms, defects, Trojan
-> horses, malware, or any items of a destructive nature.
+> intellectual property rights; (ii) use the Formlabs APIs or allow any
+> user to use the Application in a way that violates applicable law,
+> (iii) reverse assemble, reverse compile, decompile, translate, or
+> otherwise attempt to discover the source code or underlying components
+> of models, algorithms, and systems of Formlabs APIs or Formlabs
+> Offering; (iv) use Formlabs APIs to develop products or services that
+> compete with those of Formlabs, including the Formlabs Offering; (v)
+> sell or otherwise distribute any Formlabs Offering on a stand-alone
+> basis; (vi) buy, sell, or transfer Formlabs APIs without Formlabs'
+> prior consent; (vii) use the Formlabs APIs for any purpose or in any
+> manner involving the transmission of protected health information to
+> Formlabs; (viii) interfere with or disrupt the Formlabs APIs or the
+> servers or networks providing the Formlabs APIs; (ix) use Formlabs
+> APIs in a way that could impair, harm or damage Formlabs, the Formlabs
+> APIs, any Formlabs Offering, or anyone\'s use of the Formlabs APIs
+> APIs or any Formlabs Offerings; ix) use the Formlabs APIs to disrupt,
+> interfere with, or attempt to gain unauthorized access to services,
+> servers, devices, or networks connected to or which can be accessed
+> via the Formlabs APIs; (xi) use the Formlabs APIs, or any data
+> obtained using the Formlabs APIs, to identify, exploit or publicly
+> disclose any potential security vulnerabilities; or (xii) perform any
+> action with the intent of introducing to Formlabs products and
+> services any viruses, worms, defects, Trojan horses, malware, or any
+> items of a destructive nature.
 >
 > **Formlabs API Limitations**
 >
@@ -102,13 +112,17 @@ Formlabs APIs.
 > are provided with a Formlabs Offering in binary form, you agree to
 > promptly install all Updates to such Formlabs Offering in your
 > Application. Any Update that is considered a critical patch, in
-> Formlabs' sole discretion, must be installed within 30 days. Your
-> continued use of the Formlabs APIs following an Update constitutes
-> binding acceptance of the Update.
+> Formlabs' sole determination, must be installed within 30 days. You
+> will be notified of all Updates through
+> [https://support.formlabs.com/s/article/Formlabs-API-downloads-and-release-notes](https://support.formlabs.com/s/article/Formlabs-API-downloads-and-release-notes)
+> (the "Formlabs API Release Page'). You are responsible for regularly
+> checking the Formlabs API Release Page for any Updates. Your continued
+> use of the Formlabs APIs following an Update constitutes binding
+> acceptance of the Update.
 >
 > **End-User License Agreement**
 >
-> **You agree that any sale, transfer, or other distribution of your
+> You agree that any sale, transfer, or other distribution of your
 > Application will be subject to an end-user license agreement that
 > contains terms and conditions that are at least as protective of
 > Formlabs's intellectual property rights in Formlabs APIs and Formlabs
@@ -116,7 +130,7 @@ Formlabs APIs.
 > you will not guarantee any print outcomes in your end-user license
 > agreements or other agreements or communications with end users,
 > including part accuracy, part quality, print success, or compliance
-> with the end user's part specifications.**
+> with the end user's part specifications.
 
 ## **Intellectual Property**
 
