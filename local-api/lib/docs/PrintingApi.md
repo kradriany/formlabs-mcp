@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **call_print**
-> Print200Response call_print(print_request)
+> Print200Response call_print(print_request, var_async=var_async)
 
 Print
 
@@ -36,10 +36,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.PrintingApi(api_client)
     print_request = {"printer":"10.35.15.12","job_name":"Test Job"} # PrintRequest | 
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Print
-        api_response = api_instance.call_print(print_request)
+        api_response = api_instance.call_print(print_request, var_async=var_async)
         print("The response of PrintingApi->call_print:\n")
         pprint(api_response)
     except Exception as e:
@@ -54,6 +55,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **print_request** | [**PrintRequest**](PrintRequest.md)|  | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
