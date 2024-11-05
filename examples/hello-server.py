@@ -1,5 +1,5 @@
 import formlabs_local_api as formlabs
-from formlabs_local_api import SceneTypeModel, SceneTypeModelLayerThicknessMm
+from formlabs_local_api import Manual, ManualLayerThicknessMm, SceneTypeModel
 import pathlib
 import sys
 
@@ -13,12 +13,12 @@ def hello_server():
         print("Unsupported platform")
         sys.exit(1)
     with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformServer) as preform:
-        preform.api.create_scene(SceneTypeModel(
+        preform.api.create_scene(SceneTypeModel(Manual(
             machine_type="FORM-4-0",
             material_code="FLRG1011",
-            layer_thickness_mm=SceneTypeModelLayerThicknessMm("0.1"),
+            layer_thickness_mm=ManualLayerThicknessMm("0.1"),
             print_setting="DEFAULT",
-        ))
+        )))
         print("Scene created, exiting")
 
 if __name__ == "__main__":
