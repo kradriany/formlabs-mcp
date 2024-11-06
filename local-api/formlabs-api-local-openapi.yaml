@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 info:
   title: Formlabs Local API
-  version: 0.8.2
+  version: 0.8.3
   termsOfService: /formlabs-api-license-agreement.html
   contact:
     name: Formlabs Support
@@ -61,21 +61,20 @@ info:
     ### Starting PreFormServer
     The PreFormServer application can started manually from your Operating System's command prompt or terminal,
     but most integrations will start the application programatically from integration code.
-    By default the HTTP Server will listen on port 44388, but this can be changed by passing in
-    a different port number as the command line argument `--port` to the PreFormServer application.
+    The command line argument `--port` is required to specify the port number the HTTP Server will listen on.
 
     The HTTP API server started by the PreFormServer application cannot immediately respond to requests.
     When the server is ready to accept requests, it will output `READY FOR INPUT` in the standard output.
 
     For example, running the PreFormServer application on Windows from the command prompt:
     ```
-    PreFormServer.exe
+    PreFormServer.exe --port 44388
     ```
     will output something like the following:
     ```
     starting HTTP server
     Listening...
-    HTTP server listening on port  44388
+    HTTP server listening on port 44388
     READY FOR INPUT
     ```
 
@@ -140,19 +139,21 @@ servers:
   - url: http://localhost:44388
 tags:
   - name: Devices
-    description: "Operations related to Formlabs devices"
+    description: "Endpoints related to Formlabs devices"
   - name: Modifying a Scene
-    description: "Operations related to modifying the scene"
+    description: "Endpoints related to modifying the scene"
   - name: Getting Scene Information
-    description: "Operations related to getting information about a scene"
+    description: "Endpoints related to getting information about a scene"
   - name: Exporting
   - name: Printing
   - name: Remote Access
     description: |
-      Operations related to remote access and printing that require Internet access
+      Endpoints related to remote access and printing that require Internet access
       and authentication with Formlabs Web Services."
   - name: Print Settings
-    description: "Operations related to getting available print settings."
+    description: "Endpoints related to getting available print settings."
+  - name: Operations
+    description: "Long-running operations called with `?async=true`, which return immediately and can be polled for completion."
   - name: API Info
     description: "Get information about the API itself"
 components:
@@ -311,29 +312,44 @@ components:
           description: The hash of the mesh data and its transform (position, orientation, and scale)
     SceneTypeModel:
       type: object
-      properties:
-        machine_type:
-          type: string
-          description: The machine type of the scene
-        material_code:
-          type: string
-          description: The material code of the scene
-        print_setting:
-          type: string
-          description: The print setting of the scene
-        layer_thickness_mm:
-          description: The slice thickness of the scene
-          oneOf:
-            - type: string
-              enum:
-                - "ADAPTIVE"
-            - type: number
-              description: Layer thickness in millimeters
-      required:
-        - machine_type
-        - material_code
-        - layer_thickness_mm
-      additionalProperties: false
+      oneOf:
+        - type: object
+          title: "Manual"
+          properties:
+            machine_type:
+              type: string
+              description: The machine type of the scene
+            material_code:
+              type: string
+              description: The material code of the scene
+            print_setting:
+              type: string
+              description: The print setting of the scene
+            layer_thickness_mm:
+              description: The slice thickness of the scene
+              oneOf:
+                - type: string
+                  enum:
+                    - "ADAPTIVE"
+                - type: number
+                  description: Layer thickness in millimeters
+            custom_print_setting_id:
+              type: string
+              description: The ID of the custom print setting used, if any.
+          required:
+            - machine_type
+            - material_code
+            - layer_thickness_mm
+          additionalProperties: false
+        - type: object
+          title: "FPS File"
+          properties:
+            fps_file:
+              type: string
+              description: The full path to the .FPS file
+          required:
+            - fps_file
+          additionalProperties: false
     MaterialUsageModel:
       oneOf:
         - type: object
@@ -881,6 +897,50 @@ paths:
                   material_code: FLP11B01
                   print_setting: DEFAULT
                   layer_thickness_mm: 0.11
+              FPS file:
+                value:
+                  fps_file: "C:\\Users\\user\\Desktop\\test.fps"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SceneModel'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    put:
+      summary: Update Scene
+      operationId: updateScene
+      description: "Update the scene's properties"
+      tags:
+        - "Modifying a Scene"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneTypeModel'
+            examples:
+              Form 4 Black V5:
+                value:
+                  machine_type: "FORM-4-0"
+                  material_code: "FLGPBK05"
+                  print_setting: "DEFAULT"
+                  layer_thickness_mm: 0.025
+              Fuse 1+ Nylon 11:
+                value:
+                  machine_type: "FS30-1-0"
+                  material_code: FLP11B01
+                  print_setting: DEFAULT
+                  layer_thickness_mm: 0.11
+              FPS file:
+                value:
+                  fps_file: "C:\\Users\\user\\Desktop\\test.fps"
       responses:
         "200":
           description: Success
@@ -992,6 +1052,40 @@ paths:
                   file: "C:\\Users\\user\\Desktop\\screenshot.png"
                   view_type: "FULL_BUILD_VOLUME"
                   models: ["0000537c-9ae2-426a-82ee-a007191a8fb5"]
+      responses:
+        "200":
+          description: Success
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  /scene/save-fps-file/:
+    post:
+      summary: Save FPS file
+      operationId: saveFpsFile
+      description: "Save the print settings of the current scene to a .fps file"
+      tags:
+        - "Exporting"
+      requestBody:
+        description: Full path where the FPS file should be saved
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  description: The file path to save the .fps file to
+                  pattern: "^.*\\.fps$"
+            examples:
+              Minimal:
+                value:
+                  file: "C:\\Users\\user\\Desktop\\custom-grey.fps"
       responses:
         "200":
           description: Success
@@ -1269,6 +1363,13 @@ paths:
       tags:
         - "Printing"
         - "Remote Access"
+        - "Operations"
+      parameters:
+        - name: async
+          in: query
+          description: Whether to run the operation asynchronously
+          schema:
+            type: boolean
       requestBody:
         required: true
         content:
@@ -1734,3 +1835,96 @@ paths:
                                       type: string
                                     scene_settings:
                                       $ref: '#/components/schemas/SceneTypeModel'
+  /operations/:
+    get:
+      summary: List All Operations
+      operationId: getAllOperations
+      description: >
+        List all in-prgress, completed, and failed operations that have been started since this server was launched.
+        Operations are not currently persisted across server restarts.
+
+        To get the result of a completed or errored operation, call GET `/operations/{id}/`.
+      tags:
+        - "Operations"
+      responses:
+        '200':
+          description: List of operations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Number of operations
+                  operations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Operation ID.
+                        status:
+                          type: string
+                          enum:
+                            - IN_PROGRESS
+                            - SUCCEEDED
+                            - FAILED
+                          description: Current status of the operation.
+                        progress:
+                          type: number
+                          format: float
+                          description: Progress of the operation (0.0 to 1.0).
+  /operations/{id}/:
+    get:
+      summary: Get Operation Status
+      operationId: getOperation
+      description: Retrieve the status, progress, and result of a long-running operation by its ID.
+      tags:
+        - "Operations"
+      parameters:
+        - name: id
+          in: path
+          description: The unique identifier of the operation.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation details. Will be a 200 regardless of if the operations is in progress, succeeded, or failed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Operation ID.
+                  status:
+                    type: string
+                    enum:
+                      - IN_PROGRESS
+                      - SUCCEEDED
+                      - FAILED
+                    description: Current status of the operation.
+                  progress:
+                    type: number
+                    format: float
+                    description: Progress of the operation (0.0 to 1.0).
+                  result:
+                    type: object
+                    description:
+                      Result of the operation, if succeeded or failed. Matches the schema of the operation or its error response.
+        '404':
+          description: Operation not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'

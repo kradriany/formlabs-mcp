@@ -283,12 +283,12 @@
                 document.getElementById('job-title').textContent = `Job ${job.id}`;
                 document.getElementById('job-thumbnail').src = `/thumbnails/${job.id}/thumbnail.png`
                 document.getElementById('job-type').innerHTML = `
-                    <div>Printer: ${job.scene.scene_type.machine_type}</div>
-                    <div>Material: ${job.scene.scene_type.material_code}</div>
-                    <div>Resolution: ${job.scene.scene_type.layer_thickness} mm</div>
-                    <div>Print Setting: ${job.scene.scene_type.print_setting}</div>
-                    <div>Layers: ${job.scene.layers}</div>
-                    <div>Mass Packing Density: ${(job.scene.materials.mass_packing_density*100).toFixed(0)}%</div>
+                    <div>Printer: ${job.scene.scene_settings.machine_type}</div>
+                    <div>Material: ${job.scene.scene_settings.material_code}</div>
+                    <div>Resolution: ${job.scene.scene_settings.layer_thickness} mm</div>
+                    <div>Print Setting: ${job.scene.scene_settings.print_setting}</div>
+                    <div>Layers: ${job.scene.layer_count}</div>
+                    <div>Mass Packing Density: ${(job.scene.material_usage.mass_packing_density*100).toFixed(0)}%</div>
                 `;
                 document.getElementById('job-owner').innerHTML = `${job.owner.name} (${job.owner.email})`;
                 document.getElementById('job-people').innerHTML = job.people.map(person => `

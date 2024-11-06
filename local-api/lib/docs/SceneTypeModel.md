@@ -8,7 +8,9 @@ Name | Type | Description | Notes
 **machine_type** | **str** | The machine type of the scene | 
 **material_code** | **str** | The material code of the scene | 
 **print_setting** | **str** | The print setting of the scene | [optional] 
-**layer_thickness_mm** | [**SceneTypeModelLayerThicknessMm**](SceneTypeModelLayerThicknessMm.md) |  | 
+**layer_thickness_mm** | [**ManualLayerThicknessMm**](ManualLayerThicknessMm.md) |  | 
+**custom_print_setting_id** | **str** | The ID of the custom print setting used, if any. | [optional] 
+**fps_file** | **str** | The full path to the .FPS file | 
 
 ## Example
 

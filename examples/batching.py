@@ -23,7 +23,8 @@ from formlabs_local_api import (
     AutoOrientRequest,
     AutoLayoutRequest,
     SceneTypeModel,
-    SceneTypeModelLayerThicknessMm,
+    Manual,
+    ManualLayerThicknessMm,
     ModelsSelectionModel,
     LoadFormFileRequest,
     LoginRequest,
@@ -42,12 +43,12 @@ def list_files_in_directory(directory_path):
     ]
 
 def create_scene(preform):
-    return preform.api.create_scene(SceneTypeModel(
+    return preform.api.create_scene(SceneTypeModel(Manual(
         machine_type="FORM-4-0",
         material_code="FLGPGR05",
-        layer_thickness_mm=SceneTypeModelLayerThicknessMm("0.1"),
+        layer_thickness_mm=ManualLayerThicknessMm("0.1"),
         print_setting="DEFAULT",
-    ))
+    )))
 
 parser = argparse.ArgumentParser(description="Process a folder path.")
 parser.add_argument("folder", type=str, help="Path to the folder")
