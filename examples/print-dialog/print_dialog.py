@@ -48,6 +48,8 @@ BASE_API_URL = "http://localhost:44388"
 
 class AppState:
     def __init__(self):
+        self.logged_in_access_token = None
+        self.logged_in_username = None
         self.available_printers = self.get_printers()
         self.selected_printer = ""
         self.api_materials_and_printer_data = api_request("GET", "/list-materials/")
@@ -148,7 +150,9 @@ def api_request(method, url_path, data=None):
     kwargs = {"json": data} if data else {}
     response = request(method, f"{BASE_API_URL}{url_path}", **kwargs)
     response.raise_for_status()
-    return response.json()
+    if response.headers.get('Content-Type', "").startswith('application/json'):
+        return response.json()
+    return None
 
 
 def get_printer_dropdown_label(device):
@@ -268,27 +272,46 @@ def on_add_printer_by_ip_pressed(state: AppState):
                 messagebox.showerror("Error", "Unexpected error occurred.")
 
 
-def on_login_button_pressed(state: AppState):
+def update_login_ui_state(state: AppState):
+    if state.logged_in_username:
+        web_login_logout_button.configure(text=f"Logout {state.logged_in_username}")
+    else:
+        web_login_logout_button.configure(text="Formlabs Account Login")
+
+
+def on_login_logout_button_pressed(state: AppState):
     """Use the Formlabs Local API to login to a user's Formlabs Account.
     Formlabs Accounts are needed for remote printing and Fleet Control uploads.
     """
-    username = simpledialog.askstring(title="Login to Dashboard", prompt="Username:")
-    if username is not None and len(username) > 0:
-        password = simpledialog.askstring(
-            title="Login to Dashboard", prompt="Password:"
-        )
-        if password is not None and len(password) > 0:
-            try:
-                api_request(
-                    "POST", "/login/", {"username": username, "password": password}
-                )
-                # Deal with the delay between logging in and getting new remote printers or printer groups
-                time.sleep(5)
-                messagebox.showinfo("Success", f"Logged in as {username}")
-                # Refresh list of printers to include the new Printer Groups
-                get_printers_and_sync_dropdown(state)
-            except HTTPError as err:
-                messagebox.showinfo("Error", f"Login failed.")
+    if state.logged_in_username:
+        api_request("POST", "/logout/")
+        state.logged_in_access_token = None
+        state.logged_in_username = None
+        update_login_ui_state(state)
+        messagebox.showinfo("Success", f"Logged out.")
+        get_printers_and_sync_dropdown(state)
+    else:
+        username = simpledialog.askstring(title="Login to Dashboard", prompt="Username:")
+        if username is not None and len(username) > 0:
+            password = simpledialog.askstring(
+                title="Login to Dashboard", prompt="Password:"
+            )
+            if password is not None and len(password) > 0:
+                try:
+                    access_tokens = api_request(
+                        "POST", "/login/", {"username": username, "password": password}
+                    )
+                    state.logged_in_access_token = access_tokens["access_token"]
+                    user_data = api_request("GET", "/user/")
+                    state.logged_in_username = user_data["username"]
+                    update_login_ui_state(state)
+                    # Deal with the delay between logging in and getting new remote printers or printer groups
+                    time.sleep(5)
+                    messagebox.showinfo("Success", f"Logged in as {username}")
+                    # Refresh list of printers to include the new Printer Groups
+                    get_printers_and_sync_dropdown(state)
+                except HTTPError as err:
+                    messagebox.showinfo("Error", f"Login failed.")
 
 
 def discover_printers_button_pressed(state: AppState):
@@ -357,12 +380,12 @@ progress_bar_value = tk.DoubleVar()
 top_frame = tk.Frame(root)
 top_frame.pack(anchor="w", padx=10, pady=10)
 
-web_login_button = tk.Button(
+web_login_logout_button = tk.Button(
     top_frame,
     text="Formlabs Account Login",
-    command=lambda: on_login_button_pressed(state),
+    command=lambda: on_login_logout_button_pressed(state),
 )
-web_login_button.grid(row=0, column=0, sticky="w")
+web_login_logout_button.grid(row=0, column=0, sticky="w")
 
 add_printer_button = tk.Button(
     top_frame,
@@ -470,6 +493,8 @@ selected_print_setting.trace_add(
     lambda n, i, m: on_selected_print_setting_change(state, selected_print_setting),
 )
 job_name.trace_add("write", lambda n, i, m: on_job_name_change(state, job_name))
+
+update_login_ui_state(state)
 
 ################################# Run main event loop
 root.mainloop()
