@@ -165,7 +165,7 @@ def get_print_setting_dropdown_label(material_label, setting_label):
     return f"{material_label} {setting_label}"
 
 
-def api_submit_print_job(print_setting_json, selected_printer_id, job_name):
+def api_submit_print_job(print_setting_json, selected_printer_id, job_name, print_now):
     api_request("POST", "/scene/", print_setting_json)
     api_request("POST", "/scene/import-model/", {"file": str(TEST_FILE_PATH)})
     response_data = api_request(
@@ -174,7 +174,7 @@ def api_submit_print_job(print_setting_json, selected_printer_id, job_name):
         {
             "printer": selected_printer_id,
             "job_name": job_name,
-            "print_now": False,
+            "print_now": print_now,
         },
     )
     return response_data["operationId"]
@@ -209,7 +209,7 @@ def poll_print_status(operation_id):
             time.sleep(SLICING_PROGRESS_POLL_INTERVAL_S)
 
 
-def print_now(state: AppState):
+def upload_print(state: AppState, print_now=False):
     """Submit a print job to the selected printer with the selected print setting"""
     if not state.selected_printer:
         messagebox.showerror("Error", "No printer selected.")
@@ -227,6 +227,7 @@ def print_now(state: AppState):
         state.get_selected_print_setting_json(),
         state.get_selected_printer_id(),
         state.job_name,
+        print_now,
     )
     poll_print_status(operation_id)
 
@@ -327,6 +328,21 @@ def discover_printers_button_pressed(state: AppState):
 def get_printers_and_sync_dropdown(state: AppState):
     state.update_printers()
     sync_printer_dropdown_with_state(state)
+
+
+def sync_printing_button_options(state: AppState):
+    global queue_print_button, print_now_button
+    if state.selected_printer:
+        device_data = state.available_printers[state.selected_printer]
+        ready_to_print_now = device_data.get("ready_to_print_now", False)
+        if ready_to_print_now:
+            print_now_button["state"] = "normal"
+        else:
+            print_now_button["state"] = "disabled"
+        queue_print_button["state"] = "normal"
+    else:
+        queue_print_button["state"] = "disabled"
+        print_now_button["state"] = "disabled"
 
 
 ################################ GUI Setup
@@ -436,12 +452,21 @@ job_name_label.grid(row=3, column=0, sticky="w")
 job_name_entry = tk.Entry(frame, textvariable=job_name)
 job_name_entry.grid(row=3, column=1, sticky="w")
 
-print_now_button = tk.Button(
-    frame,
-    text="Print Now",
-    command=lambda: print_now(state),
+print_buttons_frame = tk.Frame(frame)
+print_buttons_frame.grid(row=4, column=1, sticky="w")
+queue_print_button = tk.Button(
+    print_buttons_frame,
+    text="Upload to Queue",
+    command=lambda: upload_print(state),
 )
-print_now_button.grid(row=4, column=1, sticky="w")
+queue_print_button.pack(side=tk.LEFT)
+
+print_now_button = tk.Button(
+    print_buttons_frame,
+    text="Print Now",
+    command=lambda: upload_print(state, print_now=True),
+)
+print_now_button.pack(side=tk.LEFT)
 
 bottom_frame = tk.Frame(root)
 bottom_frame.pack(anchor="w", padx=10, pady=10)
@@ -463,10 +488,12 @@ def on_selected_printer_type_change(state, selected_printer_type):
     state.set_selected_printer_type(selected_printer_type.get())
     sync_printer_dropdown_with_state(state)
     sync_print_setting_dropdown_with_state(state)
+    sync_printing_button_options(state)
 
 
 def on_selected_printer_change(state, selected_printer):
     state.selected_printer = selected_printer.get()
+    sync_printing_button_options(state)
 
 
 def on_selected_print_setting_change(state, selected_print_setting):
@@ -495,6 +522,7 @@ selected_print_setting.trace_add(
 job_name.trace_add("write", lambda n, i, m: on_job_name_change(state, job_name))
 
 update_login_ui_state(state)
+sync_printing_button_options(state)
 
 ################################# Run main event loop
 root.mainloop()
