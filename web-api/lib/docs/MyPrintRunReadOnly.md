@@ -36,7 +36,6 @@ Name | Type | Description | Notes
 **user_custom_label** | **str** |  | [readonly] 
 **group** | [**PrinterGroup**](PrinterGroup.md) |  | [readonly] 
 **adaptive_thickness** | **bool** |  | [readonly] 
-**probably_finished** | **bool** |  | [readonly] 
 **message** | **str** |  | [readonly] 
 **print_job** | **str** |  | [readonly] 
 **material_name** | **str** |  | [readonly] 
