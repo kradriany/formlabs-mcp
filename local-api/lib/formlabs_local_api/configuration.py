@@ -3,9 +3,9 @@
 """
     Formlabs Local API
 
-    # Introduction The Formlabs Local API is designed for integrations that want to automate job preparation, getting local-network printer status, or sending jobs to Formlabs printers without launching the PreForm graphical user interface. A server application must be installed and run on a user's computer to use this API.  Example use cases: - Scripted job preparation that takes a folder of models, sets up a print,   and uploads it to a printer without user input. - Deep and custom integrations into 3D Modeling and Design software to   prepare print scenes beyond the scope of the PreForm Command Line Arguments.  This API uses RESTful principles. This means the API is organized around resources and collections of resources. Resources and collections are each available at their own URI. You can interact with these resources using standard HTTP Methods on the resource's URI.  Example endpoint: ``` GET http://localhost:44388/scene/ ```  Responses from the API server will be in JSON and are documented throughout the reference docs. This API is described by an [OpenAPI Specification](https://spec.openapis.org/oas/v3.1.0). This interactive documentation is automatically generated from the specification file.  # Technical Overview  ## PreFormServer Background Application All Local API integrations involve starting the PreFormServer background application to expose its HTTP API, then making local HTTP API calls in your own code. This application is like [PreForm](https://formlabs.com/software/preform/), Formlabs' regular job preparation application, but it does not open a graphical window, and interaction is done via HTTP API requests. The PreFormServer application is supported on Windows and MacOS with separate downloads for each Operating System.  ### Installing PreFormServer The PreFormServer application can be downloaded from the [Formlabs API downloads and release notes page](https://support.formlabs.com/s/article/Formlabs-API-downloads-and-release-notes). After downloading, unzip the file and move the application to the desired location on your computer. Any location can be used as the path to the application should be referenced from your integration code.  In the current release, we also recommend adding the PreFormServer application the users' antivirus software exception list or explicitly whitelisting the application in the security settings of MacOS.  On MacOS, you can use the following terminal command to whitelist the PreFormServer application: ``` xattr -r -d com.apple.quarantine PreFormServer.app ```  ### Starting PreFormServer The PreFormServer application can started manually from your Operating System's command prompt or terminal, but most integrations will start the application programatically from integration code. The command line argument `--port` is required to specify the port number the HTTP Server will listen on.  The HTTP API server started by the PreFormServer application cannot immediately respond to requests. When the server is ready to accept requests, it will output `READY FOR INPUT` in the standard output.  For example, running the PreFormServer application on Windows from the command prompt: ``` PreFormServer.exe --port 44388 ``` will output something like the following: ``` starting HTTP server Listening... HTTP server listening on port 44388 READY FOR INPUT ```  ## Making API Requests The code to make HTTP API requests to a running PreFormServer can be written directly in your integration code or by using a generated library that does the API calls. The endpoints and format of the HTTP API are described on this page and in the openapi.yaml file.  Formlabs provides an example [Python library](https://github.com/Formlabs/formlabs-api-python) that handles the setup and request formatting.  ## Glossary - **Scene**: The current state of a job that can be printed on a particular printer model.   This includes both the “Scene Settings” and all of the currently loaded models and their support structures. - **Scene Settings**: Printer type and material information of scene. Describes the   build platform size, the printer capabilities, and what material and print settings   it is set up to be printed with.  ## Stateful Interactions The PreForm Server is stateful in that while it is running, it keeps a cache of the current scene and requests will use the cached scene and possibly modify it. For example, initially a scene may be empty and then if a load model request is made then the cached scene will have one model loaded. Calling the load model requests again will load another copy of the model resulting in two models in the cached scene.  ## Blocking Calls & Asynchronous Requests Unless otherwise stated, API calls are blocking: the HTTP request will not return until the operation has completed.  Some requests like running the auto support action on a scene with many complicated models could take over 1 minute (depending on computer resources). The Server has a timeout of 10 minutes for all requests.  Requests made asynchronously will use the last cached state. For example, if a “get scene” request is made during a “auto support” request that has not finished, then the “get scene” request will return data that will not include the auto support changes.  ## File Paths When saving and loading files, the local API inputs expect full operating system paths to local files on disk.  Correct file path: - `C:\\Projects\\Models\\part.stl`  Incorrect file paths: - `.\\Models\\part.stl` - `%ENV_VAR%\\part.stl` - `part.stl` - `https://filestorage.com/part.stl`  # Errors Conventional HTTP response codes are used to indicate the success or failure of an API request. In general: Codes in the 2xx range indicate success. Codes in the 4xx range indicate an error that failed given the information provided. Codes in the 5xx range indicate an error with Formlabs' servers.  # Security The HTTP Server that PreForm uses to communicate is only exposed to the local network of your computer and not to the public Internet, unless you have configured your computer to expose the port running the PreForm Server to the Internet.  Some requests require an Internet connection, require Dashboard login, and make web requests to perform their action (such as printing to a remote printer). 
+    # Introduction The Formlabs Local API is designed for integrations that want to automate job preparation, getting local-network printer status, or sending jobs to Formlabs printers without launching the PreForm graphical user interface. A server application must be installed and run on a user's computer to use this API.  Example use cases: - Scripted job preparation that takes a folder of models, sets up a print,   and uploads it to a printer without user input. - Deep and custom integrations into 3D Modeling and Design software to   prepare print scenes beyond the scope of the PreForm Command Line Arguments.  This API uses RESTful principles. This means the API is organized around resources and collections of resources. Resources and collections are each available at their own URI. You can interact with these resources using standard HTTP Methods on the resource's URI.  Example endpoint: ``` GET http://localhost:44388/scene/ ```  Responses from the API server will be in JSON and are documented throughout the reference docs. This API is described by an [OpenAPI Specification](https://spec.openapis.org/oas/v3.1.0). This interactive documentation is automatically generated from the specification file.  # Technical Overview  ## PreFormServer Background Application All Local API integrations involve starting the PreFormServer background application to expose its HTTP API, then making local HTTP API calls in your own code. This application is like [PreForm](https://formlabs.com/software/preform/), Formlabs' regular job preparation application, but it does not open a graphical window, and interaction is done via HTTP API requests. The PreFormServer application is supported on Windows and MacOS with separate downloads for each Operating System.  ### Installing PreFormServer The PreFormServer application can be downloaded from the [Formlabs API downloads and release notes page](https://support.formlabs.com/s/article/Formlabs-API-downloads-and-release-notes). After downloading, unzip the file and move the application to the desired location on your computer. Any location can be used as the path to the application should be referenced from your integration code.  ### Starting PreFormServer The PreFormServer application can started manually from your Operating System's command prompt or terminal, but most integrations will start the application programatically from integration code. The command line argument `--port` is required to specify the port number the HTTP Server will listen on.  The HTTP API server started by the PreFormServer application cannot immediately respond to requests. When the server is ready to accept requests, it will output `READY FOR INPUT` in the standard output.  For example, running the PreFormServer application on Windows from the command prompt: ``` PreFormServer.exe --port 44388 ``` will output something like the following: ``` starting HTTP server Listening... HTTP server listening on port 44388 READY FOR INPUT ```  ## Making API Requests The code to make HTTP API requests to a running PreFormServer can be written directly in your integration code or by using a generated library that does the API calls. The endpoints and format of the HTTP API are described on this page and in the openapi.yaml file.  Formlabs provides an example [Python library](https://github.com/Formlabs/formlabs-api-python) that handles the setup and request formatting.  ## Glossary - **Scene**: The current state of a job that can be printed on a particular printer model.   This includes both the “Scene Settings” and all of the currently loaded models and their support structures. - **Scene Settings**: Printer type and material information of scene. Describes the   build platform size, the printer capabilities, and what material and print settings   it is set up to be printed with.  ## Stateful Interactions The PreForm Server is stateful in that while it is running, it keeps a cache of the current scene and requests will use the cached scene and possibly modify it. For example, initially a scene may be empty and then if a load model request is made then the cached scene will have one model loaded. Calling the load model requests again will load another copy of the model resulting in two models in the cached scene.  ## Blocking Calls & Asynchronous Requests Unless otherwise stated, API calls are blocking: the HTTP request will not return until the operation has completed.  Some requests like running the auto support action on a scene with many complicated models could take over 1 minute (depending on computer resources). The Server has a timeout of 10 minutes for all requests.  Some long-running operations can be called asynchronously by adding `?async=true` to the request. These requests will return immediately and the operation will be tracked separately. The caller can poll for completion using the `/operations/{operation_id}/` endpoint, and track the percentage progress of the outstanding operation.  Requests involving the scene will always use the scene state at the time the request was made, without any partially completed operations. For example, if a “get scene” request is made during a “auto support” request that has not finished, then the “get scene” request will return data that will not include the auto support changes.  Multiple requests editing the same scene should NOT be made in parallel. If an \"auto layout\" request is made during an \"auto support\" request that has not finished, whichever operation finishes last will \"win\": either an auto-layout of unsupported models or the original layout with supports. PreformServer currently gives no warning when this happens.  ## File Paths When saving and loading files, the local API inputs expect full operating system paths to local files on disk.  Correct file path: - `C:\\Projects\\Models\\part.stl`  Incorrect file paths: - `.\\Models\\part.stl` - `%ENV_VAR%\\part.stl` - `part.stl` - `https://filestorage.com/part.stl`  # Errors Conventional HTTP response codes are used to indicate the success or failure of an API request. In general: Codes in the 2xx range indicate success. Codes in the 4xx range indicate an error that failed given the information provided. Codes in the 5xx range indicate an error with Formlabs' servers.  # Security The HTTP Server that PreForm uses to communicate is only exposed to the local network of your computer and not to the public Internet, unless you have configured your computer to expose the port running the PreForm Server to the Internet.  Some requests require an Internet connection, require Dashboard login, and make web requests to perform their action (such as printing to a remote printer). 
 
-    The version of the OpenAPI document: 0.8.5
+    The version of the OpenAPI document: 0.8.6
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
     Do not edit the class manually.
@@ -13,20 +13,122 @@
 
 
 import copy
+import http.client as httplib
 import logging
 from logging import FileHandler
 import multiprocessing
 import sys
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict
+from typing_extensions import NotRequired, Self
+
 import urllib3
 
-import http.client as httplib
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'multipleOf', 'maximum', 'exclusiveMaximum',
     'minimum', 'exclusiveMinimum', 'maxLength',
     'minLength', 'pattern', 'maxItems', 'minItems'
 }
+
+ServerVariablesT = Dict[str, str]
+
+GenericAuthSetting = TypedDict(
+    "GenericAuthSetting",
+    {
+        "type": str,
+        "in": str,
+        "key": str,
+        "value": str,
+    },
+)
+
+
+OAuth2AuthSetting = TypedDict(
+    "OAuth2AuthSetting",
+    {
+        "type": Literal["oauth2"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+APIKeyAuthSetting = TypedDict(
+    "APIKeyAuthSetting",
+    {
+        "type": Literal["api_key"],
+        "in": str,
+        "key": str,
+        "value": Optional[str],
+    },
+)
+
+
+BasicAuthSetting = TypedDict(
+    "BasicAuthSetting",
+    {
+        "type": Literal["basic"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": Optional[str],
+    },
+)
+
+
+BearerFormatAuthSetting = TypedDict(
+    "BearerFormatAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "format": Literal["JWT"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+BearerAuthSetting = TypedDict(
+    "BearerAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+HTTPSignatureAuthSetting = TypedDict(
+    "HTTPSignatureAuthSetting",
+    {
+        "type": Literal["http-signature"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": None,
+    },
+)
+
+
+AuthSettings = TypedDict(
+    "AuthSettings",
+    {
+    },
+    total=False,
+)
+
+
+class HostSettingVariable(TypedDict):
+    description: str
+    default_value: str
+    enum_values: List[str]
+
+
+class HostSetting(TypedDict):
+    url: str
+    description: str
+    variables: NotRequired[Dict[str, HostSettingVariable]]
+
 
 class Configuration:
     """This class contains various settings of the API client.
@@ -61,20 +163,26 @@ class Configuration:
 
     """
 
-    _default = None
+    _default: ClassVar[Optional[Self]] = None
 
-    def __init__(self, host=None,
-                 api_key=None, api_key_prefix=None,
-                 username=None, password=None,
-                 access_token=None,
-                 server_index=None, server_variables=None,
-                 server_operation_index=None, server_operation_variables=None,
-                 ignore_operation_servers=False,
-                 ssl_ca_cert=None,
-                 retries=None,
-                 *,
-                 debug: Optional[bool] = None
-                 ) -> None:
+    def __init__(
+        self,
+        host: Optional[str]=None,
+        api_key: Optional[Dict[str, str]]=None,
+        api_key_prefix: Optional[Dict[str, str]]=None,
+        username: Optional[str]=None,
+        password: Optional[str]=None,
+        access_token: Optional[str]=None,
+        server_index: Optional[int]=None, 
+        server_variables: Optional[ServerVariablesT]=None,
+        server_operation_index: Optional[Dict[int, int]]=None,
+        server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
+        ignore_operation_servers: bool=False,
+        ssl_ca_cert: Optional[str]=None,
+        retries: Optional[int] = None,
+        *,
+        debug: Optional[bool] = None,
+    ) -> None:
         """Constructor
         """
         self._base_path = "http://localhost:44388" if host is None else host
@@ -198,7 +306,7 @@ class Configuration:
         """date format
         """
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo:  Dict[int, Any]) -> Self:
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
@@ -212,11 +320,11 @@ class Configuration:
         result.debug = self.debug
         return result
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
 
     @classmethod
-    def set_default(cls, default):
+    def set_default(cls, default: Optional[Self]) -> None:
         """Set default instance of configuration.
 
         It stores default configuration, which can be
@@ -227,7 +335,7 @@ class Configuration:
         cls._default = default
 
     @classmethod
-    def get_default_copy(cls):
+    def get_default_copy(cls) -> Self:
         """Deprecated. Please use `get_default` instead.
 
         Deprecated. Please use `get_default` instead.
@@ -237,7 +345,7 @@ class Configuration:
         return cls.get_default()
 
     @classmethod
-    def get_default(cls):
+    def get_default(cls) -> Self:
         """Return the default configuration.
 
         This method returns newly created, based on default constructor,
@@ -247,11 +355,11 @@ class Configuration:
         :return: The configuration object.
         """
         if cls._default is None:
-            cls._default = Configuration()
+            cls._default = cls()
         return cls._default
 
     @property
-    def logger_file(self):
+    def logger_file(self) -> Optional[str]:
         """The logger file.
 
         If the logger_file is None, then add stream handler and remove file
@@ -263,7 +371,7 @@ class Configuration:
         return self.__logger_file
 
     @logger_file.setter
-    def logger_file(self, value):
+    def logger_file(self, value: Optional[str]) -> None:
         """The logger file.
 
         If the logger_file is None, then add stream handler and remove file
@@ -282,7 +390,7 @@ class Configuration:
                 logger.addHandler(self.logger_file_handler)
 
     @property
-    def debug(self):
+    def debug(self) -> bool:
         """Debug status
 
         :param value: The debug status, True or False.
@@ -291,7 +399,7 @@ class Configuration:
         return self.__debug
 
     @debug.setter
-    def debug(self, value):
+    def debug(self, value: bool) -> None:
         """Debug status
 
         :param value: The debug status, True or False.
@@ -313,7 +421,7 @@ class Configuration:
             httplib.HTTPConnection.debuglevel = 0
 
     @property
-    def logger_format(self):
+    def logger_format(self) -> str:
         """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
@@ -324,7 +432,7 @@ class Configuration:
         return self.__logger_format
 
     @logger_format.setter
-    def logger_format(self, value):
+    def logger_format(self, value: str) -> None:
         """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
@@ -335,7 +443,7 @@ class Configuration:
         self.__logger_format = value
         self.logger_formatter = logging.Formatter(self.__logger_format)
 
-    def get_api_key_with_prefix(self, identifier, alias=None):
+    def get_api_key_with_prefix(self, identifier: str, alias: Optional[str]=None) -> Optional[str]:
         """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
@@ -352,7 +460,9 @@ class Configuration:
             else:
                 return key
 
-    def get_basic_auth_token(self):
+        return None
+
+    def get_basic_auth_token(self) -> Optional[str]:
         """Gets HTTP basic authentication header (string).
 
         :return: The token for basic HTTP authentication.
@@ -367,15 +477,15 @@ class Configuration:
             basic_auth=username + ':' + password
         ).get('authorization')
 
-    def auth_settings(self):
+    def auth_settings(self)-> AuthSettings:
         """Gets Auth Settings dict for api client.
 
         :return: The Auth Settings information dict.
         """
-        auth = {}
+        auth: AuthSettings = {}
         return auth
 
-    def to_debug_report(self):
+    def to_debug_report(self) -> str:
         """Gets the essential information for debugging.
 
         :return: The report for debugging.
@@ -383,11 +493,11 @@ class Configuration:
         return "Python SDK Debug Report:\n"\
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
-               "Version of the API: 0.8.5\n"\
-               "SDK Package Version: 0.8.3".\
+               "Version of the API: 0.8.6\n"\
+               "SDK Package Version: 0.8.6".\
                format(env=sys.platform, pyversion=sys.version)
 
-    def get_host_settings(self):
+    def get_host_settings(self) -> List[HostSetting]:
         """Gets an array of host settings
 
         :return: An array of host settings
@@ -399,7 +509,12 @@ class Configuration:
             }
         ]
 
-    def get_host_from_settings(self, index, variables=None, servers=None):
+    def get_host_from_settings(
+        self,
+        index: Optional[int],
+        variables: Optional[ServerVariablesT]=None,
+        servers: Optional[List[HostSetting]]=None,
+    ) -> str:
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
@@ -439,12 +554,12 @@ class Configuration:
         return url
 
     @property
-    def host(self):
+    def host(self) -> str:
         """Return generated host."""
         return self.get_host_from_settings(self.server_index, variables=self.server_variables)
 
     @host.setter
-    def host(self, value):
+    def host(self, value: str) -> None:
         """Fix base path."""
         self._base_path = value
         self.server_index = None

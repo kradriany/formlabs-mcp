@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **label** | **str** |  | [optional] 
+**description** | **str** |  | [optional] 
 **material_settings** | [**List[ListMaterials200ResponsePrinterTypesInnerMaterialsInnerMaterialSettingsInner]**](ListMaterials200ResponsePrinterTypesInnerMaterialsInnerMaterialSettingsInner.md) |  | [optional] 
 
 ## Example

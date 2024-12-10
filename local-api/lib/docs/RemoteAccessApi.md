@@ -4,15 +4,17 @@ All URIs are relative to *http://localhost:44388*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**call_print_0**](RemoteAccessApi.md#call_print_0) | **POST** /scene/print/ | Print
-[**discover_devices_0**](RemoteAccessApi.md#discover_devices_0) | **POST** /discover-devices/ | Discover Devices
-[**get_device_0**](RemoteAccessApi.md#get_device_0) | **GET** /devices/{id}/ | Get Device
-[**get_devices_0**](RemoteAccessApi.md#get_devices_0) | **GET** /devices/ | Get Devices
+[**call_print**](RemoteAccessApi.md#call_print) | **POST** /scene/print/ | Print
+[**discover_devices**](RemoteAccessApi.md#discover_devices) | **POST** /discover-devices/ | Discover Devices
+[**get_device**](RemoteAccessApi.md#get_device) | **GET** /devices/{id}/ | Get Device
+[**get_devices**](RemoteAccessApi.md#get_devices) | **GET** /devices/ | Get Devices
+[**get_user**](RemoteAccessApi.md#get_user) | **GET** /user/ | Get logged in user information
 [**login**](RemoteAccessApi.md#login) | **POST** /login/ | Login
+[**logout**](RemoteAccessApi.md#logout) | **POST** /logout/ | Log out
 
 
-# **call_print_0**
-> Print200Response call_print_0(print_request, var_async=var_async)
+# **call_print**
+> Print200Response call_print(print_request, var_async=var_async)
 
 Print
 
@@ -44,11 +46,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
     try:
         # Print
-        api_response = api_instance.call_print_0(print_request, var_async=var_async)
-        print("The response of RemoteAccessApi->call_print_0:\n")
+        api_response = api_instance.call_print(print_request, var_async=var_async)
+        print("The response of RemoteAccessApi->call_print:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->call_print_0: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->call_print: %s\n" % e)
 ```
 
 
@@ -80,11 +82,12 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **discover_devices_0**
-> DiscoverDevices200Response discover_devices_0(discover_devices_request)
+# **discover_devices**
+> DiscoverDevices200Response discover_devices(discover_devices_request, var_async=var_async)
 
 Discover Devices
 
@@ -112,14 +115,15 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.RemoteAccessApi(api_client)
     discover_devices_request = {"timeout_seconds":10} # DiscoverDevicesRequest | 
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Discover Devices
-        api_response = api_instance.discover_devices_0(discover_devices_request)
-        print("The response of RemoteAccessApi->discover_devices_0:\n")
+        api_response = api_instance.discover_devices(discover_devices_request, var_async=var_async)
+        print("The response of RemoteAccessApi->discover_devices:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->discover_devices_0: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->discover_devices: %s\n" % e)
 ```
 
 
@@ -130,6 +134,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **discover_devices_request** | [**DiscoverDevicesRequest**](DiscoverDevicesRequest.md)|  | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -150,11 +155,12 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_device_0**
-> DeviceStatusModel get_device_0(id)
+# **get_device**
+> DeviceStatusModel get_device(id)
 
 Get Device
 
@@ -184,11 +190,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
     try:
         # Get Device
-        api_response = api_instance.get_device_0(id)
-        print("The response of RemoteAccessApi->get_device_0:\n")
+        api_response = api_instance.get_device(id)
+        print("The response of RemoteAccessApi->get_device:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->get_device_0: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->get_device: %s\n" % e)
 ```
 
 
@@ -222,8 +228,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_devices_0**
-> GetDevices200Response get_devices_0()
+# **get_devices**
+> GetDevices200Response get_devices(can_print=can_print)
 
 Get Devices
 
@@ -249,21 +255,25 @@ configuration = formlabs_local_api.Configuration(
 with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.RemoteAccessApi(api_client)
+    can_print = True # bool | If true, only devices that can receive prints will be returned. (optional)
 
     try:
         # Get Devices
-        api_response = api_instance.get_devices_0()
-        print("The response of RemoteAccessApi->get_devices_0:\n")
+        api_response = api_instance.get_devices(can_print=can_print)
+        print("The response of RemoteAccessApi->get_devices:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling RemoteAccessApi->get_devices_0: %s\n" % e)
+        print("Exception when calling RemoteAccessApi->get_devices: %s\n" % e)
 ```
 
 
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **can_print** | **bool**| If true, only devices that can receive prints will be returned. | [optional] 
 
 ### Return type
 
@@ -283,6 +293,72 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**400** | Bad Request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_user**
+> UserInformationModel get_user()
+
+Get logged in user information
+
+Get the logged in user's account information
+
+### Example
+
+
+```python
+import formlabs_local_api
+from formlabs_local_api.models.user_information_model import UserInformationModel
+from formlabs_local_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:44388
+# See configuration.py for a list of all supported configuration parameters.
+configuration = formlabs_local_api.Configuration(
+    host = "http://localhost:44388"
+)
+
+
+# Enter a context with an instance of the API client
+with formlabs_local_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = formlabs_local_api.RemoteAccessApi(api_client)
+
+    try:
+        # Get logged in user information
+        api_response = api_instance.get_user()
+        print("The response of RemoteAccessApi->get_user:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling RemoteAccessApi->get_user: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**UserInformationModel**](UserInformationModel.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**404** | No user is logged in |  -  |
 **400** | Bad Request |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -353,6 +429,68 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**400** | Bad Request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **logout**
+> logout()
+
+Log out
+
+Log out of Formlabs Web Services
+
+### Example
+
+
+```python
+import formlabs_local_api
+from formlabs_local_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:44388
+# See configuration.py for a list of all supported configuration parameters.
+configuration = formlabs_local_api.Configuration(
+    host = "http://localhost:44388"
+)
+
+
+# Enter a context with an instance of the API client
+with formlabs_local_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = formlabs_local_api.RemoteAccessApi(api_client)
+
+    try:
+        # Log out
+        api_instance.logout()
+    except Exception as e:
+        print("Exception when calling RemoteAccessApi->logout: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
 **400** | Bad Request |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

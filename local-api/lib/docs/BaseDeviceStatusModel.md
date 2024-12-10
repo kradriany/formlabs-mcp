@@ -1,4 +1,4 @@
-# GenericDevice
+# BaseDeviceStatusModel
 
 
 ## Properties
@@ -16,19 +16,19 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from formlabs_local_api.models.generic_device import GenericDevice
+from formlabs_local_api.models.base_device_status_model import BaseDeviceStatusModel
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of GenericDevice from a JSON string
-generic_device_instance = GenericDevice.from_json(json)
+# create an instance of BaseDeviceStatusModel from a JSON string
+base_device_status_model_instance = BaseDeviceStatusModel.from_json(json)
 # print the JSON string representation of the object
-print(GenericDevice.to_json())
+print(BaseDeviceStatusModel.to_json())
 
 # convert the object into a dict
-generic_device_dict = generic_device_instance.to_dict()
-# create an instance of GenericDevice from a dict
-generic_device_from_dict = GenericDevice.from_dict(generic_device_dict)
+base_device_status_model_dict = base_device_status_model_instance.to_dict()
+# create an instance of BaseDeviceStatusModel from a dict
+base_device_status_model_from_dict = BaseDeviceStatusModel.from_dict(base_device_status_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

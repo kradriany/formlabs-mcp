@@ -19,11 +19,11 @@ Method | HTTP request | Description
 
 
 # **auto_layout**
-> SceneModel auto_layout(auto_layout_request)
+> SceneModel auto_layout(auto_layout_request, var_async=var_async)
 
 Auto Layout
 
-Run auto layout operation. Only applies to SLA-type scenes like the Form 4
+Automatically arrange models on the build platform. Only applies to SLA-type scenes like the Form 4 (use /scene/auto-pack/ for SLS-type scenes like the Fuse 1+)
 
 ### Example
 
@@ -47,10 +47,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
     auto_layout_request = {"models":"ALL","model_spacing_mm":1.0,"allow_overlapping_supports":false,"lock_rotation":false,"build_platform_2_optimized":false} # AutoLayoutRequest | Models to run the auto layout operation on
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Auto Layout
-        api_response = api_instance.auto_layout(auto_layout_request)
+        api_response = api_instance.auto_layout(auto_layout_request, var_async=var_async)
         print("The response of ModifyingASceneApi->auto_layout:\n")
         pprint(api_response)
     except Exception as e:
@@ -65,6 +66,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **auto_layout_request** | [**AutoLayoutRequest**](AutoLayoutRequest.md)| Models to run the auto layout operation on | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -85,15 +87,16 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | ## Bad Request  The scene will not be modified if any error occurs. The response will contain an error message.  |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **auto_orient**
-> auto_orient(auto_orient_request)
+> auto_orient(auto_orient_request, var_async=var_async)
 
 Auto Orient
 
-Run auto orient operation
+Automatically choose model orientation for printing
 
 ### Example
 
@@ -116,10 +119,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
     auto_orient_request = {"models":"ALL"} # AutoOrientRequest | Models to run the auto orient operation on
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Auto Orient
-        api_instance.auto_orient(auto_orient_request)
+        api_instance.auto_orient(auto_orient_request, var_async=var_async)
     except Exception as e:
         print("Exception when calling ModifyingASceneApi->auto_orient: %s\n" % e)
 ```
@@ -132,6 +136,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **auto_orient_request** | [**AutoOrientRequest**](AutoOrientRequest.md)| Models to run the auto orient operation on | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -152,15 +157,16 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **auto_pack**
-> SceneModel auto_pack(auto_pack_request)
+> SceneModel auto_pack(auto_pack_request, var_async=var_async)
 
 Auto Pack
 
-Run auto pack operation. Only applies to SLS-type scenes like the Fuse 1+
+Automatically arrange models in the build volume. Only applies to SLS-type scenes like the Fuse 1+ (use /scene/auto-layout/ for SLA-type scenes like the Form 4)
 
 ### Example
 
@@ -184,10 +190,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
     auto_pack_request = formlabs_local_api.AutoPackRequest() # AutoPackRequest | Auto pack parameters
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Auto Pack
-        api_response = api_instance.auto_pack(auto_pack_request)
+        api_response = api_instance.auto_pack(auto_pack_request, var_async=var_async)
         print("The response of ModifyingASceneApi->auto_pack:\n")
         pprint(api_response)
     except Exception as e:
@@ -202,6 +209,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **auto_pack_request** | [**AutoPackRequest**](AutoPackRequest.md)| Auto pack parameters | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -222,15 +230,16 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | ## Bad Request  The scene will not be modified if any error occurs. The response will contain an error message.  |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **auto_support**
-> auto_support(auto_support_request)
+> auto_support(auto_support_request, var_async=var_async)
 
 Auto Support
 
-Run auto support operation
+Generate support structures on models
 
 ### Example
 
@@ -253,10 +262,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
     auto_support_request = {"models":"ALL"} # AutoSupportRequest | Models to run the auto support operation on
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Auto Support
-        api_instance.auto_support(auto_support_request)
+        api_instance.auto_support(auto_support_request, var_async=var_async)
     except Exception as e:
         print("Exception when calling ModifyingASceneApi->auto_support: %s\n" % e)
 ```
@@ -269,6 +279,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **auto_support_request** | [**AutoSupportRequest**](AutoSupportRequest.md)| Models to run the auto support operation on | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -289,6 +300,7 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -500,7 +512,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **import_model**
-> ModelProperties import_model(import_model_request)
+> ModelProperties import_model(import_model_request, var_async=var_async)
 
 Import model
 
@@ -528,10 +540,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
     import_model_request = {"file":"C:\\Users\\user\\Desktop\\test.stl"} # ImportModelRequest | 
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Import model
-        api_response = api_instance.import_model(import_model_request)
+        api_response = api_instance.import_model(import_model_request, var_async=var_async)
         print("The response of ModifyingASceneApi->import_model:\n")
         pprint(api_response)
     except Exception as e:
@@ -546,6 +559,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **import_model_request** | [**ImportModelRequest**](ImportModelRequest.md)|  | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -566,6 +580,7 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

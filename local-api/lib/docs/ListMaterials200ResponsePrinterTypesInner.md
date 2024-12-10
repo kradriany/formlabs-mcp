@@ -6,6 +6,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **label** | **str** |  | [optional] 
+**build_volume_dimensions_mm** | **List[float]** |  | [optional] 
+**supported_machine_type_ids** | **List[str]** |  | [optional] 
+**supported_product_names** | **List[str]** |  | [optional] 
 **materials** | [**List[ListMaterials200ResponsePrinterTypesInnerMaterialsInner]**](ListMaterials200ResponsePrinterTypesInnerMaterialsInner.md) |  | [optional] 
 
 ## Example

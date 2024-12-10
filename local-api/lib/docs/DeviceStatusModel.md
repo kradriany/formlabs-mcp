@@ -12,14 +12,18 @@ Name | Type | Description | Notes
 **connection_type** | **str** |  | 
 **ip_address** | **str** |  | 
 **firmware_version** | **str** |  | 
+**ready_to_print_now** | **bool** | If the default behavior for newly uploaded jobs is to start printing them automatically. If false, uploaded jobs will be added to the printing queue. | 
 **dashboard_group_id** | **str** |  | 
 **dashboard_queue_id** | **str** |  | 
+**queue_paused** | **bool** |  | 
+**has_form_auto** | **bool** |  | 
+**supported_machine_type_ids** | **List[str]** |  | 
+**printers** | [**List[FleetControlPrinterGroupDeviceStatusModelAllOfPrinters]**](FleetControlPrinterGroupDeviceStatusModelAllOfPrinters.md) |  | 
 **is_remote_print_enabled** | **bool** |  | 
 **estimated_print_time_remaining_ms** | **int** |  | 
 **tank_id** | **str** |  | 
 **tank_material_code** | **str** |  | 
-**cartridge_data** | [**Dict[str, Form4PrinterCartridgeDataValue]**](Form4PrinterCartridgeDataValue.md) |  | 
-**ready_to_print_now** | **bool** |  | 
+**cartridge_data** | [**Dict[str, Form4FamilyDeviceStatusModelAllOfCartridgeData]**](Form4FamilyDeviceStatusModelAllOfCartridgeData.md) |  | 
 **form_auto_status** | **str** |  | 
 **bed_temperature_c** | **float** |  | 
 **powder_level** | **str** |  | 

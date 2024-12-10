@@ -7,6 +7,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **printer** | **str** | Printer serial name, IP address, or Fleet Control Queue ID | 
 **job_name** | **str** |  | 
+**find_printer_timeout_seconds** | **int** | Number of seconds to wait to find the given printer. | [optional] [default to 30]
+**print_now** | **bool** | If true, the job should be printed immediately if the printer&#39;s \&quot;ready_to_print_now\&quot; status is true. Attempting to print now on a printer that does not support it will result in an error. If false, the job should be uploaded to the printer&#39;s local queue. Not including this value will default to printing now if the printer is in a ready state, and queueing the job otherwise.  | [optional] 
 
 ## Example
 
