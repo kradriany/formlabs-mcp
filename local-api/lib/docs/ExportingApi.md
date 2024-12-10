@@ -144,7 +144,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **save_screenshot**
-> save_screenshot(save_screenshot_request)
+> save_screenshot(save_screenshot_request, var_async=var_async)
 
 Save screenshot file
 
@@ -171,10 +171,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ExportingApi(api_client)
     save_screenshot_request = {"file":"C:\\Users\\user\\Desktop\\screenshot.png"} # SaveScreenshotRequest | Full path where the image should be saved
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Save screenshot file
-        api_instance.save_screenshot(save_screenshot_request)
+        api_instance.save_screenshot(save_screenshot_request, var_async=var_async)
     except Exception as e:
         print("Exception when calling ExportingApi->save_screenshot: %s\n" % e)
 ```
@@ -187,6 +188,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **save_screenshot_request** | [**SaveScreenshotRequest**](SaveScreenshotRequest.md)| Full path where the image should be saved | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -207,6 +209,7 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

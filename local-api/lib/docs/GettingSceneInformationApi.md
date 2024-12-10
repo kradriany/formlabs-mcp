@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **estimate_print_time**
-> EstimatedPrintTimeModel estimate_print_time()
+> EstimatedPrintTimeModel estimate_print_time(var_async=var_async)
 
 Estimate Print Time
 
@@ -37,10 +37,11 @@ configuration = formlabs_local_api.Configuration(
 with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.GettingSceneInformationApi(api_client)
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Estimate Print Time
-        api_response = api_instance.estimate_print_time()
+        api_response = api_instance.estimate_print_time(var_async=var_async)
         print("The response of GettingSceneInformationApi->estimate_print_time:\n")
         pprint(api_response)
     except Exception as e:
@@ -51,7 +52,10 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -72,6 +76,7 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -145,7 +150,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_print_validation**
-> PrintValidationResultModel get_print_validation()
+> PrintValidationResultModel get_print_validation(var_async=var_async)
 
 Get Print Validation
 
@@ -171,10 +176,11 @@ configuration = formlabs_local_api.Configuration(
 with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.GettingSceneInformationApi(api_client)
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Get Print Validation
-        api_response = api_instance.get_print_validation()
+        api_response = api_instance.get_print_validation(var_async=var_async)
         print("The response of GettingSceneInformationApi->get_print_validation:\n")
         pprint(api_response)
     except Exception as e:
@@ -185,7 +191,10 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -206,6 +215,7 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
