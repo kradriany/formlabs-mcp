@@ -233,7 +233,7 @@ def poll_print_status(operation_id: PrintOperationId) -> None:
             update_status_text_and_progress_bar("Print job uploaded successfully!")
             break
         elif data["status"] == "FAILED":
-            update_status_text_and_progress_bar(f"Print job upload failed! Error: {data["result"]["error"]["message"]}")
+            update_status_text_and_progress_bar(f"Print job upload failed! Error: {data['result']['error']['message']}")
             break
         else:
             update_status_text_and_progress_bar(f"Progress: {data['progress']*100:.2f}%", data["progress"] * 100)
