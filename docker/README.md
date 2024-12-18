@@ -27,7 +27,7 @@ docker buildx build \
 
 ## Running the Docker Container
 
-Run the [docker/example-app.py](docker/example-app.py) sample Python application using the Formlabs Local API minimal library.
+Run the [example-app.py](example-app.py) sample Python application using the Formlabs Local API minimal library.
 ```
 docker run --platform linux/amd64 -it --rm docker.io/library/formlabs-local-api-app
 ```
