@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "formlabs_local_api"
-version = "0.8.6"
+version = "0.8.7"
 description = "Formlabs Local API"
 authors = ["Formlabs Support <team@openapitools.org>"]
 license = "NoLicense"

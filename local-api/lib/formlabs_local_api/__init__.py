@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "0.8.6"
+__version__ = "0.8.7"
 
 # import apis into sdk package
 from formlabs_local_api.api.api_info_api import APIInfoApi
