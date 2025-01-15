@@ -12,7 +12,7 @@ def hello_server():
     else:
         print("Unsupported platform")
         sys.exit(1)
-    with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformServer):
+    with formlabs.PreFormApi.start_or_connect_to_preform_server(pathToPreformServer=pathToPreformServer):
         payload = {
             "machine_type": "FORM-4-0",
             "material_code": "FLRG1011",

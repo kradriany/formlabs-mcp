@@ -11,6 +11,7 @@ VERSION = "0.8.7"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
     "requests >= 2.32.3",
+    "psutil >= 5.9.5",
     "typing-extensions >= 4.7.1",
 ]
 

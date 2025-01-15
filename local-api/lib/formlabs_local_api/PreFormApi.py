@@ -5,6 +5,8 @@ from contextlib import contextmanager
 import formlabs_local_api as formlabs
 import subprocess
 import os
+import psutil
+import socket
 import sys
 import threading
 import queue
@@ -49,11 +51,19 @@ class PreFormApi:
             except queue.Empty:
                 print('could not get line from queue')
 
-    # This solves a problem while developing where it's easy to end up with an orphaned server process
-    # TODO: start_preform_server_if_needed
+    # This `with` pattern ensures that application errors don't result in an orphaned server process
     @contextmanager
     @staticmethod
     def start_preform_server(pathToPreformServer=None, preform_port=44388):
+        """
+        Start PreFormServer and yeild a PreFormApi client connected to that server.
+
+        Usage:
+        ```
+        with PreFormApi.start_preform_server() as preformApi:
+            preformApi.api.create_scene(...)
+        ```
+        """
         preformApi = None
         try:
             preformApi = PreFormApi.start_preform_sync(pathToPreformServer, preform_port)
@@ -64,6 +74,85 @@ class PreFormApi:
             if (preformApi):
                 preformApi.stop_preform_server()
                 print("PreForm server stopped.")
+
+    # TODO: reject_earlier_versions, reject_later_versions
+    @contextmanager
+    @staticmethod
+    def connect_to_preform_server(preform_port=44388):
+        """
+        Connect to an already-running PreForm server and yeild a PreFormApi client.
+        Usage:
+        ```
+        with PreFormApi.connect_to_preform_server() as preformApi:
+            preformApi.api.create_scene(...)
+        ```
+        """
+        preformApi = None
+        try:
+            process = PreFormApi.find_process_using_port(preform_port)
+            if process is None:
+                raise RuntimeError(f"No PreForm server found on port {preform_port}")
+            else:
+                PreFormApi.check_valid_server(preform_port)
+                yield preformApi
+                return
+        finally:
+            if preformApi:
+                preformApi.stop_preform_server()
+                print("PreForm server stopped.")
+
+
+    @contextmanager
+    @staticmethod
+    def start_or_connect_to_preform_server(pathToPreformServer=None, preform_port=44388):
+        """
+        connect_to_preform_server if a valid server is already running on this port, otherwise start a new server.
+
+        Usage:
+        ```
+        with PreFormApi.start_or_connect_to_preform_server() as preformApi:
+            preformApi.api.create_scene(...)
+        ```
+        """
+        # Check the preform port, attempt to connect to it
+        server_process = PreFormApi.find_process_using_port(preform_port)
+        if server_process is None:
+            preformApi = None
+            try:
+                preformApi = PreFormApi.start_preform_sync(pathToPreformServer, preform_port)
+                print("PreForm server ready")
+                yield preformApi
+                return
+            finally:
+                if (preformApi):
+                    preformApi.stop_preform_server()
+                    print("PreForm server stopped.")
+        else:
+            PreFormApi.check_valid_server(preform_port)
+            yield PreFormApi(preform_port)
+            return
+
+    @staticmethod
+    def check_valid_server(preform_port=44388):
+        preformApi = PreFormApi(preform_port)
+        # Verify this is a valid server by checking the version
+        try:
+            result = preformApi.api.get_api_version()
+        except Exception as e:
+            raise RuntimeError(f"Process on port {preform_port} is not a valid PreForm server: {e}")
+        if result is None or result.version is None:
+            raise RuntimeError(f"Process on port {preform_port} is not a valid PreForm server")
+
+    @staticmethod
+    def find_process_using_port(preform_port=44388):
+        for proc in psutil.process_iter():
+            try:
+                for connection in proc.connections():
+                    if connection.laddr.port == preform_port:
+                        return proc
+            except Exception:
+                pass
+        return None
 
     def stop_preform_server(self):
         if self.server_process is not None:
