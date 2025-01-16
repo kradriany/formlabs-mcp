@@ -6,6 +6,8 @@ import shlex
 import sys
 import threading
 import queue
+import psutil
+import requests
 
 class PreFormApiBase:
     server_process = None
@@ -51,8 +53,8 @@ class PreFormApiBase:
                 print('could not get line from queue')
 
     # This `with` pattern ensures that application errors don't result in an orphaned server process
-    @contextmanager
     @classmethod
+    @contextmanager
     def start_preform_server(cls, pathToPreformServer=None, preform_port=44388):
         """
         Start PreFormServer and yeild a PreFormApi client connected to that server.
@@ -75,8 +77,8 @@ class PreFormApiBase:
                 print("PreForm server stopped.")
 
     # TODO: reject_earlier_versions, reject_later_versions
-    @contextmanager
     @classmethod
+    @contextmanager
     def connect_to_preform_server(cls, preform_port=44388):
         """
         Connect to an already-running PreForm server and yeild a PreFormApi client.
@@ -95,8 +97,8 @@ class PreFormApiBase:
             return
 
 
-    @contextmanager
     @classmethod
+    @contextmanager
     def start_or_connect_to_preform_server(cls, pathToPreformServer=None, preform_port=44388):
         """
         connect_to_preform_server if a valid server is already running on this port, otherwise start a new server.
@@ -127,13 +129,15 @@ class PreFormApiBase:
 
     @classmethod
     def check_valid_server(cls, preform_port=44388):
-        preformApi = cls(preform_port)
         # Verify this is a valid server by checking the version
+        result = None
         try:
-            result = preformApi.api.get_api_version()
+            version_response = requests.request("GET", f"http://localhost:{preform_port}")
+            version_response.raise_for_status()
+            result = version_response.json()
         except Exception as e:
             raise RuntimeError(f"Process on port {preform_port} is not a valid PreForm server: {e}")
-        if result is None or result.version is None:
+        if result is None or result.get("version") is None:
             raise RuntimeError(f"Process on port {preform_port} is not a valid PreForm server")
 
     @classmethod
