@@ -76,7 +76,7 @@ class PreFormApiBase:
                 preformApi.stop_preform_server()
                 print("PreForm server stopped.")
 
-    # TODO: reject_earlier_versions, reject_later_versions
+    # TODO PP-25617: reject_earlier_versions, reject_later_versions
     @classmethod
     @contextmanager
     def connect_to_preform_server(cls, preform_port=44388):
@@ -89,12 +89,12 @@ class PreFormApiBase:
         ```
         """
         process = cls.find_process_using_port(preform_port)
-        if process is None:
-            raise RuntimeError(f"No PreForm server found on port {preform_port}")
-        else:
+        if process:
             cls.check_valid_server(preform_port)
             yield cls(preform_port)
             return
+        else:
+            raise RuntimeError(f"No PreForm server found on port {preform_port}")
 
 
     @classmethod
