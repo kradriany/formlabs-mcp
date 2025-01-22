@@ -52,12 +52,11 @@ class PreFormApi:
                     preformApi.server_process = server_process
                     return preformApi
                 if "address is already in use" in line:
-                    raise RuntimeError("Port already in use, probably another PreForm server is already running.")
+                    raise RuntimeError(f"Port {preform_port} already in use, probably another PreForm server is already running.")
             except queue.Empty:
                 print('could not get line from queue')
 
     # This solves a problem while developing where it's easy to end up with an orphaned server process
-    # TODO: start_preform_server_if_needed
     @contextmanager
     @staticmethod
     def start_preform_server(pathToPreformServer=None, preform_port=44388, command_prefix=None):
