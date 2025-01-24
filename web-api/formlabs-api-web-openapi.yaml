@@ -764,12 +764,10 @@ paths:
       tags:
       - Authentication
       operationId: Revoke an access token
-      description: "\nYou can log out from your current authenticated session by revoking\
-        \ the access token.\nWhen successfully revoked, the API does not return any\
-        \ response.\nAs aforementioned, once you send a request to revoke the specified\
-        \ access token,\nthis token can no longer be used to make requests to the\
-        \ Dashboard Developer API.\nPlease retrieve a new access token to start using\
-        \ the API again.\n            "
+      description: "Log out from your current authenticated session by revoking the access\
+        \ token.\nWhen successfully revoked, the API does not return any response, and the\
+        \ token can no longer be used.\nYou must retrieve a new access token to start using\
+        \ the Dashboard Developer API again.\n"
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -2270,9 +2268,10 @@ tags:
     \ visit the [Developer Tools page](https://dashboard.formlabs.com/#developer)\
     \ and create your Application credentials.*\n\n## Getting an Access Token\n\n\
     To authenticate with the Dashboard Developer API, you need to get an access token.\
-    \ The access token is used to authenticate your requests to the API.\nSee the\
-    \ [Request an access token](#tag/Authentication/operation/Request%20an%20access%20token)\
-    \ endpoint for more information.\n\nExample:\n\n```bash\ncurl --request POST \\\
+    \ Call the [ [Request an access token](#tag/Authentication/operation/Request%20an%20access%20token)\
+    \ API endpoint, replacing the query parameters `<client_id>` and `<client_secret>` with
+    \ the Application Credentials given above.
+    \n\nExample:\n\n```bash\ncurl --request POST \\\
     \n--url https://api.formlabs.com/developer/v1/o/token/ \\\n--header 'content-type:\
     \ application/x-www-form-urlencoded' \\\n--data 'grant_type=client_credentials&client_id=<client_id>&client_secret=<client_secret>'\n\
     ```\n## Using the Access Token\n\nOnce you have the access token, you can use\
