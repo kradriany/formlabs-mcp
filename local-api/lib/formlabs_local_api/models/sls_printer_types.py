@@ -17,17 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GetApiVersion200Response(BaseModel):
+class SLSPrinterTypes(BaseModel):
     """
-    GetApiVersion200Response
+    SLSPrinterTypes
     """ # noqa: E501
-    version: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["version"]
+    total_print_time_s: Optional[Union[StrictFloat, StrictInt]] = None
+    preprint_time_s: Optional[Union[StrictFloat, StrictInt]] = None
+    printing_time_s: Optional[Union[StrictFloat, StrictInt]] = None
+    cool_to_removal_time_s: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Time it takes to cool the build chamber to around 100°C when it can be removed from the printer.")
+    additional_cool_to_room_temp_time_s: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Time it takes to cool the build from around 100°C to nearly room temperature while inside of the printer.")
+    __properties: ClassVar[List[str]] = ["total_print_time_s", "preprint_time_s", "printing_time_s", "cool_to_removal_time_s", "additional_cool_to_room_temp_time_s"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -47,7 +51,7 @@ class GetApiVersion200Response(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GetApiVersion200Response from a JSON string"""
+        """Create an instance of SLSPrinterTypes from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,7 +76,7 @@ class GetApiVersion200Response(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GetApiVersion200Response from a dict"""
+        """Create an instance of SLSPrinterTypes from a dict"""
         if obj is None:
             return None
 
@@ -80,7 +84,11 @@ class GetApiVersion200Response(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "version": obj.get("version")
+            "total_print_time_s": obj.get("total_print_time_s"),
+            "preprint_time_s": obj.get("preprint_time_s"),
+            "printing_time_s": obj.get("printing_time_s"),
+            "cool_to_removal_time_s": obj.get("cool_to_removal_time_s"),
+            "additional_cool_to_room_temp_time_s": obj.get("additional_cool_to_room_temp_time_s")
         })
         return _obj
 

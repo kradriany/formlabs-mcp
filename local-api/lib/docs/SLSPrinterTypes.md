@@ -1,4 +1,4 @@
-# EstimatedPrintTimeModel
+# SLSPrinterTypes
 
 
 ## Properties
@@ -14,19 +14,19 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from formlabs_local_api.models.estimated_print_time_model import EstimatedPrintTimeModel
+from formlabs_local_api.models.sls_printer_types import SLSPrinterTypes
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of EstimatedPrintTimeModel from a JSON string
-estimated_print_time_model_instance = EstimatedPrintTimeModel.from_json(json)
+# create an instance of SLSPrinterTypes from a JSON string
+sls_printer_types_instance = SLSPrinterTypes.from_json(json)
 # print the JSON string representation of the object
-print(EstimatedPrintTimeModel.to_json())
+print(SLSPrinterTypes.to_json())
 
 # convert the object into a dict
-estimated_print_time_model_dict = estimated_print_time_model_instance.to_dict()
-# create an instance of EstimatedPrintTimeModel from a dict
-estimated_print_time_model_from_dict = EstimatedPrintTimeModel.from_dict(estimated_print_time_model_dict)
+sls_printer_types_dict = sls_printer_types_instance.to_dict()
+# create an instance of SLSPrinterTypes from a dict
+sls_printer_types_from_dict = SLSPrinterTypes.from_dict(sls_printer_types_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
