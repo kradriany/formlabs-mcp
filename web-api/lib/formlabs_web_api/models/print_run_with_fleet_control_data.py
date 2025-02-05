@@ -146,6 +146,7 @@ class PrintRunWithFleetControlData(BaseModel):
         * OpenAPI `readOnly` fields are excluded.
         * OpenAPI `readOnly` fields are excluded.
         * OpenAPI `readOnly` fields are excluded.
+        * OpenAPI `readOnly` fields are excluded.
         """
         excluded_fields: Set[str] = set([
             "printer",
@@ -185,6 +186,7 @@ class PrintRunWithFleetControlData(BaseModel):
             "cloud_queue_item",
             "form_auto_serial",
             "form_auto_fw_version",
+            "harvest_status",
             "parts",
         ])
 

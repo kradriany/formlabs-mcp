@@ -141,6 +141,7 @@ class MyPrintRunReadOnly(BaseModel):
         * OpenAPI `readOnly` fields are excluded.
         * OpenAPI `readOnly` fields are excluded.
         * OpenAPI `readOnly` fields are excluded.
+        * OpenAPI `readOnly` fields are excluded.
         """
         excluded_fields: Set[str] = set([
             "printer",
@@ -179,6 +180,7 @@ class MyPrintRunReadOnly(BaseModel):
             "print_settings_code",
             "form_auto_serial",
             "form_auto_fw_version",
+            "harvest_status",
         ])
 
         _dict = self.model_dump(

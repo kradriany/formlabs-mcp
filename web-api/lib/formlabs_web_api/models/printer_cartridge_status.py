@@ -21,7 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from formlabs_web_api.models.cartridge_read_only import CartridgeReadOnly
-from formlabs_web_api.models.printer_cartridge_status_cartridge_slot import PrinterCartridgeStatusCartridgeSlot
+from formlabs_web_api.models.cartridge_slot_enum import CartridgeSlotEnum
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -31,7 +31,7 @@ class PrinterCartridgeStatus(BaseModel):
     """ # noqa: E501
     cartridge: CartridgeReadOnly
     last_modified: datetime
-    cartridge_slot: Optional[PrinterCartridgeStatusCartridgeSlot] = None
+    cartridge_slot: Optional[CartridgeSlotEnum] = None
     __properties: ClassVar[List[str]] = ["cartridge", "last_modified", "cartridge_slot"]
 
     model_config = ConfigDict(
@@ -80,9 +80,6 @@ class PrinterCartridgeStatus(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of cartridge
         if self.cartridge:
             _dict['cartridge'] = self.cartridge.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of cartridge_slot
-        if self.cartridge_slot:
-            _dict['cartridge_slot'] = self.cartridge_slot.to_dict()
         return _dict
 
     @classmethod
@@ -97,7 +94,7 @@ class PrinterCartridgeStatus(BaseModel):
         _obj = cls.model_validate({
             "cartridge": CartridgeReadOnly.from_dict(obj["cartridge"]) if obj.get("cartridge") is not None else None,
             "last_modified": obj.get("last_modified"),
-            "cartridge_slot": PrinterCartridgeStatusCartridgeSlot.from_dict(obj["cartridge_slot"]) if obj.get("cartridge_slot") is not None else None
+            "cartridge_slot": obj.get("cartridge_slot")
         })
         return _obj
 

@@ -63,7 +63,7 @@ class TestDeveloperAPIMyPrinter(unittest.TestCase):
                 cartridge_status = formlabs_web_api.models.printer_cartridge_status.PrinterCartridgeStatus(
                     cartridge = null, 
                     last_modified = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                    cartridge_slot = null, ),
+                    cartridge_slot = 'FRONT', ),
                 tank_status = formlabs_web_api.models.printer_tank_status.PrinterTankStatus(
                     tank = null, 
                     last_modified = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),
@@ -106,7 +106,7 @@ class TestDeveloperAPIMyPrinter(unittest.TestCase):
                 cartridge_status = formlabs_web_api.models.printer_cartridge_status.PrinterCartridgeStatus(
                     cartridge = null, 
                     last_modified = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                    cartridge_slot = null, ),
+                    cartridge_slot = 'FRONT', ),
                 tank_status = formlabs_web_api.models.printer_tank_status.PrinterTankStatus(
                     tank = null, 
                     last_modified = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),

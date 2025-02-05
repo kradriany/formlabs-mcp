@@ -53,7 +53,7 @@ class PrintsApi:
         page: Annotated[Optional[StrictInt], Field(description="A page number within the paginated result set.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Number of results to return per page.")] = None,
         printer: Annotated[Optional[StrictStr], Field(description="Filter by printer serial")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -91,7 +91,7 @@ class PrintsApi:
         :type per_page: int
         :param printer: Filter by printer serial
         :type printer: str
-        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
+        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
         :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -160,7 +160,7 @@ class PrintsApi:
         page: Annotated[Optional[StrictInt], Field(description="A page number within the paginated result set.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Number of results to return per page.")] = None,
         printer: Annotated[Optional[StrictStr], Field(description="Filter by printer serial")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -198,7 +198,7 @@ class PrintsApi:
         :type per_page: int
         :param printer: Filter by printer serial
         :type printer: str
-        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
+        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
         :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -267,7 +267,7 @@ class PrintsApi:
         page: Annotated[Optional[StrictInt], Field(description="A page number within the paginated result set.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Number of results to return per page.")] = None,
         printer: Annotated[Optional[StrictStr], Field(description="Filter by printer serial")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -305,7 +305,7 @@ class PrintsApi:
         :type per_page: int
         :param printer: Filter by printer serial
         :type printer: str
-        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
+        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
         :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -511,7 +511,7 @@ class PrintsApi:
         page: Annotated[Optional[StrictInt], Field(description="A page number within the paginated result set.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Number of results to return per page.")] = None,
         printer: Annotated[Optional[StrictStr], Field(description="Filter by printer serial")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -547,7 +547,7 @@ class PrintsApi:
         :type per_page: int
         :param printer: Filter by printer serial
         :type printer: str
-        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
+        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
         :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -614,7 +614,7 @@ class PrintsApi:
         page: Annotated[Optional[StrictInt], Field(description="A page number within the paginated result set.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Number of results to return per page.")] = None,
         printer: Annotated[Optional[StrictStr], Field(description="Filter by printer serial")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -650,7 +650,7 @@ class PrintsApi:
         :type per_page: int
         :param printer: Filter by printer serial
         :type printer: str
-        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
+        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
         :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -717,7 +717,7 @@ class PrintsApi:
         page: Annotated[Optional[StrictInt], Field(description="A page number within the paginated result set.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Number of results to return per page.")] = None,
         printer: Annotated[Optional[StrictStr], Field(description="Filter by printer serial")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -753,7 +753,7 @@ class PrintsApi:
         :type per_page: int
         :param printer: Filter by printer serial
         :type printer: str
-        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
+        :param status: Filter by status of the print. Possible values are:           * `QUEUED` - Queued           * `PREPRINT` - Preprint           * `PRINTING` - Printing           * `PAUSING` - Pausing           * `PAUSED` - Paused           * `FINISHED` - Finished           * `ABORTING` - Aborting           * `ABORTED` - Aborted           * `ERROR` - Error           * `WAITING_FOR_RESOLUTION` - Waiting for Resolution           * `PREHEAT` - Preheat           * `PRECOAT` - Precoat           * `POSTCOAT` - Postcoat
         :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

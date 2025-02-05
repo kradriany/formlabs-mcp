@@ -49,7 +49,7 @@ class TestPrinterCartridgeStatus(unittest.TestCase):
                     last_print_date = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                     machine_type_id = '', ),
                 last_modified = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                cartridge_slot = None
+                cartridge_slot = 'FRONT'
             )
         else:
             return PrinterCartridgeStatus(

@@ -43,7 +43,7 @@ Name | Type | Description | Notes
 **print_settings_code** | **str** |  | [readonly] 
 **form_auto_serial** | **str** |  | [readonly] 
 **form_auto_fw_version** | **str** |  | [readonly] 
-**harvest_status** | [**HarvestStatusEnum**](HarvestStatusEnum.md) |  | 
+**harvest_status** | [**HarvestStatusEnum**](HarvestStatusEnum.md) |  | [readonly] 
 
 ## Example
 

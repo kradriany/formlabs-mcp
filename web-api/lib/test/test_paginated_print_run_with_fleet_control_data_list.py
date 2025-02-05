@@ -81,7 +81,7 @@ class TestPaginatedPrintRunWithFleetControlDataList(unittest.TestCase):
                             }, 
                         form_auto_serial = '', 
                         form_auto_fw_version = '', 
-                        harvest_status = 'FORM_CELL_HARVEST_UNKNOWN', 
+                        harvest_status = null, 
                         parts = [
                             formlabs_web_api.models.print_part.PrintPart(
                                 id = 56, 
