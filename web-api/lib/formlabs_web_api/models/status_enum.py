@@ -20,7 +20,7 @@ from typing_extensions import Self
 
 class StatusEnum(str, Enum):
     """
-    * `QUEUED` - Queued * `PREPRINT` - Preprint * `PRINTING` - Printing * `PAUSED` - Paused * `FINISHED` - Finished * `ABORTING` - Aborting * `ABORTED` - Aborted * `ERROR` - Error * `WAITING_FOR_RESOLUTION` - Waiting for Resolution * `PREHEAT` - Preheat * `PRECOAT` - Precoat * `POSTCOAT` - Postcoat
+    * `QUEUED` - Queued * `PREPRINT` - Preprint * `PRINTING` - Printing * `PAUSED` - Paused * `PAUSING` - Pausing * `FINISHED` - Finished * `ABORTING` - Aborting * `ABORTED` - Aborted * `ERROR` - Error * `WAITING_FOR_RESOLUTION` - Waiting for Resolution * `PREHEAT` - Preheat * `PRECOAT` - Precoat * `POSTCOAT` - Postcoat
     """
 
     """
@@ -30,6 +30,7 @@ class StatusEnum(str, Enum):
     PREPRINT = 'PREPRINT'
     PRINTING = 'PRINTING'
     PAUSED = 'PAUSED'
+    PAUSING = 'PAUSING'
     FINISHED = 'FINISHED'
     ABORTING = 'ABORTING'
     ABORTED = 'ABORTED'

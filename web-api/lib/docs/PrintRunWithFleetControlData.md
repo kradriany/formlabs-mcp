@@ -44,7 +44,7 @@ Name | Type | Description | Notes
 **cloud_queue_item** | **Dict[str, object]** |  | [readonly] 
 **form_auto_serial** | **str** |  | [readonly] 
 **form_auto_fw_version** | **str** |  | [readonly] 
-**harvest_status** | [**HarvestStatusEnum**](HarvestStatusEnum.md) |  | 
+**harvest_status** | [**HarvestStatusEnum**](HarvestStatusEnum.md) |  | [readonly] 
 **parts** | [**List[PrintPart]**](PrintPart.md) |  | [readonly] 
 
 ## Example

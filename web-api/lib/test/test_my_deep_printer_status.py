@@ -81,7 +81,7 @@ class TestMyDeepPrinterStatus(unittest.TestCase):
                     print_settings_code = '', 
                     form_auto_serial = '', 
                     form_auto_fw_version = '', 
-                    harvest_status = 'FORM_CELL_HARVEST_UNKNOWN', ),
+                    harvest_status = null, ),
                 form_cell = formlabs_web_api.models.form_cell.FormCell(
                     serial = '', 
                     firmware_version = '', 
@@ -143,7 +143,7 @@ class TestMyDeepPrinterStatus(unittest.TestCase):
                     print_settings_code = '', 
                     form_auto_serial = '', 
                     form_auto_fw_version = '', 
-                    harvest_status = 'FORM_CELL_HARVEST_UNKNOWN', ),
+                    harvest_status = null, ),
                 form_cell = formlabs_web_api.models.form_cell.FormCell(
                     serial = '', 
                     firmware_version = '', 
