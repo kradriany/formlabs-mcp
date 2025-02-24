@@ -166,7 +166,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
                 model_data = models_in_current_batch.pop()
                 delete_response = requests.request(
                     "DELETE",
-                    f"http://localhost:44388/scene/models/{str(model_data["model_id"])}/",
+                    f"http://localhost:44388/scene/models/{str(model_data['model_id'])}/",
                 )
                 delete_response.raise_for_status()
                 files_to_batch.append(model_data["file_name"])
