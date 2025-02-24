@@ -75,6 +75,7 @@ docs/SLS.md
 docs/SLSPrinterTypes.md
 docs/SaveFpsFileRequest.md
 docs/SaveScreenshotRequest.md
+docs/ScanToModelRequest.md
 docs/SceneModel.md
 docs/ScenePositionModel.md
 docs/SceneTypeModel.md
@@ -160,6 +161,7 @@ formlabs_local_api/models/replace_model200_response.py
 formlabs_local_api/models/replace_model_request.py
 formlabs_local_api/models/save_fps_file_request.py
 formlabs_local_api/models/save_screenshot_request.py
+formlabs_local_api/models/scan_to_model_request.py
 formlabs_local_api/models/scene_model.py
 formlabs_local_api/models/scene_position_model.py
 formlabs_local_api/models/scene_type_model.py
@@ -250,6 +252,7 @@ test/test_replace_model200_response.py
 test/test_replace_model_request.py
 test/test_save_fps_file_request.py
 test/test_save_screenshot_request.py
+test/test_scan_to_model_request.py
 test/test_scene_model.py
 test/test_scene_position_model.py
 test/test_scene_type_model.py
