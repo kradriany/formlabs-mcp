@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**models** | [**ModelsSelectionModel**](ModelsSelectionModel.md) |  | 
+**models** | [**ModelsSelectionModel**](ModelsSelectionModel.md) |  | [optional] 
 **mode** | **str** | &#x60;\&quot;DENTAL\&quot;&#x60; mode applies algorithms used in PreForm&#39;s Dental Workspace. Leave mode unset to use algorithms from the Standard Workspace. | [optional] 
 **model_spacing_mm** | **float** | Minimum (non-zero) distance between models in the scene. | [optional] 
 **allow_overlapping_supports** | **bool** | Whether to allow rafts to overlap. | [optional] 

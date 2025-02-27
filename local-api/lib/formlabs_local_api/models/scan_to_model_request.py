@@ -17,29 +17,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from formlabs_local_api.models.import_units_model import ImportUnitsModel
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GetAllOperations200ResponseOperationsInner(BaseModel):
+class ScanToModelRequest(BaseModel):
     """
-    GetAllOperations200ResponseOperationsInner
+    ScanToModelRequest
     """ # noqa: E501
-    id: Optional[StrictStr] = Field(default=None, description="Operation ID.")
-    status: Optional[StrictStr] = Field(default=None, description="Current status of the operation.")
-    progress: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Progress of the operation (0.0 to 1.0).")
-    __properties: ClassVar[List[str]] = ["id", "status", "progress"]
-
-    @field_validator('status')
-    def status_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in set(['IN_PROGRESS', 'SUCCEEDED', 'FAILED']):
-            raise ValueError("must be one of enum values ('IN_PROGRESS', 'SUCCEEDED', 'FAILED')")
-        return value
+    file: StrictStr = Field(description="Full path to the file to load")
+    units: Optional[ImportUnitsModel] = ImportUnitsModel.DETECTED
+    cutoff_height_mm: Union[StrictFloat, StrictInt] = Field(description="Remove all scan data below this height (in mm) from the model, replace with extude from the bottom of the model.")
+    extrude_distance_mm: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Extrude this distance (in mm) from the removed bottom of the model. Default is 0mm.")
+    hollow: Optional[StrictBool] = Field(default=None, description="Whether to hollow the model and fill in with a honeycomb infill.")
+    __properties: ClassVar[List[str]] = ["file", "units", "cutoff_height_mm", "extrude_distance_mm", "hollow"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -59,7 +52,7 @@ class GetAllOperations200ResponseOperationsInner(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GetAllOperations200ResponseOperationsInner from a JSON string"""
+        """Create an instance of ScanToModelRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,7 +77,7 @@ class GetAllOperations200ResponseOperationsInner(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GetAllOperations200ResponseOperationsInner from a dict"""
+        """Create an instance of ScanToModelRequest from a dict"""
         if obj is None:
             return None
 
@@ -92,9 +85,11 @@ class GetAllOperations200ResponseOperationsInner(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "status": obj.get("status"),
-            "progress": obj.get("progress")
+            "file": obj.get("file"),
+            "units": obj.get("units") if obj.get("units") is not None else ImportUnitsModel.DETECTED,
+            "cutoff_height_mm": obj.get("cutoff_height_mm"),
+            "extrude_distance_mm": obj.get("extrude_distance_mm"),
+            "hollow": obj.get("hollow")
         })
         return _obj
 

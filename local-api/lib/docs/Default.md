@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**models** | [**ModelsSelectionModel**](ModelsSelectionModel.md) |  | 
+**models** | [**ModelsSelectionModel**](ModelsSelectionModel.md) |  | [optional] 
 
 ## Example
 

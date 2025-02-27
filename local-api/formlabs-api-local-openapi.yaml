@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 info:
   title: Formlabs Local API
-  version: 0.8.11
+  version: 0.8.12
   termsOfService: /formlabs-api-license-agreement.html
   contact:
     name: Formlabs Support
@@ -1406,6 +1406,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationAcceptedModel'
+  /scene/scan-to-model/:
+    post:
+      summary: Scan to model
+      operationId: scanToModel
+      description: "Convert an STL scan of teeth to a solid, printable model in an SLA scene"
+      tags:
+        - "Modifying a Scene"
+      parameters:
+        - name: async
+          in: query
+          description: Whether to run the operation asynchronously
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - file
+                - cutoff_height_mm
+              properties:
+                file:
+                  type: string
+                  description: Full path to the file to load
+                units:
+                  $ref: '#/components/schemas/ImportUnitsModel'
+                cutoff_height_mm:
+                  type: number
+                  description: Remove all scan data below this height (in mm) from the model, replace with extude from the bottom of the model.
+                extrude_distance_mm:
+                  type: number
+                  description: Extrude this distance (in mm) from the removed bottom of the model. Default is 0mm.
+                hollow:
+                  type: boolean
+                  description: Whether to hollow the model and fill in with a honeycomb infill.
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelProperties'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        "202":
+          description: Async operation accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationAcceptedModel'
   /scene/print/:
     post:
       summary: Print
@@ -1503,8 +1559,6 @@ paths:
               oneOf:
                 - type: object
                   title: "Default"
-                  required:
-                    - models
                   properties:
                     models:
                       $ref: '#/components/schemas/ModelsSelectionModel'
@@ -1512,7 +1566,6 @@ paths:
                 - type: object
                   title: "Dental Mode"
                   required:
-                    - models
                     - mode
                   properties:
                     models:
@@ -1573,8 +1626,6 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - models
               properties:
                 models:
                   $ref: '#/components/schemas/ModelsSelectionModel'
@@ -1664,8 +1715,6 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - models
               properties:
                 models:
                   $ref: '#/components/schemas/ModelsSelectionModel'
@@ -1673,7 +1722,7 @@ paths:
                   type: string
                   description: "`\"DENTAL\"` mode applies algorithms used in PreForm's Dental Workspace. Leave mode unset to use algorithms from the Standard Workspace."
                   enum:
-                      - "DENTAL"
+                    - DENTAL
                 model_spacing_mm:
                   type: number
                   description: Minimum (non-zero) distance between models in the scene.

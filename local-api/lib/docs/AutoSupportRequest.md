@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**models** | [**ModelsSelectionModel**](ModelsSelectionModel.md) |  | 
+**models** | [**ModelsSelectionModel**](ModelsSelectionModel.md) |  | [optional] 
 **density** | **float** | Unitless factor to adjust the density of supports (default is 1.0) | [optional] 
 **slope_multiplier** | **float** | Unitless factor to increase or decrease support density on steep slopes (default is 1.0) | [optional] 
 **only_minima** | **bool** | Whether to only generate touchpoints on local minima, skipping all other supports. Default is false. | [optional] 

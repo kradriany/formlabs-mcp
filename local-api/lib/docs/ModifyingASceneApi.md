@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**import_model**](ModifyingASceneApi.md#import_model) | **POST** /scene/import-model/ | Import model
 [**load_form_file**](ModifyingASceneApi.md#load_form_file) | **POST** /load-form/ | Load .form file
 [**replace_model**](ModifyingASceneApi.md#replace_model) | **POST** /scene/models/{id}/replace/ | Replace model
+[**scan_to_model**](ModifyingASceneApi.md#scan_to_model) | **POST** /scene/scan-to-model/ | Scan to model
 [**update_model**](ModifyingASceneApi.md#update_model) | **POST** /scene/models/{id}/ | Update model
 [**update_scene**](ModifyingASceneApi.md#update_scene) | **PUT** /scene/ | Update Scene
 
@@ -722,6 +723,79 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad Request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **scan_to_model**
+> ModelProperties scan_to_model(scan_to_model_request, var_async=var_async)
+
+Scan to model
+
+Convert an STL scan of teeth to a solid, printable model in an SLA scene
+
+### Example
+
+
+```python
+import formlabs_local_api
+from formlabs_local_api.models.model_properties import ModelProperties
+from formlabs_local_api.models.scan_to_model_request import ScanToModelRequest
+from formlabs_local_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:44388
+# See configuration.py for a list of all supported configuration parameters.
+configuration = formlabs_local_api.Configuration(
+    host = "http://localhost:44388"
+)
+
+
+# Enter a context with an instance of the API client
+with formlabs_local_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
+    scan_to_model_request = formlabs_local_api.ScanToModelRequest() # ScanToModelRequest | 
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
+
+    try:
+        # Scan to model
+        api_response = api_instance.scan_to_model(scan_to_model_request, var_async=var_async)
+        print("The response of ModifyingASceneApi->scan_to_model:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ModifyingASceneApi->scan_to_model: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **scan_to_model_request** | [**ScanToModelRequest**](ScanToModelRequest.md)|  | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
+
+### Return type
+
+[**ModelProperties**](ModelProperties.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
