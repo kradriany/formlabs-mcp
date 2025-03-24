@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**get_model**](GettingSceneInformationApi.md#get_model) | **GET** /scene/models/{id}/ | Get model
 [**get_print_validation**](GettingSceneInformationApi.md#get_print_validation) | **GET** /scene/print-validation/ | Get Print Validation
 [**get_scene**](GettingSceneInformationApi.md#get_scene) | **GET** /scene/ | Get Scene
+[**get_scene_interferences**](GettingSceneInformationApi.md#get_scene_interferences) | **POST** /scene/interferences/ | Get Scene Interferences
 
 
 # **estimate_print_time**
@@ -280,6 +281,73 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Scene description |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_scene_interferences**
+> get_scene_interferences(get_scene_interferences_request=get_scene_interferences_request)
+
+Get Scene Interferences
+
+Returns a list of pairs of IDs of interfering models.
+
+### Example
+
+
+```python
+import formlabs_local_api
+from formlabs_local_api.models.get_scene_interferences_request import GetSceneInterferencesRequest
+from formlabs_local_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:44388
+# See configuration.py for a list of all supported configuration parameters.
+configuration = formlabs_local_api.Configuration(
+    host = "http://localhost:44388"
+)
+
+
+# Enter a context with an instance of the API client
+with formlabs_local_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = formlabs_local_api.GettingSceneInformationApi(api_client)
+    get_scene_interferences_request = formlabs_local_api.GetSceneInterferencesRequest() # GetSceneInterferencesRequest | Interferences parameters (optional)
+
+    try:
+        # Get Scene Interferences
+        api_instance.get_scene_interferences(get_scene_interferences_request=get_scene_interferences_request)
+    except Exception as e:
+        print("Exception when calling GettingSceneInformationApi->get_scene_interferences: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **get_scene_interferences_request** | [**GetSceneInterferencesRequest**](GetSceneInterferencesRequest.md)| Interferences parameters | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**400** | Bad Request |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

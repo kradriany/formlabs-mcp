@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 info:
   title: Formlabs Local API
-  version: 0.8.12
+  version: 0.8.13
   termsOfService: /formlabs-api-license-agreement.html
   contact:
     name: Formlabs Support
@@ -175,6 +175,16 @@ components:
             message:
               type: string
               description: Human-readable english string describing the error, e.g. "The printer at IP address 10.34.0.1 could not be found"
+    WarningsModel:
+      type: array
+      items:
+        type: string
+        description: Human-readable english string describing the warning, e.g. "Failed to hollow model with ID {id}"
+    InfosModel:
+      type: array
+      items:
+        type: string
+        description: Human-readable english string describing the info message, e.g. ""
     OperationAcceptedModel:
       description: Response to requests with `?async=true`, which return immediately, and whose ongoing progress can be queried with GET to /operations/<operationId>
       type: object
@@ -757,6 +767,37 @@ components:
         - $ref: '#/components/schemas/Form3FamilyDeviceStatusModel'
         - $ref: '#/components/schemas/Fuse1DeviceStatusModel'
         - $ref: '#/components/schemas/Form2DeviceStatusModel'
+    DrainHoleModel:
+      type: object
+      description: A drain hole of the model in the scene. Composes OrientationModel and ScenePositionModel
+      properties:
+        orientation:
+          $ref: '#/components/schemas/OrientationModel'
+        position:
+          $ref: '#/components/schemas/ScenePositionModel'
+        diameter_mm:
+          type: number
+          minimum: 0
+          description: "The diameter of the drain hole, in mm"
+        depth_mm:
+          oneOf:
+            - type: string
+              title: Determine depth automatically
+              enum: ["AUTO"]
+            - type: number
+              minimum: 0
+              title: "The depth of the drain hole, in mm"
+        outset_mm:
+          type: number
+          minimum: 0
+          description: "The back depth of the drain hole, in mm"
+        create_plug:
+          type: boolean
+          description: "Whether or not to create a plug for the drain hole"
+        max_search_distance:
+          type: number
+          description: "The maximum distance, in mm, from the given position to search for a point on the surface of the model. Must be combined with depth_mm: \"AUTO\"."
+      required: ["orientation", "position", "diameter_mm", "depth_mm", "create_plug"]
 paths:
   /:
     get:
@@ -974,6 +1015,12 @@ paths:
       description: "Load a .form file and create a new scene from it"
       tags:
         - "Modifying a Scene"
+      parameters:
+        - name: async
+          in: query
+          description: Whether to run the operation asynchronously
+          schema:
+            type: boolean
       requestBody:
         description: Full path to the .form file to load
         required: true
@@ -995,6 +1042,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SceneModel'
+        "202":
+          description: Async operation accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationAcceptedModel'
   /scene/save-form/:
     post:
       summary: Save .form file
@@ -1002,6 +1055,12 @@ paths:
       description: "Save the current scene to a .form file"
       tags:
         - "Exporting"
+      parameters:
+        - name: async
+          in: query
+          description: Whether to run the operation asynchronously
+          schema:
+            type: boolean
       requestBody:
         description: Full path where the file should be saved
         required: true
@@ -1025,6 +1084,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorModel'
+        "202":
+          description: Async operation accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationAcceptedModel'
   /scene/save-screenshot/:
     post:
       summary: Save screenshot file
@@ -1050,8 +1115,8 @@ paths:
               properties:
                 file:
                   type: string
-                  description: The file path to save the .png screenshot to
-                  pattern: "^.*\\.png$"
+                  description: The file path to save the .png/.webp screenshot or .webp flyaround to
+                  pattern: "^.*\\.(png|webp)$"
                 view_type:
                   type: string
                   description: The type of view to use when taking the screenshot
@@ -1078,6 +1143,31 @@ paths:
                   default: true
                 models:
                   $ref: '#/components/schemas/ModelsSelectionModel'
+                flyaround_transform:
+                  type: object
+                  properties:
+                    transform:
+                      type: array
+                      minItems: 2
+                      items:
+                        type: object
+                        properties:
+                          yaw:
+                            type: number
+                            description: Yaw rotation in degrees for the camera's view, where 0º looks down the negative X-axis
+                          pitch:
+                            type: number
+                            description: Pitch rotation in degrees for the camera's view, where 0º looks flat from the horizon and positive angles look down on models (in SLA scenes, toward the build platform)
+                        additionalProperties: false
+                        required: ["yaw", "pitch"]
+                    frame_count:
+                      type: number
+                      description: The desired number of frames in the animation.
+                    ensure_constant_size:
+                      type: boolean
+                      description: Whether or not to ensure that every frame in the animation is the same size.
+                  additionalProperties: false
+
             examples:
               Minimal:
                 value:
@@ -1436,20 +1526,23 @@ paths:
                   $ref: '#/components/schemas/ImportUnitsModel'
                 cutoff_height_mm:
                   type: number
-                  description: Remove all scan data below this height (in mm) from the model, replace with extude from the bottom of the model.
+                  description: Remove all scan data below this height (in mm) from the model, replace with extrude from the bottom of the model.
                 extrude_distance_mm:
                   type: number
                   description: Extrude this distance (in mm) from the removed bottom of the model. Default is 0mm.
                 hollow:
                   type: boolean
                   description: Whether to hollow the model and fill in with a honeycomb infill.
+                cutoff_below_gumline_mm:
+                  type: number
+                  description: Remove all scan data below this height (in mm) from the model, relative to the gumline, replace with extrude from the bottom of the model.
       responses:
         "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelProperties'
+                $ref: '#/components/schemas/SceneModel'
         "400":
           description: Bad Request
           content:
@@ -1646,7 +1739,7 @@ paths:
                   enum:
                     - "FULL_RAFT"
                     - "MINI_RAFTS"
-                    - "NONE"
+                    - "MINI_RAFTS_ON_BP"
                 raft_label_enabled:
                   type: boolean
                   description: Whether to enable raft labeling
@@ -1848,6 +1941,161 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationAcceptedModel'
+
+  /scene/hollow/:
+    post:
+      summary: Hollow Model
+      operationId: hollowModel
+      description: "Hollows the specified models"
+      tags:
+        - "Modifying a Scene"
+      parameters:
+        - name: async
+          in: query
+          description: Whether to run the operation asynchronously
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                models:
+                  $ref: '#/components/schemas/ModelsSelectionModel'
+                  description: A list of models to hollow
+                wall_thickness_mm:
+                  type: number
+                  minimum: 0.1
+                  description: The desired wall thickness of the hollowed models
+                feature_size_mm:
+                  type: number
+                  minimum: 0.05
+                  default: 1
+                  description: The size of features to keep on hollowed geometry. Higher values will produce a smoother, simpler inner hollowed surface with a less accurate thickness wall thickness around features smaller than this value.
+                accuracy:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                  default: 0.5
+                  description: The accuracy of the hollowing operation. Higher values are slower but more accurate.
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  warnings:
+                    $ref: "#/components/schemas/WarningsModel"
+                  infos:
+                    $ref: "#/components/schemas/InfosModel"
+        "202":
+          description: Async operation accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationAcceptedModel'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  failures:
+                    type: array
+                    description: The IDs of models the hollowing operation failed for
+                    items:
+                      type: string
+                      description: The ID of a model
+  /scene/label/:
+    post:
+      summary: Label Part
+      operationId: labelPart
+      description: "Labels the specified model. Labels wrap around a model's surface."
+      tags:
+        - "Modifying a Scene"
+      parameters:
+        - name: async
+          in: query
+          description: Whether to run the operation asynchronously
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model_id:
+                  type: string
+                  description: The ID of the model to label
+                orientation:
+                  $ref: '#/components/schemas/OrientationModel'
+                  description: The orientation of the label (+x left-to-right along text, +y top-to-bottom along text, +z normal to text plane).
+                position:
+                  $ref: '#/components/schemas/ScenePositionModel'
+                  description: The desired center point of the label
+                label:
+                  type: string
+                  description: The label's text
+                application_mode:
+                  type: string
+                  enum:
+                    - EMBOSS
+                    - ENGRAVE
+                  default: "EMBOSS"
+                font_size_mm:
+                  type: number
+                  description: The font size of the label
+                  minimum: 2
+                  maximum: 20
+                depth_mm:
+                  type: number
+                  description: The label's extrusion depth. This depth is a constant offset from the model's surface.
+                  minimum: 0.2
+                  maximum: 10
+              required: [ "model_id", "orientation", "position", "label", "font_size_mm", "depth_mm" ]
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  warnings:
+                    $ref: "#/components/schemas/WarningsModel"
+                  infos:
+                    $ref: "#/components/schemas/InfosModel"
+        "202":
+          description: Async operation accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationAcceptedModel'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        oneOf:
+                          - type: string
+                            description: Model not found
+                          - type: string
+                            description: Failed to create label for part <error message>
+
+
   /scene/estimate-print-time/:
     post:
       summary: Estimate Print Time
@@ -1880,6 +2128,86 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationAcceptedModel'
+  /scene/add-drain-holes/:
+    post:
+      summary: Add Drain Holes
+      operationId: addDrainHoles
+      description: "Add specified drain holes to specified model"
+      tags:
+        - "Modifying a Scene"
+      parameters:
+        - name: async
+          in: query
+          description: Whether to run the operation asynchronously
+          schema:
+            type: boolean
+      requestBody:
+        description: Drain hole parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model_id:
+                  type: string
+                  description: The ID of the model to add drain holes to
+                drain_holes:
+                  type: array
+                  description: List of drain holes to add
+                  items:
+                    $ref: '#/components/schemas/DrainHoleModel'
+                  minItems: 1
+              required: ["model_id", "drain_holes"]
+              additionalProperties: false
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plugs:
+                    $ref: '#/components/schemas/ModelsSelectionModel'
+                  warnings:
+                    $ref: "#/components/schemas/WarningsModel"
+                  infos:
+                    $ref: "#/components/schemas/InfosModel"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  /scene/interferences/:
+    post:
+      summary: Get Scene Interferences
+      operationId: getSceneInterferences
+      description: "Returns a list of pairs of IDs of interfering models."
+      tags:
+        - "Getting Scene Information"
+      requestBody:
+        description: Interferences parameters
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                collision_offset_mm:
+                  type: number
+                  description: The minimum distance between models for them not to be considered interfering with each other.
+                  minimum: 0
+      responses:
+        "200":
+          description: Success
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
   /devices/:
     get:
       summary: Get Devices

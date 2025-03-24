@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost:44388*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**add_drain_holes**](ModifyingASceneApi.md#add_drain_holes) | **POST** /scene/add-drain-holes/ | Add Drain Holes
 [**auto_layout**](ModifyingASceneApi.md#auto_layout) | **POST** /scene/auto-layout/ | Auto Layout
 [**auto_orient**](ModifyingASceneApi.md#auto_orient) | **POST** /scene/auto-orient/ | Auto Orient
 [**auto_pack**](ModifyingASceneApi.md#auto_pack) | **POST** /scene/auto-pack/ | Auto Pack
@@ -11,13 +12,87 @@ Method | HTTP request | Description
 [**create_scene**](ModifyingASceneApi.md#create_scene) | **POST** /scene/ | Create Scene
 [**delete_model**](ModifyingASceneApi.md#delete_model) | **DELETE** /scene/models/{id}/ | Delete model
 [**duplicate_model**](ModifyingASceneApi.md#duplicate_model) | **POST** /scene/models/{id}/duplicate/ | Duplicate model
+[**hollow_model**](ModifyingASceneApi.md#hollow_model) | **POST** /scene/hollow/ | Hollow Model
 [**import_model**](ModifyingASceneApi.md#import_model) | **POST** /scene/import-model/ | Import model
+[**label_part**](ModifyingASceneApi.md#label_part) | **POST** /scene/label/ | Label Part
 [**load_form_file**](ModifyingASceneApi.md#load_form_file) | **POST** /load-form/ | Load .form file
 [**replace_model**](ModifyingASceneApi.md#replace_model) | **POST** /scene/models/{id}/replace/ | Replace model
 [**scan_to_model**](ModifyingASceneApi.md#scan_to_model) | **POST** /scene/scan-to-model/ | Scan to model
 [**update_model**](ModifyingASceneApi.md#update_model) | **POST** /scene/models/{id}/ | Update model
 [**update_scene**](ModifyingASceneApi.md#update_scene) | **PUT** /scene/ | Update Scene
 
+
+# **add_drain_holes**
+> AddDrainHoles200Response add_drain_holes(add_drain_holes_request, var_async=var_async)
+
+Add Drain Holes
+
+Add specified drain holes to specified model
+
+### Example
+
+
+```python
+import formlabs_local_api
+from formlabs_local_api.models.add_drain_holes200_response import AddDrainHoles200Response
+from formlabs_local_api.models.add_drain_holes_request import AddDrainHolesRequest
+from formlabs_local_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:44388
+# See configuration.py for a list of all supported configuration parameters.
+configuration = formlabs_local_api.Configuration(
+    host = "http://localhost:44388"
+)
+
+
+# Enter a context with an instance of the API client
+with formlabs_local_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
+    add_drain_holes_request = formlabs_local_api.AddDrainHolesRequest() # AddDrainHolesRequest | Drain hole parameters
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
+
+    try:
+        # Add Drain Holes
+        api_response = api_instance.add_drain_holes(add_drain_holes_request, var_async=var_async)
+        print("The response of ModifyingASceneApi->add_drain_holes:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ModifyingASceneApi->add_drain_holes: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **add_drain_holes_request** | [**AddDrainHolesRequest**](AddDrainHolesRequest.md)| Drain hole parameters | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
+
+### Return type
+
+[**AddDrainHoles200Response**](AddDrainHoles200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**400** | Bad Request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **auto_layout**
 > SceneModel auto_layout(auto_layout_request, var_async=var_async)
@@ -512,6 +587,79 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **hollow_model**
+> HollowModel200Response hollow_model(hollow_model_request, var_async=var_async)
+
+Hollow Model
+
+Hollows the specified models
+
+### Example
+
+
+```python
+import formlabs_local_api
+from formlabs_local_api.models.hollow_model200_response import HollowModel200Response
+from formlabs_local_api.models.hollow_model_request import HollowModelRequest
+from formlabs_local_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:44388
+# See configuration.py for a list of all supported configuration parameters.
+configuration = formlabs_local_api.Configuration(
+    host = "http://localhost:44388"
+)
+
+
+# Enter a context with an instance of the API client
+with formlabs_local_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
+    hollow_model_request = formlabs_local_api.HollowModelRequest() # HollowModelRequest | 
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
+
+    try:
+        # Hollow Model
+        api_response = api_instance.hollow_model(hollow_model_request, var_async=var_async)
+        print("The response of ModifyingASceneApi->hollow_model:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ModifyingASceneApi->hollow_model: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **hollow_model_request** | [**HollowModelRequest**](HollowModelRequest.md)|  | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
+
+### Return type
+
+[**HollowModel200Response**](HollowModel200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**202** | Async operation accepted |  -  |
+**400** | Bad Request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **import_model**
 > ModelProperties import_model(import_model_request, var_async=var_async)
 
@@ -585,8 +733,81 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **label_part**
+> HollowModel200Response label_part(label_part_request, var_async=var_async)
+
+Label Part
+
+Labels the specified model. Labels wrap around a model's surface.
+
+### Example
+
+
+```python
+import formlabs_local_api
+from formlabs_local_api.models.hollow_model200_response import HollowModel200Response
+from formlabs_local_api.models.label_part_request import LabelPartRequest
+from formlabs_local_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:44388
+# See configuration.py for a list of all supported configuration parameters.
+configuration = formlabs_local_api.Configuration(
+    host = "http://localhost:44388"
+)
+
+
+# Enter a context with an instance of the API client
+with formlabs_local_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
+    label_part_request = formlabs_local_api.LabelPartRequest() # LabelPartRequest | 
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
+
+    try:
+        # Label Part
+        api_response = api_instance.label_part(label_part_request, var_async=var_async)
+        print("The response of ModifyingASceneApi->label_part:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ModifyingASceneApi->label_part: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **label_part_request** | [**LabelPartRequest**](LabelPartRequest.md)|  | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
+
+### Return type
+
+[**HollowModel200Response**](HollowModel200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**202** | Async operation accepted |  -  |
+**400** | Bad Request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **load_form_file**
-> SceneModel load_form_file(load_form_file_request)
+> SceneModel load_form_file(load_form_file_request, var_async=var_async)
 
 Load .form file
 
@@ -614,10 +835,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ModifyingASceneApi(api_client)
     load_form_file_request = {"file":"C:\\Users\\user\\Desktop\\test.form"} # LoadFormFileRequest | Full path to the .form file to load
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Load .form file
-        api_response = api_instance.load_form_file(load_form_file_request)
+        api_response = api_instance.load_form_file(load_form_file_request, var_async=var_async)
         print("The response of ModifyingASceneApi->load_form_file:\n")
         pprint(api_response)
     except Exception as e:
@@ -632,6 +854,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **load_form_file_request** | [**LoadFormFileRequest**](LoadFormFileRequest.md)| Full path to the .form file to load | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -651,6 +874,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Scene description |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -727,7 +951,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **scan_to_model**
-> ModelProperties scan_to_model(scan_to_model_request, var_async=var_async)
+> SceneModel scan_to_model(scan_to_model_request, var_async=var_async)
 
 Scan to model
 
@@ -738,8 +962,8 @@ Convert an STL scan of teeth to a solid, printable model in an SLA scene
 
 ```python
 import formlabs_local_api
-from formlabs_local_api.models.model_properties import ModelProperties
 from formlabs_local_api.models.scan_to_model_request import ScanToModelRequest
+from formlabs_local_api.models.scene_model import SceneModel
 from formlabs_local_api.rest import ApiException
 from pprint import pprint
 
@@ -778,7 +1002,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelProperties**](ModelProperties.md)
+[**SceneModel**](SceneModel.md)
 
 ### Authorization
 
