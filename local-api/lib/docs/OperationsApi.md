@@ -14,7 +14,13 @@ Method | HTTP request | Description
 
 Print
 
-Upload the current scene to a printer or Fleet Control.  By default, only locally discovered printer names or local IP addresses are supported. To upload prints remotely to your Fleet Control queue or printers registered to your Dashboard account, you must be logged in and have an Internet connection. Use the Login endpoint to authenticate with Formlabs Web Services. 
+Upload the current scene to a printer or Fleet Control.
+
+By default, only locally discovered printer names or local IP addresses are supported.
+To upload prints remotely to your Fleet Control queue or printers registered to your
+Dashboard account, you must be logged in and have an Internet connection.
+Use the Login endpoint to authenticate with Formlabs Web Services.
+
 
 ### Example
 
@@ -87,7 +93,9 @@ No authorization required
 
 List All Operations
 
-List all in-progress, completed, and failed operations that have been started since this server was launched. Operations are not currently persisted across server restarts. To get the result of a completed or errored operation, call GET `/operations/{id}/`. 
+List all in-progress, completed, and failed operations that have been started since this server was launched. Operations are not currently persisted across server restarts.
+To get the result of a completed or errored operation, call GET `/operations/{id}/`.
+
 
 ### Example
 

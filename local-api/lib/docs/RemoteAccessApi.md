@@ -18,7 +18,13 @@ Method | HTTP request | Description
 
 Print
 
-Upload the current scene to a printer or Fleet Control.  By default, only locally discovered printer names or local IP addresses are supported. To upload prints remotely to your Fleet Control queue or printers registered to your Dashboard account, you must be logged in and have an Internet connection. Use the Login endpoint to authenticate with Formlabs Web Services. 
+Upload the current scene to a printer or Fleet Control.
+
+By default, only locally discovered printer names or local IP addresses are supported.
+To upload prints remotely to your Fleet Control queue or printers registered to your
+Dashboard account, you must be logged in and have an Internet connection.
+Use the Login endpoint to authenticate with Formlabs Web Services.
+
 
 ### Example
 
@@ -233,7 +239,13 @@ No authorization required
 
 Get Devices
 
-List of previously discovered device statuses  By default, only locally discovered printer names are returned. To include your Fleet Control queues or printers registered to your Dashboard account, you must be logged in and have an Internet connection. Use the Login endpoint to authenticate with Formlabs Web Services. 
+List of previously discovered device statuses
+
+By default, only locally discovered printer names are returned.
+To include your Fleet Control queues or printers registered to your
+Dashboard account, you must be logged in and have an Internet connection.
+Use the Login endpoint to authenticate with Formlabs Web Services.
+
 
 ### Example
 

@@ -12,7 +12,10 @@ Method | HTTP request | Description
 
 List Materials
 
-List all available materials and material settings by printer type. The returned JSON has 3 layers: Printer types (e.g. \"Form 4\"), Materials (e.g. \"Black V5\"), and Material Setting (e.g. \"0.025mm\" or \"0.100mm (Legacy)\"). These \"label\" strings at each level are the preferred way of referring to that printer types, materials, and settings. They can presented in a UI as a 3-level dropdown menu, or a flat filtered list. This list is static (it will not change for a given version of the PreFormServer executable). Each value has `scene_settings` with all data needed to create a new scene. It can be passed directly to a /scene/ POST to create a scene for that printer, material, and materialSettings. 
+List all available materials and material settings by printer type.
+The returned JSON has 3 layers: Printer types (e.g. "Form 4"), Materials (e.g. "Black V5"), and Material Setting (e.g. "0.025mm" or "0.100mm (Legacy)"). These "label" strings at each level are the preferred way of referring to that printer types, materials, and settings. They can presented in a UI as a 3-level dropdown menu, or a flat filtered list. This list is static (it will not change for a given version of the PreFormServer executable).
+Each value has `scene_settings` with all data needed to create a new scene. It can be passed directly to a /scene/ POST to create a scene for that printer, material, and materialSettings.
+
 
 ### Example
 

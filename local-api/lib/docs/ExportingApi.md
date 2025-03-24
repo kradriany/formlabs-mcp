@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **save_form_file**
-> save_form_file(load_form_file_request)
+> save_form_file(load_form_file_request, var_async=var_async)
 
 Save .form file
 
@@ -37,10 +37,11 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = formlabs_local_api.ExportingApi(api_client)
     load_form_file_request = {"file":"C:\\Users\\user\\Desktop\\test.form"} # LoadFormFileRequest | Full path where the file should be saved
+    var_async = True # bool | Whether to run the operation asynchronously (optional)
 
     try:
         # Save .form file
-        api_instance.save_form_file(load_form_file_request)
+        api_instance.save_form_file(load_form_file_request, var_async=var_async)
     except Exception as e:
         print("Exception when calling ExportingApi->save_form_file: %s\n" % e)
 ```
@@ -53,6 +54,7 @@ with formlabs_local_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **load_form_file_request** | [**LoadFormFileRequest**](LoadFormFileRequest.md)| Full path where the file should be saved | 
+ **var_async** | **bool**| Whether to run the operation asynchronously | [optional] 
 
 ### Return type
 
@@ -73,6 +75,7 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **400** | Bad Request |  -  |
+**202** | Async operation accepted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -157,7 +157,13 @@ No authorization required
 
 Get Devices
 
-List of previously discovered device statuses  By default, only locally discovered printer names are returned. To include your Fleet Control queues or printers registered to your Dashboard account, you must be logged in and have an Internet connection. Use the Login endpoint to authenticate with Formlabs Web Services. 
+List of previously discovered device statuses
+
+By default, only locally discovered printer names are returned.
+To include your Fleet Control queues or printers registered to your
+Dashboard account, you must be logged in and have an Internet connection.
+Use the Login endpoint to authenticate with Formlabs Web Services.
+
 
 ### Example
 
