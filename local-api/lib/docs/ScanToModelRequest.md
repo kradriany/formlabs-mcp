@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **extrude_distance_mm** | **float** | Extrude this distance (in mm) from the removed bottom of the model. Default is 0mm. | [optional] 
 **hollow** | **bool** | Whether to hollow the model and fill in with a honeycomb infill. | [optional] 
 **cutoff_below_gumline_mm** | **float** | Remove all scan data below this height (in mm) from the model, relative to the gumline, replace with extrude from the bottom of the model. | [optional] 
+**shell_thickness_mm** | **float** | The thickness of the outer shell of the model, in mm. Requires hollow&#x3D;true. | [optional] 
+**wall_thickness_mm** | **float** | The thickness of the honeycomb infill of the model, in mm. Requires hollow&#x3D;true. | [optional] 
 
 ## Example
 
