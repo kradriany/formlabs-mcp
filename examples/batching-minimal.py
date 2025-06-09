@@ -41,7 +41,7 @@ def create_scene():
         },
     )
     response.raise_for_status()
-    return response.json()
+    return response.json()["id"]
 
 
 parser = argparse.ArgumentParser(description="Process a folder path.")
@@ -60,6 +60,7 @@ print("Files to batch:")
 print(files_to_batch)
 current_batch = 1
 models_in_current_batch = []
+scene_id = None
 CSV_RESULT_FILENAME = os.path.join(directory_path, "summary.csv")
 
 pathToPreformServer = None
@@ -88,12 +89,12 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
         csvwriter.writerow(["Batch Number", "Batch Print Filename", "Model Source Filename"])
 
         def save_batch_form():
-            global current_batch, models_in_current_batch
+            global current_batch, models_in_current_batch, scene_id
             form_file_name = f"batch_{current_batch}.form"
             save_path = os.path.join(directory_path, form_file_name)
             save_form_response = requests.request(
                 "POST",
-                "http://localhost:44388/scene/save-form/",
+                f"http://localhost:44388/scene/{scene_id}/save-form/",
                 json={
                     "file": save_path,
                 },
@@ -109,7 +110,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
                 print(f"Uploading batch to {args.upload_to}")
                 print_response = requests.request(
                     "POST",
-                    "http://localhost:44388/scene/print/",
+                    f"http://localhost:44388/scene/{scene_id}/print/",
                     json={
                         "printer": args.upload_to,
                         "job_name": form_file_name,
@@ -117,13 +118,13 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
                 )
                 print_response.raise_for_status()
 
-        create_scene()
+        scene_id = create_scene()
         while len(files_to_batch) > 0:
             next_file = files_to_batch.pop()
             print(f"Importing {next_file}")
             import_model_response = requests.request(
                 "POST",
-                "http://localhost:44388/scene/import-model/",
+                f"http://localhost:44388/scene/{scene_id}/import-model/",
                 json={
                     "file": os.path.join(directory_path, next_file),
                 },
@@ -139,7 +140,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
                     auto_orient_params["tilt"] = 0
                 auto_orient_response = requests.request(
                     "POST",
-                    "http://localhost:44388/scene/auto-orient/",
+                    f"http://localhost:44388/scene/{scene_id}/auto-orient/",
                     json=auto_orient_params,
                 )
                 auto_orient_response.raise_for_status()
@@ -147,7 +148,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
                 print(f"Auto supporting {new_model_id}")
                 auto_support_response = requests.request(
                     "POST",
-                    "http://localhost:44388/scene/auto-support/",
+                    f"http://localhost:44388/scene/{scene_id}/auto-support/",
                     json={
                         "models": [new_model_id],
                     },
@@ -156,7 +157,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
             print(f"Auto layouting all")
             layout_response = requests.request(
                 "POST",
-                "http://localhost:44388/scene/auto-layout/",
+                f"http://localhost:44388/scene/{scene_id}/auto-layout/",
                 json={
                     "models": "ALL",
                 },
@@ -166,13 +167,13 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
                 model_data = models_in_current_batch.pop()
                 delete_response = requests.request(
                     "DELETE",
-                    f"http://localhost:44388/scene/models/{str(model_data['model_id'])}/",
+                    f"http://localhost:44388/scene/{scene_id}/models/{str(model_data['model_id'])}/",
                 )
                 delete_response.raise_for_status()
                 files_to_batch.append(model_data["file_name"])
                 save_batch_form()
                 print("Clearing scene")
-                create_scene()
+                scene_id = create_scene()
 
         if len(models_in_current_batch) > 0:
             save_batch_form()

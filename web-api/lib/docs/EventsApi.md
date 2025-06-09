@@ -10,8 +10,6 @@ Method | HTTP request | Description
 # **events_list**
 > PaginatedUserEventReadOnlyList events_list(cartridge=cartridge, date__gt=date__gt, date__lt=date__lt, page=page, per_page=per_page, print_run=print_run, printer=printer, tank=tank, type=type)
 
-
-
 List of all events associated with my account
 
 ### Example

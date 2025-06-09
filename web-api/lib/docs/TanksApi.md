@@ -10,8 +10,6 @@ Method | HTTP request | Description
 # **tanks_list**
 > PaginatedTankList tanks_list(page=page, per_page=per_page)
 
-
-
 List of all resin tanks associated with my account
 
 ### Example
