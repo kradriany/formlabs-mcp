@@ -11,8 +11,6 @@ Method | HTTP request | Description
 # **printers_list**
 > List[DeveloperAPIMyPrinter] printers_list()
 
-
-
 List of all Printers associated with my account
 
 ### Example
@@ -83,8 +81,6 @@ This endpoint does not need any parameter.
 
 # **printers_retrieve**
 > DeveloperAPIMyPrinter printers_retrieve(printer_serial)
-
-
 
 Specific Printer associated with my account
 

@@ -11,8 +11,6 @@ Method | HTTP request | Description
 # **printers_prints_list**
 > PaginatedPrintRunWithFleetControlDataList printers_prints_list(printer_serial, var_date=var_date, date__gt=date__gt, date__lt=date__lt, machine_type_id=machine_type_id, material=material, name=name, page=page, per_page=per_page, printer=printer, status=status)
 
-
-
 List of all prints associated with my account
 
 ### Example
@@ -107,8 +105,6 @@ Name | Type | Description  | Notes
 
 # **prints_list**
 > PaginatedPrintRunWithFleetControlDataList prints_list(var_date=var_date, date__gt=date__gt, date__lt=date__lt, machine_type_id=machine_type_id, material=material, name=name, page=page, per_page=per_page, printer=printer, status=status)
-
-
 
 List of all prints associated with my account
 

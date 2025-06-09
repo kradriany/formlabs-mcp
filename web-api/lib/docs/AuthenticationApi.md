@@ -12,8 +12,10 @@ Method | HTTP request | Description
 > RequestAnAccessToken200Response request_an_access_token(grant_type, client_id, client_secret)
 
 
-
- To log in to the Dashboard Developer API, you need to request an access token. This token is used to authenticate your requests to the API. You can request an access token by providing your client ID and client secret.             
+To log in to the Dashboard Developer API, you need to request an access token.
+This token is used to authenticate your requests to the API.
+You can request an access token by providing your client ID and client secret.
+            
 
 ### Example
 
@@ -85,8 +87,12 @@ No authorization required
 > revoke_an_access_token(token, client_id, client_secret)
 
 
-
- You can log out from your current authenticated session by revoking the access token. When successfully revoked, the API does not return any response. As aforementioned, once you send a request to revoke the specified access token, this token can no longer be used to make requests to the Dashboard Developer API. Please retrieve a new access token to start using the API again.             
+You can log out from your current authenticated session by revoking the access token.
+When successfully revoked, the API does not return any response.
+As aforementioned, once you send a request to revoke the specified access token,
+this token can no longer be used to make requests to the Dashboard Developer API.
+Please retrieve a new access token to start using the API again.
+            
 
 ### Example
 

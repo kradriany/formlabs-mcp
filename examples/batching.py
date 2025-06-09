@@ -43,7 +43,7 @@ def list_files_in_directory(directory_path):
     ]
 
 def create_scene(preform):
-    return preform.api.create_scene(SceneTypeModel(Manual(
+    return preform.api.create_default_scene(SceneTypeModel(Manual(
         machine_type="FORM-4-0",
         material_code="FLGPGR05",
         layer_thickness_mm=ManualLayerThicknessMm("0.1"),
@@ -89,7 +89,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
             global current_batch, models_in_current_batch
             form_file_name = f"batch_{current_batch}.form"
             save_path = os.path.join(directory_path, form_file_name)
-            preform.api.save_form_file(LoadFormFileRequest(file=save_path))
+            preform.api.save_form_file("default", LoadFormFileRequest(file=save_path))
             print(f"Saving batch {current_batch} to {save_path}")
             for i, model in enumerate(models_in_current_batch):
                 print(f"{i+1}. {model['file_name']}")
@@ -104,7 +104,7 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
         while len(files_to_batch) > 0:
             next_file = files_to_batch.pop()
             print(f"Importing {next_file}")
-            new_model = preform.api.import_model({"file": os.path.join(directory_path, next_file)})
+            new_model = preform.api.import_model("default", {"file": os.path.join(directory_path, next_file)})
             new_model_id = new_model.id
             models_in_current_batch.append({"model_id": new_model_id, "file_name": next_file})
             if args.auto_orient:
@@ -119,12 +119,13 @@ with formlabs.PreFormApi.start_preform_server(pathToPreformServer=pathToPreformS
             print(f"Auto layouting all")
             try:
                 preform.api.auto_layout_with_http_info(
+                    "default",
                     AutoLayoutRequest(models=ModelsSelectionModel("ALL"))
                 )
             except formlabs.exceptions.ApiException as e:
                 print("Not all models can fit, removing model")
                 model_data = models_in_current_batch.pop()
-                preform.api.delete_model(str(model_data["model_id"]))
+                preform.api.delete_model(str(model_data["model_id"]), "default")
                 files_to_batch.append(model_data["file_name"])
                 save_batch_form()
                 print("Clearing scene")

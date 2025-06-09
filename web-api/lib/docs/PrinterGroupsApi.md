@@ -18,9 +18,8 @@ Method | HTTP request | Description
 # **groups_bulk_add_printers_create**
 > groups_bulk_add_printers_create(developer_api_groups_bulk_add_printers_request)
 
-
-
-Move Printer(s) to a Printer Group.   **Notes:** Request sender needs to be admin of target group and all of the Printers’ groups.
+Move Printer(s) to a Printer Group.  
+**Notes:** Request sender needs to be admin of target group and all of the Printers’ groups.
 
 ### Example
 
@@ -92,8 +91,6 @@ void (empty response body)
 
 # **groups_create**
 > NewWorkgroup groups_create(partial_work_group_request)
-
-
 
 Create a group for my account, and make me an administrator.
 
@@ -171,8 +168,6 @@ Name | Type | Description  | Notes
 # **groups_destroy**
 > groups_destroy(group_id)
 
-
-
 Delete a group administered by my account.
 
 ### Example
@@ -245,8 +240,6 @@ void (empty response body)
 # **groups_list**
 > List[Workgroup] groups_list()
 
-
-
 List of all groups for my account.
 
 ### Example
@@ -317,8 +310,6 @@ This endpoint does not need any parameter.
 
 # **groups_members_create**
 > WorkgroupMembership groups_members_create(group_id, developer_api_group_membership_create_request)
-
-
 
 Invite a user into my group.
 
@@ -398,8 +389,6 @@ Name | Type | Description  | Notes
 # **groups_members_destroy**
 > groups_members_destroy(group_id, groups_members_destroy_request=groups_members_destroy_request)
 
-
-
 Delete a membership in an administered group.
 
 ### Example
@@ -475,9 +464,8 @@ void (empty response body)
 # **groups_members_update**
 > WorkgroupMembership groups_members_update(group_id, developer_api_group_membership_update_request)
 
-
-
-Update a membership in an administered group.   **Warning: You cannot revoke the administrator right of yourself if there are no other administrators!**
+Update a membership in an administered group.
+  **Warning: You cannot revoke the administrator right of yourself if there are no other administrators!**
 
 ### Example
 
@@ -554,8 +542,6 @@ Name | Type | Description  | Notes
 
 # **groups_partial_update**
 > Workgroup groups_partial_update(group_id, patched_partial_work_group_request=patched_partial_work_group_request)
-
-
 
 Update a group administered by my account.
 
@@ -636,8 +622,10 @@ Name | Type | Description  | Notes
 > List[DeveloperAPIMyCloudQueueItems] groups_queue_list(group_id)
 
 
-
- List of all items in the queue of a group. A Printer Group can only have a queue if the group has Fleet Control turned on. For non-Fleet Control groups, the queue is always empty and the call returns empty.          
+List of all items in the queue of a group.
+A Printer Group can only have a queue if the group has Fleet Control turned on.
+For non-Fleet Control groups, the queue is always empty and the call returns empty. 
+        
 
 ### Example
 

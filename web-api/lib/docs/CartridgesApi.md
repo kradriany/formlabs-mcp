@@ -10,8 +10,6 @@ Method | HTTP request | Description
 # **cartridges_list**
 > PaginatedCartridgeList cartridges_list(page=page, per_page=per_page)
 
-
-
  List of all resin cartridges associated with my account
 
 ### Example
