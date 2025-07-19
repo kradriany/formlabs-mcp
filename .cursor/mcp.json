@@ -1,0 +1,128 @@
+{
+  "mcpServers": {
+    "formlabs": {
+      "command": "uvicorn",
+      "args": ["formlabs_mcp_bridge.main:app", "--host", "0.0.0.0", "--port", "8000"],
+      "env": {
+        "CLIENT_ID": "${FORMLABS_CLIENT_ID}",
+        "CLIENT_SECRET": "${FORMLABS_CLIENT_SECRET}"
+      },
+      "cwd": "${workspaceRoot}/formlabs-mcp-bridge",
+      "description": "MCP server for Formlabs 3D printer API integration"
+    }
+  },
+  "tools": [
+    {
+      "name": "get_formlabs_printers",
+      "description": "Get a list of all Formlabs printers with their status and details. Note: This is read-only data from the Formlabs API.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_formlabs_events",
+      "description": "Get recent events from Formlabs printers with optional filtering. Events are the primary way to detect job completion and status changes since there is no real-time sensor data stream.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "since": {
+            "type": "string",
+            "description": "ISO 8601 timestamp to filter events from this time onwards",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_formlabs_prints",
+      "description": "Get the latest print jobs from Formlabs printers. This provides historical print data and current job status.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_formlabs_printer_status",
+      "description": "Get detailed status of a specific Formlabs printer. This is read-only status information.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "printer_id": {
+            "type": "string",
+            "description": "The ID/serial number of the printer to get status for"
+          }
+        },
+        "required": ["printer_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "monitor_formlabs_print",
+      "description": "Monitor a specific print job by its ID. This provides detailed progress information for a single print job.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "print_id": {
+            "type": "string",
+            "description": "The GUID of the print job to monitor"
+          }
+        },
+        "required": ["print_id"],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "https://api.formlabs.com/developer/v1/",
+      "name": "formlabs-api-base",
+      "description": "Formlabs IoT REST API base URL - all endpoints are read-only",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "https://api.formlabs.com/developer/v1/printers/",
+      "name": "formlabs-printers-endpoint",
+      "description": "Formlabs printers endpoint - returns list of all printers with status",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "https://api.formlabs.com/developer/v1/events/",
+      "name": "formlabs-events-endpoint",
+      "description": "Formlabs events endpoint - event-based notifications for job completion and status changes",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "https://api.formlabs.com/developer/v1/prints/",
+      "name": "formlabs-prints-endpoint",
+      "description": "Formlabs prints endpoint - historical and current print job data",
+      "mimeType": "application/json"
+    }
+  ],
+  "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {}
+  },
+  "apiLimitations": {
+    "readOnly": true,
+    "noRealTimeStreaming": true,
+    "eventBasedUpdates": true,
+    "noBidirectionalCommunication": true,
+    "authentication": "OAuth2 client credentials flow",
+    "rateLimiting": "429 responses with exponential backoff required",
+    "dataFormat": "JSON with nested objects requiring normalization",
+    "monitoringApproach": "Poll events endpoint for status changes since no sensor data stream exists"
+  },
+  "integrationNotes": {
+    "authentication": "Requires CLIENT_ID and CLIENT_SECRET from Formlabs developer account",
+    "tokenManagement": "Access tokens expire in 24 hours, automatic refresh required",
+    "errorHandling": "Handle 401 (auth), 429 (rate limit), and network errors gracefully",
+    "dataNormalization": "API returns nested JSON objects that need flattening for dashboard consumption",
+    "eventPolling": "Use events endpoint with 'since' parameter to detect job completion and status changes",
+    "noControl": "Cannot start, stop, or modify print jobs - read-only monitoring only"
+  }
+}
